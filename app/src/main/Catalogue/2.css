@@ -1,0 +1,3094 @@
+/* Главная/Каталог/Карточка товара */
+
+position: relative;
+width: 375px;
+height: 812px;
+
+background: #FFFFFF;
+
+
+/* Locked */
+
+position: absolute;
+width: 375px;
+height: 812px;
+left: 0px;
+top: 0px;
+
+
+
+/* Cards */
+
+/* Auto layout */
+display: flex;
+flex-direction: column;
+align-items: flex-start;
+padding: 0px;
+gap: 20px;
+
+position: absolute;
+width: 355px;
+height: 660px;
+left: 20px;
+top: 152px;
+
+
+
+/* Header */
+
+/* Auto layout */
+display: flex;
+flex-direction: column;
+align-items: flex-start;
+padding: 0px;
+gap: 16px;
+
+width: 355px;
+height: 48px;
+
+
+/* Inside auto layout */
+flex: none;
+order: 0;
+flex-grow: 0;
+
+
+/* Title */
+
+display: none;
+width: 71px;
+height: 24px;
+
+/* Title 3 /  Semibold */
+font-family: 'SF Pro Display';
+font-style: normal;
+font-weight: 600;
+font-size: 17px;
+line-height: 24px;
+/* identical to box height, or 141% */
+
+/* Caption */
+color: #939396;
+
+
+/* Inside auto layout */
+flex: none;
+order: 0;
+flex-grow: 0;
+
+
+/* Категории */
+
+/* Auto layout */
+display: flex;
+flex-direction: row;
+align-items: flex-start;
+padding: 0px;
+gap: 16px;
+
+width: 355px;
+height: 48px;
+overflow-x: scroll;
+
+
+/* Inside auto layout */
+flex: none;
+order: 1;
+flex-grow: 0;
+
+
+/* Button / Chips */
+
+/* Auto layout */
+display: flex;
+flex-direction: row;
+justify-content: center;
+align-items: center;
+padding: 26px 20px;
+gap: 10px;
+
+width: 126px;
+height: 48px;
+
+/* Accent */
+background: #1A6FEE;
+border-radius: 10px;
+
+/* Inside auto layout */
+flex: none;
+order: 0;
+flex-grow: 0;
+
+
+/* Популярные */
+
+width: 86px;
+height: 20px;
+
+/* Text /  Medium  */
+font-family: 'SF Pro Display';
+font-style: normal;
+font-weight: 500;
+font-size: 15px;
+line-height: 20px;
+/* identical to box height, or 133% */
+
+/* White */
+color: #FFFFFF;
+
+
+/* Inside auto layout */
+flex: none;
+order: 0;
+flex-grow: 0;
+
+
+/* Button / Chips */
+
+/* Auto layout */
+display: flex;
+flex-direction: row;
+justify-content: center;
+align-items: center;
+padding: 26px 20px;
+gap: 10px;
+
+width: 78px;
+height: 48px;
+
+/* Input BG */
+background: #F5F5F9;
+border-radius: 10px;
+
+/* Inside auto layout */
+flex: none;
+order: 1;
+flex-grow: 0;
+
+
+/* Популярные */
+
+width: 38px;
+height: 20px;
+
+/* Text /  Medium  */
+font-family: 'SF Pro Display';
+font-style: normal;
+font-weight: 500;
+font-size: 15px;
+line-height: 20px;
+/* identical to box height, or 133% */
+
+/* Description */
+color: #7E7E9A;
+
+
+/* Inside auto layout */
+flex: none;
+order: 0;
+flex-grow: 0;
+
+
+/* Button / Chips */
+
+/* Auto layout */
+display: flex;
+flex-direction: row;
+justify-content: center;
+align-items: center;
+padding: 26px 20px;
+gap: 10px;
+
+width: 135px;
+height: 48px;
+
+/* Input BG */
+background: #F5F5F9;
+border-radius: 10px;
+
+/* Inside auto layout */
+flex: none;
+order: 2;
+flex-grow: 0;
+
+
+/* Популярные */
+
+width: 95px;
+height: 20px;
+
+/* Text /  Medium  */
+font-family: 'SF Pro Display';
+font-style: normal;
+font-weight: 500;
+font-size: 15px;
+line-height: 20px;
+/* identical to box height, or 133% */
+
+/* Description */
+color: #7E7E9A;
+
+
+/* Inside auto layout */
+flex: none;
+order: 0;
+flex-grow: 0;
+
+
+/* Button / Chips */
+
+/* Auto layout */
+display: flex;
+flex-direction: row;
+justify-content: center;
+align-items: center;
+padding: 26px 20px;
+gap: 10px;
+
+width: 93px;
+height: 48px;
+
+/* Input BG */
+background: #F5F5F9;
+border-radius: 10px;
+
+/* Inside auto layout */
+flex: none;
+order: 3;
+flex-grow: 0;
+
+
+/* Популярные */
+
+width: 53px;
+height: 20px;
+
+/* Text /  Medium  */
+font-family: 'SF Pro Display';
+font-style: normal;
+font-weight: 500;
+font-size: 15px;
+line-height: 20px;
+/* identical to box height, or 133% */
+
+/* Description */
+color: #7E7E9A;
+
+
+/* Inside auto layout */
+flex: none;
+order: 0;
+flex-grow: 0;
+
+
+/* Button / Chips */
+
+/* Auto layout */
+display: flex;
+flex-direction: row;
+justify-content: center;
+align-items: center;
+padding: 26px 20px;
+gap: 10px;
+
+width: 109px;
+height: 48px;
+
+/* Input BG */
+background: #F5F5F9;
+border-radius: 10px;
+
+/* Inside auto layout */
+flex: none;
+order: 4;
+flex-grow: 0;
+
+
+/* Популярные */
+
+width: 69px;
+height: 20px;
+
+/* Text /  Medium  */
+font-family: 'SF Pro Display';
+font-style: normal;
+font-weight: 500;
+font-size: 15px;
+line-height: 20px;
+/* identical to box height, or 133% */
+
+/* Description */
+color: #7E7E9A;
+
+
+/* Inside auto layout */
+flex: none;
+order: 0;
+flex-grow: 0;
+
+
+/* Button / Chips */
+
+/* Auto layout */
+display: flex;
+flex-direction: row;
+justify-content: center;
+align-items: center;
+padding: 26px 20px;
+gap: 10px;
+
+width: 102px;
+height: 48px;
+
+/* Input BG */
+background: #F5F5F9;
+border-radius: 10px;
+
+/* Inside auto layout */
+flex: none;
+order: 5;
+flex-grow: 0;
+
+
+/* Популярные */
+
+width: 62px;
+height: 20px;
+
+/* Text /  Medium  */
+font-family: 'SF Pro Display';
+font-style: normal;
+font-weight: 500;
+font-size: 15px;
+line-height: 20px;
+/* identical to box height, or 133% */
+
+/* Description */
+color: #7E7E9A;
+
+
+/* Inside auto layout */
+flex: none;
+order: 0;
+flex-grow: 0;
+
+
+/* Button / Chips */
+
+/* Auto layout */
+display: flex;
+flex-direction: row;
+justify-content: center;
+align-items: center;
+padding: 26px 20px;
+gap: 10px;
+
+width: 119px;
+height: 48px;
+
+/* Input BG */
+background: #F5F5F9;
+border-radius: 10px;
+
+/* Inside auto layout */
+flex: none;
+order: 6;
+flex-grow: 0;
+
+
+/* Популярные */
+
+width: 79px;
+height: 20px;
+
+/* Text /  Medium  */
+font-family: 'SF Pro Display';
+font-style: normal;
+font-weight: 500;
+font-size: 15px;
+line-height: 20px;
+/* identical to box height, or 133% */
+
+/* Description */
+color: #7E7E9A;
+
+
+/* Inside auto layout */
+flex: none;
+order: 0;
+flex-grow: 0;
+
+
+/* Button / Chips */
+
+/* Auto layout */
+display: flex;
+flex-direction: row;
+justify-content: center;
+align-items: center;
+padding: 26px 20px;
+gap: 10px;
+
+width: 111px;
+height: 48px;
+
+/* Input BG */
+background: #F5F5F9;
+border-radius: 10px;
+
+/* Inside auto layout */
+flex: none;
+order: 7;
+flex-grow: 0;
+
+
+/* Популярные */
+
+width: 71px;
+height: 20px;
+
+/* Text /  Medium  */
+font-family: 'SF Pro Display';
+font-style: normal;
+font-weight: 500;
+font-size: 15px;
+line-height: 20px;
+/* identical to box height, or 133% */
+
+/* Description */
+color: #7E7E9A;
+
+
+/* Inside auto layout */
+flex: none;
+order: 0;
+flex-grow: 0;
+
+
+/* Button / Chips */
+
+/* Auto layout */
+display: flex;
+flex-direction: row;
+justify-content: center;
+align-items: center;
+padding: 26px 20px;
+gap: 10px;
+
+width: 116px;
+height: 48px;
+
+/* Input BG */
+background: #F5F5F9;
+border-radius: 10px;
+
+/* Inside auto layout */
+flex: none;
+order: 8;
+flex-grow: 0;
+
+
+/* Популярные */
+
+width: 76px;
+height: 20px;
+
+/* Text /  Medium  */
+font-family: 'SF Pro Display';
+font-style: normal;
+font-weight: 500;
+font-size: 15px;
+line-height: 20px;
+/* identical to box height, or 133% */
+
+/* Description */
+color: #7E7E9A;
+
+
+/* Inside auto layout */
+flex: none;
+order: 0;
+flex-grow: 0;
+
+
+/* Button / Chips */
+
+/* Auto layout */
+display: flex;
+flex-direction: row;
+justify-content: center;
+align-items: center;
+padding: 26px 20px;
+gap: 10px;
+
+width: 134px;
+height: 48px;
+
+/* Input BG */
+background: #F5F5F9;
+border-radius: 10px;
+
+/* Inside auto layout */
+flex: none;
+order: 9;
+flex-grow: 0;
+
+
+/* Популярные */
+
+width: 94px;
+height: 20px;
+
+/* Text /  Medium  */
+font-family: 'SF Pro Display';
+font-style: normal;
+font-weight: 500;
+font-size: 15px;
+line-height: 20px;
+/* identical to box height, or 133% */
+
+/* Description */
+color: #7E7E9A;
+
+
+/* Inside auto layout */
+flex: none;
+order: 0;
+flex-grow: 0;
+
+
+/* Button / Chips */
+
+/* Auto layout */
+display: flex;
+flex-direction: row;
+justify-content: center;
+align-items: center;
+padding: 26px 20px;
+gap: 10px;
+
+width: 129px;
+height: 48px;
+
+/* Input BG */
+background: #F5F5F9;
+border-radius: 10px;
+
+/* Inside auto layout */
+flex: none;
+order: 10;
+flex-grow: 0;
+
+
+/* Популярные */
+
+width: 89px;
+height: 20px;
+
+/* Text /  Medium  */
+font-family: 'SF Pro Display';
+font-style: normal;
+font-weight: 500;
+font-size: 15px;
+line-height: 20px;
+/* identical to box height, or 133% */
+
+/* Description */
+color: #7E7E9A;
+
+
+/* Inside auto layout */
+flex: none;
+order: 0;
+flex-grow: 0;
+
+
+/* Button / Chips */
+
+/* Auto layout */
+display: flex;
+flex-direction: row;
+justify-content: center;
+align-items: center;
+padding: 26px 20px;
+gap: 10px;
+
+width: 125px;
+height: 48px;
+
+/* Input BG */
+background: #F5F5F9;
+border-radius: 10px;
+
+/* Inside auto layout */
+flex: none;
+order: 11;
+flex-grow: 0;
+
+
+/* Популярные */
+
+width: 85px;
+height: 20px;
+
+/* Text /  Medium  */
+font-family: 'SF Pro Display';
+font-style: normal;
+font-weight: 500;
+font-size: 15px;
+line-height: 20px;
+/* identical to box height, or 133% */
+
+/* Description */
+color: #7E7E9A;
+
+
+/* Inside auto layout */
+flex: none;
+order: 0;
+flex-grow: 0;
+
+
+/* Button / Chips */
+
+/* Auto layout */
+display: flex;
+flex-direction: row;
+justify-content: center;
+align-items: center;
+padding: 26px 20px;
+gap: 10px;
+
+width: 158px;
+height: 48px;
+
+/* Input BG */
+background: #F5F5F9;
+border-radius: 10px;
+
+/* Inside auto layout */
+flex: none;
+order: 12;
+flex-grow: 0;
+
+
+/* Популярные */
+
+width: 118px;
+height: 20px;
+
+/* Text /  Medium  */
+font-family: 'SF Pro Display';
+font-style: normal;
+font-weight: 500;
+font-size: 15px;
+line-height: 20px;
+/* identical to box height, or 133% */
+
+/* Description */
+color: #7E7E9A;
+
+
+/* Inside auto layout */
+flex: none;
+order: 0;
+flex-grow: 0;
+
+
+/* Cards */
+
+/* Auto layout */
+display: flex;
+flex-direction: column;
+align-items: flex-start;
+padding: 0px;
+gap: 12px;
+
+width: 335px;
+height: 592px;
+overflow-y: scroll;
+
+
+/* Inside auto layout */
+flex: none;
+order: 1;
+flex-grow: 0;
+
+
+/* Cards / Primary */
+
+width: 335px;
+height: 136px;
+
+/* shadow */
+filter: drop-shadow(0px 0px 20px rgba(228, 232, 245, 0.6));
+
+/* Inside auto layout */
+flex: none;
+order: 0;
+flex-grow: 0;
+
+
+/* Card bg */
+
+position: absolute;
+left: 0%;
+right: 0%;
+top: 0%;
+bottom: 0%;
+
+
+
+/* Card bg */
+
+box-sizing: border-box;
+
+position: absolute;
+left: 0%;
+right: 0%;
+top: 0%;
+bottom: 0%;
+
+/* White */
+background: #FFFFFF;
+/* Divider */
+border: 1px solid #F4F4F4;
+border-radius: 12px;
+
+
+/* Time and Price */
+
+/* Auto layout */
+display: flex;
+flex-direction: column;
+align-items: flex-start;
+padding: 0px;
+gap: 4px;
+
+position: absolute;
+width: 55px;
+height: 48px;
+left: 16px;
+top: 72px;
+
+
+
+/* Time */
+
+width: 35px;
+height: 20px;
+
+/* Caption/Semibold */
+font-family: 'SF Pro Display';
+font-style: normal;
+font-weight: 600;
+font-size: 14px;
+line-height: 20px;
+/* identical to box height, or 143% */
+
+/* Caption */
+color: #939396;
+
+
+/* Inside auto layout */
+flex: none;
+order: 0;
+flex-grow: 0;
+
+
+/* 1800 ₽ */
+
+width: 55px;
+height: 24px;
+
+/* Title 3 /  Semibold */
+font-family: 'SF Pro Display';
+font-style: normal;
+font-weight: 600;
+font-size: 17px;
+line-height: 24px;
+/* identical to box height, or 141% */
+
+/* Black */
+color: #000000;
+
+
+/* Inside auto layout */
+flex: none;
+order: 1;
+flex-grow: 0;
+
+
+/* Button / Small */
+
+/* Auto layout */
+display: flex;
+flex-direction: row;
+justify-content: center;
+align-items: center;
+padding: 26px 20px;
+gap: 10px;
+
+position: absolute;
+width: 96px;
+height: 40px;
+right: 16px;
+top: 80px;
+
+/* Accent */
+background: #1A6FEE;
+border-radius: 10px;
+
+
+/* Добавить */
+
+width: 64px;
+height: 20px;
+
+/* Caption/Semibold */
+font-family: 'SF Pro Display';
+font-style: normal;
+font-weight: 600;
+font-size: 14px;
+line-height: 20px;
+/* identical to box height, or 143% */
+
+/* White */
+color: #FFFFFF;
+
+
+/* Inside auto layout */
+flex: none;
+order: 0;
+flex-grow: 0;
+
+
+/* Name */
+
+position: absolute;
+width: 303px;
+height: 40px;
+left: 16px;
+top: 16px;
+
+/* Headline /  Medium */
+font-family: 'SF Pro Display';
+font-style: normal;
+font-weight: 500;
+font-size: 16px;
+line-height: 20px;
+/* or 125% */
+letter-spacing: -0.0032em;
+
+/* Black */
+color: #000000;
+
+
+
+/* Cards / Primary */
+
+width: 335px;
+height: 136px;
+
+/* shadow */
+filter: drop-shadow(0px 0px 20px rgba(228, 232, 245, 0.6));
+
+/* Inside auto layout */
+flex: none;
+order: 1;
+flex-grow: 0;
+
+
+/* Card bg */
+
+position: absolute;
+left: 0%;
+right: 0%;
+top: 0%;
+bottom: 0%;
+
+
+
+/* Card bg */
+
+box-sizing: border-box;
+
+position: absolute;
+left: 0%;
+right: 0%;
+top: 0%;
+bottom: 0%;
+
+/* White */
+background: #FFFFFF;
+/* Divider */
+border: 1px solid #F4F4F4;
+border-radius: 12px;
+
+
+/* Time and Price */
+
+/* Auto layout */
+display: flex;
+flex-direction: column;
+align-items: flex-start;
+padding: 0px;
+gap: 4px;
+
+position: absolute;
+width: 47px;
+height: 48px;
+left: 16px;
+top: 72px;
+
+
+
+/* Time */
+
+width: 41px;
+height: 20px;
+
+/* Caption/Semibold */
+font-family: 'SF Pro Display';
+font-style: normal;
+font-weight: 600;
+font-size: 14px;
+line-height: 20px;
+/* identical to box height, or 143% */
+
+/* Caption */
+color: #939396;
+
+
+/* Inside auto layout */
+flex: none;
+order: 0;
+flex-grow: 0;
+
+
+/* 1800 ₽ */
+
+width: 47px;
+height: 24px;
+
+/* Title 3 /  Semibold */
+font-family: 'SF Pro Display';
+font-style: normal;
+font-weight: 600;
+font-size: 17px;
+line-height: 24px;
+/* identical to box height, or 141% */
+
+/* Black */
+color: #000000;
+
+
+/* Inside auto layout */
+flex: none;
+order: 1;
+flex-grow: 0;
+
+
+/* Button / Small */
+
+/* Auto layout */
+display: flex;
+flex-direction: row;
+justify-content: center;
+align-items: center;
+padding: 26px 20px;
+gap: 10px;
+
+position: absolute;
+width: 96px;
+height: 40px;
+right: 16px;
+top: 80px;
+
+/* Accent */
+background: #1A6FEE;
+border-radius: 10px;
+
+
+/* Добавить */
+
+width: 64px;
+height: 20px;
+
+/* Caption/Semibold */
+font-family: 'SF Pro Display';
+font-style: normal;
+font-weight: 600;
+font-size: 14px;
+line-height: 20px;
+/* identical to box height, or 143% */
+
+/* White */
+color: #FFFFFF;
+
+
+/* Inside auto layout */
+flex: none;
+order: 0;
+flex-grow: 0;
+
+
+/* Name */
+
+position: absolute;
+width: 303px;
+height: 40px;
+left: 16px;
+top: 16px;
+
+/* Headline /  Medium */
+font-family: 'SF Pro Display';
+font-style: normal;
+font-weight: 500;
+font-size: 16px;
+line-height: 20px;
+/* or 125% */
+letter-spacing: -0.0032em;
+
+/* Black */
+color: #000000;
+
+
+
+/* Cards / Primary */
+
+width: 335px;
+height: 136px;
+
+/* shadow */
+filter: drop-shadow(0px 0px 20px rgba(228, 232, 245, 0.6));
+
+/* Inside auto layout */
+flex: none;
+order: 2;
+flex-grow: 0;
+
+
+/* Card bg */
+
+position: absolute;
+left: 0%;
+right: 0%;
+top: 0%;
+bottom: 0%;
+
+
+
+/* Card bg */
+
+box-sizing: border-box;
+
+position: absolute;
+left: 0%;
+right: 0%;
+top: 0%;
+bottom: 0%;
+
+/* White */
+background: #FFFFFF;
+/* Divider */
+border: 1px solid #F4F4F4;
+border-radius: 12px;
+
+
+/* Time and Price */
+
+/* Auto layout */
+display: flex;
+flex-direction: column;
+align-items: flex-start;
+padding: 0px;
+gap: 4px;
+
+position: absolute;
+width: 57px;
+height: 48px;
+left: 16px;
+top: 72px;
+
+
+
+/* Time */
+
+width: 41px;
+height: 20px;
+
+/* Caption/Semibold */
+font-family: 'SF Pro Display';
+font-style: normal;
+font-weight: 600;
+font-size: 14px;
+line-height: 20px;
+/* identical to box height, or 143% */
+
+/* Caption */
+color: #939396;
+
+
+/* Inside auto layout */
+flex: none;
+order: 0;
+flex-grow: 0;
+
+
+/* 1800 ₽ */
+
+width: 57px;
+height: 24px;
+
+/* Title 3 /  Semibold */
+font-family: 'SF Pro Display';
+font-style: normal;
+font-weight: 600;
+font-size: 17px;
+line-height: 24px;
+/* identical to box height, or 141% */
+
+/* Black */
+color: #000000;
+
+
+/* Inside auto layout */
+flex: none;
+order: 1;
+flex-grow: 0;
+
+
+/* Button / Small */
+
+/* Auto layout */
+display: flex;
+flex-direction: row;
+justify-content: center;
+align-items: center;
+padding: 26px 20px;
+gap: 10px;
+
+position: absolute;
+width: 96px;
+height: 40px;
+right: 16px;
+top: 80px;
+
+/* Accent */
+background: #1A6FEE;
+border-radius: 10px;
+
+
+/* Добавить */
+
+width: 64px;
+height: 20px;
+
+/* Caption/Semibold */
+font-family: 'SF Pro Display';
+font-style: normal;
+font-weight: 600;
+font-size: 14px;
+line-height: 20px;
+/* identical to box height, or 143% */
+
+/* White */
+color: #FFFFFF;
+
+
+/* Inside auto layout */
+flex: none;
+order: 0;
+flex-grow: 0;
+
+
+/* Name */
+
+position: absolute;
+width: 303px;
+height: 20px;
+left: 16px;
+top: 16px;
+
+/* Headline /  Medium */
+font-family: 'SF Pro Display';
+font-style: normal;
+font-weight: 500;
+font-size: 16px;
+line-height: 20px;
+/* identical to box height, or 125% */
+letter-spacing: -0.0032em;
+
+/* Black */
+color: #000000;
+
+
+
+/* Cards / Primary */
+
+width: 335px;
+height: 136px;
+
+/* shadow */
+filter: drop-shadow(0px 0px 20px rgba(228, 232, 245, 0.6));
+
+/* Inside auto layout */
+flex: none;
+order: 3;
+flex-grow: 0;
+
+
+/* Card bg */
+
+position: absolute;
+left: 0%;
+right: 0%;
+top: 0%;
+bottom: 0%;
+
+
+
+/* Card bg */
+
+box-sizing: border-box;
+
+position: absolute;
+left: 0%;
+right: 0%;
+top: 0%;
+bottom: 0%;
+
+/* White */
+background: #FFFFFF;
+/* Divider */
+border: 1px solid #F4F4F4;
+border-radius: 12px;
+
+
+/* Time and Price */
+
+/* Auto layout */
+display: flex;
+flex-direction: column;
+align-items: flex-start;
+padding: 0px;
+gap: 4px;
+
+position: absolute;
+width: 46px;
+height: 48px;
+left: 16px;
+top: 72px;
+
+
+
+/* Time */
+
+width: 41px;
+height: 20px;
+
+/* Caption/Semibold */
+font-family: 'SF Pro Display';
+font-style: normal;
+font-weight: 600;
+font-size: 14px;
+line-height: 20px;
+/* identical to box height, or 143% */
+
+/* Caption */
+color: #939396;
+
+
+/* Inside auto layout */
+flex: none;
+order: 0;
+flex-grow: 0;
+
+
+/* 1800 ₽ */
+
+width: 46px;
+height: 24px;
+
+/* Title 3 /  Semibold */
+font-family: 'SF Pro Display';
+font-style: normal;
+font-weight: 600;
+font-size: 17px;
+line-height: 24px;
+/* identical to box height, or 141% */
+
+/* Black */
+color: #000000;
+
+
+/* Inside auto layout */
+flex: none;
+order: 1;
+flex-grow: 0;
+
+
+/* Button / Small */
+
+/* Auto layout */
+display: flex;
+flex-direction: row;
+justify-content: center;
+align-items: center;
+padding: 26px 20px;
+gap: 10px;
+
+position: absolute;
+width: 96px;
+height: 40px;
+right: 16px;
+top: 80px;
+
+/* Accent */
+background: #1A6FEE;
+border-radius: 10px;
+
+
+/* Добавить */
+
+width: 64px;
+height: 20px;
+
+/* Caption/Semibold */
+font-family: 'SF Pro Display';
+font-style: normal;
+font-weight: 600;
+font-size: 14px;
+line-height: 20px;
+/* identical to box height, or 143% */
+
+/* White */
+color: #FFFFFF;
+
+
+/* Inside auto layout */
+flex: none;
+order: 0;
+flex-grow: 0;
+
+
+/* Name */
+
+position: absolute;
+width: 303px;
+height: 20px;
+left: 16px;
+top: 16px;
+
+/* Headline /  Medium */
+font-family: 'SF Pro Display';
+font-style: normal;
+font-weight: 500;
+font-size: 16px;
+line-height: 20px;
+/* identical to box height, or 125% */
+letter-spacing: -0.0032em;
+
+/* Black */
+color: #000000;
+
+
+
+/* Cards / Primary */
+
+width: 335px;
+height: 136px;
+
+/* shadow */
+filter: drop-shadow(0px 0px 20px rgba(228, 232, 245, 0.6));
+
+/* Inside auto layout */
+flex: none;
+order: 4;
+flex-grow: 0;
+
+
+/* Card bg */
+
+position: absolute;
+left: 0%;
+right: 0%;
+top: 0%;
+bottom: 0%;
+
+
+
+/* Card bg */
+
+box-sizing: border-box;
+
+position: absolute;
+left: 0%;
+right: 0%;
+top: 0%;
+bottom: 0%;
+
+/* White */
+background: #FFFFFF;
+/* Divider */
+border: 1px solid #F4F4F4;
+border-radius: 12px;
+
+
+/* Time and Price */
+
+/* Auto layout */
+display: flex;
+flex-direction: column;
+align-items: flex-start;
+padding: 0px;
+gap: 4px;
+
+position: absolute;
+width: 46px;
+height: 48px;
+left: 16px;
+top: 72px;
+
+
+
+/* Time */
+
+width: 41px;
+height: 20px;
+
+/* Caption/Semibold */
+font-family: 'SF Pro Display';
+font-style: normal;
+font-weight: 600;
+font-size: 14px;
+line-height: 20px;
+/* identical to box height, or 143% */
+
+/* Caption */
+color: #939396;
+
+
+/* Inside auto layout */
+flex: none;
+order: 0;
+flex-grow: 0;
+
+
+/* 1800 ₽ */
+
+width: 46px;
+height: 24px;
+
+/* Title 3 /  Semibold */
+font-family: 'SF Pro Display';
+font-style: normal;
+font-weight: 600;
+font-size: 17px;
+line-height: 24px;
+/* identical to box height, or 141% */
+
+/* Black */
+color: #000000;
+
+
+/* Inside auto layout */
+flex: none;
+order: 1;
+flex-grow: 0;
+
+
+/* Button / Small */
+
+/* Auto layout */
+display: flex;
+flex-direction: row;
+justify-content: center;
+align-items: center;
+padding: 26px 20px;
+gap: 10px;
+
+position: absolute;
+width: 96px;
+height: 40px;
+right: 16px;
+top: 80px;
+
+/* Accent */
+background: #1A6FEE;
+border-radius: 10px;
+
+
+/* Добавить */
+
+width: 64px;
+height: 20px;
+
+/* Caption/Semibold */
+font-family: 'SF Pro Display';
+font-style: normal;
+font-weight: 600;
+font-size: 14px;
+line-height: 20px;
+/* identical to box height, or 143% */
+
+/* White */
+color: #FFFFFF;
+
+
+/* Inside auto layout */
+flex: none;
+order: 0;
+flex-grow: 0;
+
+
+/* Name */
+
+position: absolute;
+width: 303px;
+height: 20px;
+left: 16px;
+top: 16px;
+
+/* Headline /  Medium */
+font-family: 'SF Pro Display';
+font-style: normal;
+font-weight: 500;
+font-size: 16px;
+line-height: 20px;
+/* identical to box height, or 125% */
+letter-spacing: -0.0032em;
+
+/* Black */
+color: #000000;
+
+
+
+/* Cards / Primary */
+
+width: 335px;
+height: 136px;
+
+/* shadow */
+filter: drop-shadow(0px 0px 20px rgba(228, 232, 245, 0.6));
+
+/* Inside auto layout */
+flex: none;
+order: 5;
+flex-grow: 0;
+
+
+/* Card bg */
+
+position: absolute;
+left: 0%;
+right: 0%;
+top: 0%;
+bottom: 0%;
+
+
+
+/* Card bg */
+
+box-sizing: border-box;
+
+position: absolute;
+left: 0%;
+right: 0%;
+top: 0%;
+bottom: 0%;
+
+/* White */
+background: #FFFFFF;
+/* Divider */
+border: 1px solid #F4F4F4;
+border-radius: 12px;
+
+
+/* Time and Price */
+
+/* Auto layout */
+display: flex;
+flex-direction: column;
+align-items: flex-start;
+padding: 0px;
+gap: 4px;
+
+position: absolute;
+width: 47px;
+height: 48px;
+left: 16px;
+top: 72px;
+
+
+
+/* Time */
+
+width: 41px;
+height: 20px;
+
+/* Caption/Semibold */
+font-family: 'SF Pro Display';
+font-style: normal;
+font-weight: 600;
+font-size: 14px;
+line-height: 20px;
+/* identical to box height, or 143% */
+
+/* Caption */
+color: #939396;
+
+
+/* Inside auto layout */
+flex: none;
+order: 0;
+flex-grow: 0;
+
+
+/* 1800 ₽ */
+
+width: 47px;
+height: 24px;
+
+/* Title 3 /  Semibold */
+font-family: 'SF Pro Display';
+font-style: normal;
+font-weight: 600;
+font-size: 17px;
+line-height: 24px;
+/* identical to box height, or 141% */
+
+/* Black */
+color: #000000;
+
+
+/* Inside auto layout */
+flex: none;
+order: 1;
+flex-grow: 0;
+
+
+/* Button / Small */
+
+/* Auto layout */
+display: flex;
+flex-direction: row;
+justify-content: center;
+align-items: center;
+padding: 26px 20px;
+gap: 10px;
+
+position: absolute;
+width: 96px;
+height: 40px;
+right: 16px;
+top: 80px;
+
+/* Accent */
+background: #1A6FEE;
+border-radius: 10px;
+
+
+/* Добавить */
+
+width: 64px;
+height: 20px;
+
+/* Caption/Semibold */
+font-family: 'SF Pro Display';
+font-style: normal;
+font-weight: 600;
+font-size: 14px;
+line-height: 20px;
+/* identical to box height, or 143% */
+
+/* White */
+color: #FFFFFF;
+
+
+/* Inside auto layout */
+flex: none;
+order: 0;
+flex-grow: 0;
+
+
+/* Name */
+
+position: absolute;
+width: 303px;
+height: 20px;
+left: 16px;
+top: 16px;
+
+/* Headline /  Medium */
+font-family: 'SF Pro Display';
+font-style: normal;
+font-weight: 500;
+font-size: 16px;
+line-height: 20px;
+/* identical to box height, or 125% */
+letter-spacing: -0.0032em;
+
+/* Black */
+color: #000000;
+
+
+
+/* Cards / Primary */
+
+width: 335px;
+height: 136px;
+
+/* shadow */
+filter: drop-shadow(0px 0px 20px rgba(228, 232, 245, 0.6));
+
+/* Inside auto layout */
+flex: none;
+order: 6;
+flex-grow: 0;
+
+
+/* Card bg */
+
+position: absolute;
+left: 0%;
+right: 0%;
+top: 0%;
+bottom: 0%;
+
+
+
+/* Card bg */
+
+box-sizing: border-box;
+
+position: absolute;
+left: 0%;
+right: 0%;
+top: 0%;
+bottom: 0%;
+
+/* White */
+background: #FFFFFF;
+/* Divider */
+border: 1px solid #F4F4F4;
+border-radius: 12px;
+
+
+/* Time and Price */
+
+/* Auto layout */
+display: flex;
+flex-direction: column;
+align-items: flex-start;
+padding: 0px;
+gap: 4px;
+
+position: absolute;
+width: 45px;
+height: 48px;
+left: 16px;
+top: 72px;
+
+
+
+/* Time */
+
+width: 41px;
+height: 20px;
+
+/* Caption/Semibold */
+font-family: 'SF Pro Display';
+font-style: normal;
+font-weight: 600;
+font-size: 14px;
+line-height: 20px;
+/* identical to box height, or 143% */
+
+/* Caption */
+color: #939396;
+
+
+/* Inside auto layout */
+flex: none;
+order: 0;
+flex-grow: 0;
+
+
+/* 1800 ₽ */
+
+width: 45px;
+height: 24px;
+
+/* Title 3 /  Semibold */
+font-family: 'SF Pro Display';
+font-style: normal;
+font-weight: 600;
+font-size: 17px;
+line-height: 24px;
+/* identical to box height, or 141% */
+
+/* Black */
+color: #000000;
+
+
+/* Inside auto layout */
+flex: none;
+order: 1;
+flex-grow: 0;
+
+
+/* Button / Small */
+
+/* Auto layout */
+display: flex;
+flex-direction: row;
+justify-content: center;
+align-items: center;
+padding: 26px 20px;
+gap: 10px;
+
+position: absolute;
+width: 96px;
+height: 40px;
+right: 16px;
+top: 80px;
+
+/* Accent */
+background: #1A6FEE;
+border-radius: 10px;
+
+
+/* Добавить */
+
+width: 64px;
+height: 20px;
+
+/* Caption/Semibold */
+font-family: 'SF Pro Display';
+font-style: normal;
+font-weight: 600;
+font-size: 14px;
+line-height: 20px;
+/* identical to box height, or 143% */
+
+/* White */
+color: #FFFFFF;
+
+
+/* Inside auto layout */
+flex: none;
+order: 0;
+flex-grow: 0;
+
+
+/* Name */
+
+position: absolute;
+width: 303px;
+height: 20px;
+left: 16px;
+top: 16px;
+
+/* Headline /  Medium */
+font-family: 'SF Pro Display';
+font-style: normal;
+font-weight: 500;
+font-size: 16px;
+line-height: 20px;
+/* identical to box height, or 125% */
+letter-spacing: -0.0032em;
+
+/* Black */
+color: #000000;
+
+
+
+/* Banners */
+
+position: absolute;
+visibility: hidden;
+width: 355px;
+height: 192px;
+left: 20px;
+top: 16px;
+
+
+
+/* Title */
+
+position: absolute;
+width: 132px;
+height: 24px;
+left: 0px;
+top: 0px;
+
+/* Title 3 /  Semibold */
+font-family: 'SF Pro Display';
+font-style: normal;
+font-weight: 600;
+font-size: 17px;
+line-height: 24px;
+/* identical to box height, or 141% */
+
+/* Caption */
+color: #939396;
+
+
+
+/* Banners */
+
+/* Auto layout */
+display: flex;
+flex-direction: row;
+align-items: flex-start;
+padding: 0px;
+gap: 16px;
+
+position: absolute;
+width: 355px;
+height: 152px;
+left: 0px;
+top: 40px;
+overflow-x: scroll;
+
+
+
+/* Banner */
+
+width: 270px;
+height: 152px;
+
+
+/* Inside auto layout */
+flex: none;
+order: 0;
+flex-grow: 0;
+
+
+/* Rectangle 53 */
+
+position: absolute;
+width: 270px;
+height: 152px;
+left: 0px;
+top: 0px;
+
+background: linear-gradient(102.34deg, #76B3FF 0%, #CDE3FF 100%);
+border-radius: 12px;
+
+
+/* Mask Group */
+
+position: absolute;
+width: 270px;
+height: 152px;
+left: 0px;
+top: 0px;
+
+
+
+/* Rectangle 54 */
+
+position: absolute;
+width: 270px;
+height: 152px;
+left: 0px;
+top: 0px;
+
+background: linear-gradient(116.05deg, #CDE3FF 0%, #76B3FF 102.49%);
+border-radius: 12px;
+
+
+/* DItYlc26zVI-removebg-preview 1 */
+
+position: absolute;
+width: 232px;
+height: 152px;
+left: 67px;
+top: 0px;
+
+background: url(DItYlc26zVI-removebg-preview);
+
+
+/* Чек-ап для мужчин */
+
+position: absolute;
+width: 176px;
+height: 56px;
+left: 16px;
+top: 16px;
+
+/* Title 2/Heavy */
+font-family: 'SF Pro Display';
+font-style: normal;
+font-weight: 800;
+font-size: 20px;
+line-height: 28px;
+/* or 140% */
+letter-spacing: 0.0038em;
+
+/* White */
+color: #FFFFFF;
+
+
+
+/* 9 исследований */
+
+position: absolute;
+width: 101px;
+height: 20px;
+left: 16px;
+top: 92px;
+
+/* Caption /  Regular */
+font-family: 'SF Pro Display';
+font-style: normal;
+font-weight: 400;
+font-size: 14px;
+line-height: 20px;
+/* identical to box height, or 143% */
+
+/* White */
+color: #FFFFFF;
+
+
+
+/* 8000 ₽ */
+
+position: absolute;
+width: 72px;
+height: 28px;
+left: 16px;
+top: 112px;
+
+/* Title 2/Heavy */
+font-family: 'SF Pro Display';
+font-style: normal;
+font-weight: 800;
+font-size: 20px;
+line-height: 28px;
+/* identical to box height, or 140% */
+letter-spacing: 0.0038em;
+
+/* White */
+color: #FFFFFF;
+
+
+
+/* banner */
+
+width: 270px;
+height: 152px;
+
+
+/* Inside auto layout */
+flex: none;
+order: 1;
+flex-grow: 0;
+
+
+/* Rectangle 52 */
+
+position: absolute;
+width: 270px;
+height: 152px;
+left: 0px;
+top: 0px;
+
+background: linear-gradient(116.05deg, #97D9F0 0.75%, #92E9D4 101.24%);
+border-radius: 12px;
+
+
+/* Mask Group */
+
+position: absolute;
+width: 270px;
+height: 152px;
+left: 0px;
+top: 0px;
+
+
+
+/* Rectangle 53 */
+
+position: absolute;
+width: 270px;
+height: 152px;
+left: 0px;
+top: 0px;
+
+background: linear-gradient(116.05deg, #97D9F0 0.75%, #92E9D4 101.24%);
+border-radius: 12px;
+
+
+/* ZeMRI9vO71o-removebg-preview 1 */
+
+position: absolute;
+width: 146px;
+height: 183px;
+left: 135px;
+top: -15px;
+
+background: url(ZeMRI9vO71o-removebg-preview);
+
+
+/* Подготовка к вакцинации */
+
+position: absolute;
+width: 176px;
+height: 56px;
+left: 16px;
+top: 16px;
+
+/* Title 2/Heavy */
+font-family: 'SF Pro Display';
+font-style: normal;
+font-weight: 800;
+font-size: 20px;
+line-height: 28px;
+/* or 140% */
+letter-spacing: 0.0038em;
+
+/* White */
+color: #FFFFFF;
+
+
+
+/* Комплексное обследование перед вакцинацией */
+
+position: absolute;
+width: 158px;
+height: 32px;
+left: 16px;
+top: 76px;
+
+font-family: 'SF Pro Display';
+font-style: normal;
+font-weight: 400;
+font-size: 12px;
+line-height: 16px;
+/* or 133% */
+
+/* White */
+color: #FFFFFF;
+
+
+
+/* 4000 ₽ */
+
+position: absolute;
+width: 72px;
+height: 28px;
+left: 16px;
+top: 112px;
+
+/* Title 2/Heavy */
+font-family: 'SF Pro Display';
+font-style: normal;
+font-weight: 800;
+font-size: 20px;
+line-height: 28px;
+/* identical to box height, or 140% */
+letter-spacing: 0.0038em;
+
+/* White */
+color: #FFFFFF;
+
+
+
+/* Search */
+
+position: absolute;
+width: 265px;
+height: 48px;
+left: 20px;
+top: 72px;
+
+
+
+/* bg */
+
+box-sizing: border-box;
+
+position: absolute;
+left: 0%;
+right: 0%;
+top: 0%;
+bottom: 0%;
+
+/* Input BG */
+background: #F5F5F9;
+/* Input Stroke */
+border: 1px solid #EBEBEB;
+border-radius: 10px;
+
+
+/* Frame 247 */
+
+/* Auto layout */
+display: flex;
+flex-direction: row;
+align-items: flex-start;
+padding: 0px;
+gap: 8px;
+
+position: absolute;
+width: 141px;
+height: 20px;
+left: 14px;
+top: 14px;
+
+
+
+/* icons */
+
+width: 20px;
+height: 20px;
+
+
+/* Inside auto layout */
+flex: none;
+order: 0;
+flex-grow: 0;
+
+
+/* Vector */
+
+position: absolute;
+left: 12.5%;
+right: 20.83%;
+top: 12.5%;
+bottom: 20.83%;
+
+/* Description */
+border: 2px solid #7E7E9A;
+
+
+/* Vector */
+
+position: absolute;
+left: 69.38%;
+right: 12.5%;
+top: 69.38%;
+bottom: 12.5%;
+
+/* Description */
+border: 2px solid #7E7E9A;
+
+
+/* Placeholder */
+
+width: 113px;
+height: 20px;
+
+/* Headline /  Regular */
+font-family: 'SF Pro Display';
+font-style: normal;
+font-weight: 400;
+font-size: 16px;
+line-height: 20px;
+/* identical to box height, or 125% */
+letter-spacing: -0.0032em;
+
+/* Caption */
+color: #939396;
+
+
+/* Inside auto layout */
+flex: none;
+order: 1;
+flex-grow: 0;
+
+
+/* Cursor */
+
+position: absolute;
+visibility: hidden;
+width: 2px;
+height: 20px;
+left: 42px;
+top: 14px;
+
+/* Accent */
+background: #1A6FEE;
+
+
+/* icons */
+
+position: absolute;
+visibility: hidden;
+width: 20px;
+height: 20px;
+right: 14px;
+top: 14px;
+
+
+
+/* Header */
+
+position: absolute;
+width: 335px;
+height: 48px;
+left: 20px;
+top: 72px;
+
+
+
+/* user icon */
+
+position: absolute;
+width: 32px;
+height: 32px;
+left: 303px;
+top: 8px;
+
+
+
+/* Vector 11 */
+
+position: absolute;
+left: 16.67%;
+right: 16.67%;
+top: 59.79%;
+bottom: 6.88%;
+
+/* Black */
+background: #000000;
+
+
+/* Vector */
+
+position: absolute;
+left: 16.67%;
+right: 16.67%;
+top: 58.96%;
+bottom: 6.87%;
+
+/* Black */
+border: 2px solid #000000;
+
+
+/* Vector */
+
+position: absolute;
+left: 33.33%;
+right: 33.33%;
+top: 8.96%;
+bottom: 57.71%;
+
+/* Black */
+background: #000000;
+/* Black */
+border: 2px solid #000000;
+
+
+/* Message */
+
+/* Auto layout */
+display: flex;
+flex-direction: row;
+align-items: center;
+padding: 0px;
+gap: 15px;
+
+position: absolute;
+visibility: hidden;
+width: 221px;
+height: 48px;
+left: 0px;
+top: 0px;
+
+
+
+/* Emojies */
+
+width: 32px;
+height: 32px;
+
+
+/* Inside auto layout */
+flex: none;
+order: 0;
+flex-grow: 0;
+
+
+/* Message */
+
+width: 174px;
+height: 48px;
+
+/* Title 3 /  Medium  */
+font-family: 'SF Pro Display';
+font-style: normal;
+font-weight: 500;
+font-size: 17px;
+line-height: 24px;
+/* or 141% */
+
+/* Black */
+color: #000000;
+
+
+/* Inside auto layout */
+flex: none;
+order: 1;
+flex-grow: 0;
+
+
+/* Status Bar */
+
+position: absolute;
+width: 375px;
+height: 44px;
+left: 0px;
+top: 0px;
+
+
+
+/* iPhone X (or newer) */
+
+position: absolute;
+left: 0%;
+right: 0%;
+top: 0%;
+bottom: 0%;
+
+
+
+/* Notch */
+
+position: absolute;
+width: 219px;
+height: 30px;
+left: 78px;
+top: -2px;
+
+
+
+/* BG */
+
+position: absolute;
+visibility: hidden;
+left: 0px;
+right: 0px;
+top: 0px;
+bottom: 0px;
+
+background: #000000;
+
+
+/* Exclude */
+
+position: absolute;
+visibility: hidden;
+width: 375px;
+height: 44px;
+left: 0px;
+top: 0px;
+
+/* Carbon / Darkest */
+background: #24262B;
+
+
+/* BG */
+
+position: absolute;
+left: 0px;
+right: 0px;
+top: 0px;
+bottom: 0px;
+
+/* Carbon Neutral/300 */
+background: #D6D9DD;
+
+
+/* Notch */
+
+position: absolute;
+width: 219px;
+height: 30px;
+left: calc(50% - 219px/2);
+top: -2px;
+
+/* Black */
+background: #000000;
+
+
+/* Right Side */
+
+position: absolute;
+width: 66.66px;
+height: 11.34px;
+left: 293.67px;
+top: 17.33px;
+
+
+
+/* Battery */
+
+position: absolute;
+left: 89.6%;
+right: 3.91%;
+top: 39.39%;
+bottom: 34.85%;
+
+
+
+/* Rectangle */
+
+box-sizing: border-box;
+
+position: absolute;
+width: 22px;
+height: 11.33px;
+right: 17px;
+top: 17.33px;
+
+mix-blend-mode: normal;
+opacity: 0.35;
+/* Black */
+border: 1px solid #000000;
+border-radius: 2.66667px;
+
+
+/* Combined Shape */
+
+position: absolute;
+width: 1.33px;
+height: 4px;
+right: 14.67px;
+top: 21px;
+
+/* Black */
+background: #000000;
+mix-blend-mode: normal;
+opacity: 0.4;
+
+
+/* Rectangle */
+
+position: absolute;
+width: 18px;
+height: 7.33px;
+right: 19px;
+top: 19.33px;
+
+/* Black */
+background: #000000;
+border-radius: 1.33333px;
+
+
+/* Wifi */
+
+position: absolute;
+left: 84.18%;
+right: 11.74%;
+top: 39.39%;
+bottom: 35.69%;
+
+/* Black */
+background: #000000;
+
+
+/* Wifi-path */
+
+position: absolute;
+width: 15.27px;
+height: 4.74px;
+right: 44.03px;
+top: 17.33px;
+
+background: #DADADA;
+
+
+/* Wifi-path */
+
+position: absolute;
+width: 9.95px;
+height: 3.63px;
+right: 46.69px;
+top: 21.12px;
+
+background: #DADADA;
+
+
+/* Wifi-path */
+
+position: absolute;
+width: 4.63px;
+height: 3.37px;
+right: 49.36px;
+top: 24.92px;
+
+background: #DADADA;
+
+
+/* Mobile Signal */
+
+position: absolute;
+left: 78.31%;
+right: 17.16%;
+top: 40.15%;
+bottom: 35.61%;
+
+/* Black */
+background: #000000;
+
+
+/* Cellular_Connection-path */
+
+position: absolute;
+width: 3px;
+height: 4px;
+right: 78.33px;
+top: 24.33px;
+
+background: #DADADA;
+
+
+/* Cellular_Connection-path */
+
+position: absolute;
+width: 3px;
+height: 6px;
+right: 73.67px;
+top: 22.33px;
+
+background: #DADADA;
+
+
+/* Cellular_Connection-path */
+
+position: absolute;
+width: 3px;
+height: 8.33px;
+right: 69px;
+top: 20px;
+
+background: #DADADA;
+
+
+/* Cellular_Connection-path */
+
+position: absolute;
+width: 3px;
+height: 10.67px;
+right: 64.33px;
+top: 17.67px;
+
+background: #DADADA;
+
+
+/* Recording Indicator */
+
+position: absolute;
+visibility: hidden;
+width: 6px;
+height: 6px;
+left: 298px;
+top: 8px;
+
+
+
+/* Indicator */
+
+position: absolute;
+width: 6px;
+height: 6px;
+right: 71px;
+top: 8px;
+
+/* SystemOrange / Light
+
+class var systemOrange: UIColor
+*/
+background: #FF9500;
+
+
+/* Left Side */
+
+position: absolute;
+width: 54px;
+height: 21px;
+left: 21px;
+top: 12px;
+
+
+
+/* Time */
+
+position: absolute;
+width: 54px;
+height: 21px;
+left: 21px;
+top: 12px;
+
+border-radius: 32px;
+
+
+/* 9:41 */
+
+position: absolute;
+width: 28.43px;
+height: 11.09px;
+left: 12.45px;
+top: 5.17px;
+
+/* Black */
+background: #000000;
+
+
+/* Overlay */
+
+position: absolute;
+width: 375px;
+height: 812px;
+left: 0px;
+top: 0px;
+
+
+
+/* Overlay */
+
+position: absolute;
+left: 0%;
+right: 0%;
+top: 0%;
+bottom: 0%;
+
+/* Black */
+background: #000000;
+opacity: 0.6;
+
+
+/* Modal */
+
+position: absolute;
+width: 375px;
+height: 636px;
+left: 0px;
+top: 176px;
+
+
+
+/* modal bg */
+
+position: absolute;
+left: 0%;
+right: 0%;
+top: 0%;
+bottom: 0%;
+
+
+
+/* modal bg */
+
+position: absolute;
+left: 0%;
+right: 0%;
+top: 0%;
+bottom: 0%;
+
+/* White */
+background: #FFFFFF;
+border-radius: 24px 24px 0px 0px;
+
+
+/* Tittle */
+
+position: absolute;
+width: 267px;
+height: 56px;
+left: 20px;
+top: 24px;
+
+/* Title 2/Semibold */
+font-family: 'SF Pro Display';
+font-style: normal;
+font-weight: 600;
+font-size: 20px;
+line-height: 28px;
+/* or 140% */
+letter-spacing: 0.0038em;
+
+color: #000000;
+
+
+
+/* Close */
+
+position: absolute;
+width: 24px;
+height: 24px;
+left: 331px;
+top: 24px;
+
+
+
+/* dismiss_24 */
+
+position: absolute;
+width: 24px;
+height: 24px;
+left: calc(50% - 24px/2);
+top: calc(50% - 24px/2);
+
+
+
+/* ↳ Background Color */
+
+position: absolute;
+left: 0%;
+right: 0%;
+top: 0%;
+bottom: 0%;
+
+/* Icons */
+background: #B8C1CC;
+opacity: 0.12;
+
+
+/* ↳ Foreground Color */
+
+position: absolute;
+left: 29.17%;
+right: 29.17%;
+top: 29.17%;
+bottom: 29.17%;
+
+/* Description */
+background: #7E7E9A;
+
+
+/* Текст */
+
+/* Auto layout */
+display: flex;
+flex-direction: column;
+align-items: flex-start;
+padding: 0px;
+gap: 16px;
+
+position: absolute;
+width: 335px;
+height: 328px;
+left: 20px;
+top: 276px;
+
+
+
+/* Описание */
+
+/* Auto layout */
+display: flex;
+flex-direction: column;
+align-items: flex-start;
+padding: 0px;
+gap: 8px;
+
+width: 335px;
+height: 328px;
+
+
+/* Inside auto layout */
+flex: none;
+order: 0;
+flex-grow: 0;
+
+
+/* Описание */
+
+width: 335px;
+height: 20px;
+
+/* Headline /  Medium */
+font-family: 'SF Pro Display';
+font-style: normal;
+font-weight: 500;
+font-size: 16px;
+line-height: 20px;
+/* identical to box height, or 125% */
+letter-spacing: -0.0032em;
+
+/* Caption */
+color: #939396;
+
+
+/* Inside auto layout */
+flex: none;
+order: 0;
+flex-grow: 0;
+
+
+/* Мой выбор для этих шапок – кардные составы, которые раскрываются деликатным пушком. Кашемиры, мериносы, смесовки с ними отлично подойдут на шапку. Кардные составы берите в большое количество сложений, вязать будем резинку 1х1, плотненько. Пряжу 1400-1500м в 100г в 4 сложения, пряжу 700м в 2 сложения. Ориентир для конечной толщины – 300-350м в 100г. Артикулы, из которых мы вязали эту модель: Zermatt Zegna Baruffa, Cashfive, Baby Cashmere Loro Piana, Soft Donegal и другие. Примерный расход на шапку с подгибом 70-90г. */
+
+width: 335px;
+height: 300px;
+
+font-family: 'Roboto Flex';
+font-style: normal;
+font-weight: 400;
+font-size: 15px;
+line-height: 20px;
+/* or 133% */
+
+color: #000000;
+
+
+/* Inside auto layout */
+flex: none;
+order: 1;
+flex-grow: 0;
+
+
+/* Button / Product Card Stack */
+
+position: absolute;
+width: 375px;
+height: 172px;
+left: 0px;
+bottom: 0px;
+
+
+
+/* Stack bg */
+
+position: absolute;
+width: 375px;
+height: 172px;
+left: 0px;
+top: 0px;
+
+
+
+/* Stack bg */
+
+position: absolute;
+left: 0%;
+right: 0%;
+top: 0%;
+bottom: 0%;
+
+/* White */
+background: #FFFFFF;
+box-shadow: 0px -6px 16px rgba(255, 255, 255, 0.5);
+
+
+/* Button / Big */
+
+position: absolute;
+width: 335px;
+height: 56px;
+left: 20px;
+top: 76px;
+
+
+
+/* bg */
+
+position: absolute;
+height: 56px;
+left: 0%;
+right: 0%;
+top: 0px;
+
+/* Accent */
+background: #1A6FEE;
+border-radius: 10px;
+
+
+/* Text */
+
+position: absolute;
+width: 148px;
+height: 24px;
+left: calc(50% - 148px/2 + 0.5px);
+top: 16px;
+
+/* Title 3 /  Semibold */
+font-family: 'SF Pro Display';
+font-style: normal;
+font-weight: 600;
+font-size: 17px;
+line-height: 24px;
+/* identical to box height, or 141% */
+text-align: center;
+
+/* White */
+color: #FFFFFF;
+
+
+
+/* Info */
+
+position: absolute;
+width: 291px;
+height: 44px;
+left: 20px;
+top: 13px;
+
+
+
+/* Результаты */
+
+position: absolute;
+width: 117px;
+height: 44px;
+left: 0px;
+top: 0px;
+
+
+
+/* Результаты через: */
+
+position: absolute;
+width: 125px;
+height: 20px;
+left: 0px;
+top: 0px;
+
+/* Caption/Semibold */
+font-family: 'SF Pro Display';
+font-style: normal;
+font-weight: 400;
+font-size: 14px;
+line-height: 20px;
+/* identical to box height, or 143% */
+
+/* Caption */
+color: #939396;
+
+
+
+/* 1 день */
+
+position: absolute;
+width: 57px;
+height: 20px;
+left: 0px;
+top: 24px;
+
+/* Headline /  Medium */
+font-family: 'SF Pro Display';
+font-style: normal;
+font-weight: 500;
+font-size: 16px;
+line-height: 20px;
+/* identical to box height, or 125% */
+letter-spacing: -0.0032em;
+
+/* Black */
+color: #000000;
+
+
+
+/* Биоматериал */
+
+position: absolute;
+visibility: hidden;
+width: 115px;
+height: 44px;
+left: 176px;
+top: 0px;

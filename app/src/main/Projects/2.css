@@ -1,0 +1,1679 @@
+/* Каталог */
+
+position: relative;
+width: 375px;
+height: 1155px;
+
+background: #FFFFFF;
+
+
+/* Header */
+
+position: absolute;
+width: 335px;
+height: 48px;
+left: 20px;
+top: 72px;
+
+
+
+/* Header */
+
+position: absolute;
+width: 375px;
+height: 48px;
+left: -20px;
+top: 0px;
+
+/* White */
+background: #FFFFFF;
+
+
+/* Button / Back */
+
+position: absolute;
+visibility: hidden;
+width: 32px;
+height: 32px;
+left: 20px;
+top: 0px;
+
+
+
+/* Tittle */
+
+position: absolute;
+width: 151px;
+height: 28px;
+left: 112px;
+top: 2px;
+
+/* Title2/Semibold */
+font-family: 'Roboto';
+font-style: normal;
+font-weight: 600;
+font-size: 20px;
+line-height: 28px;
+/* identical to box height, or 140% */
+text-align: center;
+letter-spacing: 0.0038em;
+
+/* Black */
+color: #000000;
+
+
+
+/* icons */
+
+position: absolute;
+visibility: hidden;
+width: 20px;
+height: 20px;
+left: 329px;
+top: 6px;
+
+
+
+/* Divider */
+
+position: absolute;
+width: 375px;
+height: 1px;
+left: 0px;
+top: 47px;
+
+
+
+/* Divider */
+
+position: absolute;
+visibility: hidden;
+left: 0%;
+right: 0%;
+top: 0%;
+bottom: 0%;
+
+/* Divider */
+background: #F4F4F4;
+
+
+/* Status Bar */
+
+position: absolute;
+width: 375px;
+height: 44px;
+left: 0px;
+top: 0px;
+
+
+
+/* iPhone X (or newer) */
+
+position: absolute;
+left: 0%;
+right: 0%;
+top: 0%;
+bottom: 0%;
+
+
+
+/* Notch */
+
+position: absolute;
+width: 219px;
+height: 30px;
+left: 78px;
+top: -2px;
+
+
+
+/* BG */
+
+position: absolute;
+visibility: hidden;
+left: 0px;
+right: 0px;
+top: 0px;
+bottom: 0px;
+
+background: #000000;
+
+
+/* Exclude */
+
+position: absolute;
+visibility: hidden;
+width: 375px;
+height: 44px;
+left: 0px;
+top: 0px;
+
+/* Carbon / Darkest */
+background: #24262B;
+
+
+/* BG */
+
+position: absolute;
+left: 0px;
+right: 0px;
+top: 0px;
+bottom: 0px;
+
+/* Carbon Neutral/300 */
+background: #D6D9DD;
+
+
+/* Notch */
+
+position: absolute;
+width: 219px;
+height: 30px;
+left: calc(50% - 219px/2);
+top: -2px;
+
+/* Black */
+background: #000000;
+
+
+/* Right Side */
+
+position: absolute;
+width: 66.66px;
+height: 11.34px;
+left: 293.67px;
+top: 17.33px;
+
+
+
+/* Battery */
+
+position: absolute;
+left: 89.6%;
+right: 3.91%;
+top: 39.39%;
+bottom: 34.85%;
+
+
+
+/* Rectangle */
+
+box-sizing: border-box;
+
+position: absolute;
+width: 22px;
+height: 11.33px;
+right: 17px;
+top: 17.33px;
+
+mix-blend-mode: normal;
+opacity: 0.35;
+/* Black */
+border: 1px solid #000000;
+border-radius: 2.66667px;
+
+
+/* Combined Shape */
+
+position: absolute;
+width: 1.33px;
+height: 4px;
+right: 14.67px;
+top: 21px;
+
+/* Black */
+background: #000000;
+mix-blend-mode: normal;
+opacity: 0.4;
+
+
+/* Rectangle */
+
+position: absolute;
+width: 18px;
+height: 7.33px;
+right: 19px;
+top: 19.33px;
+
+/* Black */
+background: #000000;
+border-radius: 1.33333px;
+
+
+/* Wifi */
+
+position: absolute;
+left: 84.18%;
+right: 11.74%;
+top: 39.39%;
+bottom: 35.69%;
+
+/* Black */
+background: #000000;
+
+
+/* Wifi-path */
+
+position: absolute;
+width: 15.27px;
+height: 4.74px;
+right: 44.03px;
+top: 17.33px;
+
+background: #DADADA;
+
+
+/* Wifi-path */
+
+position: absolute;
+width: 9.95px;
+height: 3.63px;
+right: 46.69px;
+top: 21.12px;
+
+background: #DADADA;
+
+
+/* Wifi-path */
+
+position: absolute;
+width: 4.63px;
+height: 3.37px;
+right: 49.36px;
+top: 24.92px;
+
+background: #DADADA;
+
+
+/* Mobile Signal */
+
+position: absolute;
+left: 78.31%;
+right: 17.16%;
+top: 40.15%;
+bottom: 35.61%;
+
+/* Black */
+background: #000000;
+
+
+/* Cellular_Connection-path */
+
+position: absolute;
+width: 3px;
+height: 4px;
+right: 78.33px;
+top: 24.33px;
+
+background: #DADADA;
+
+
+/* Cellular_Connection-path */
+
+position: absolute;
+width: 3px;
+height: 6px;
+right: 73.67px;
+top: 22.33px;
+
+background: #DADADA;
+
+
+/* Cellular_Connection-path */
+
+position: absolute;
+width: 3px;
+height: 8.33px;
+right: 69px;
+top: 20px;
+
+background: #DADADA;
+
+
+/* Cellular_Connection-path */
+
+position: absolute;
+width: 3px;
+height: 10.67px;
+right: 64.33px;
+top: 17.67px;
+
+background: #DADADA;
+
+
+/* Recording Indicator */
+
+position: absolute;
+visibility: hidden;
+width: 6px;
+height: 6px;
+left: 298px;
+top: 8px;
+
+
+
+/* Indicator */
+
+position: absolute;
+width: 6px;
+height: 6px;
+right: 71px;
+top: 8px;
+
+/* SystemOrange / Light
+
+class var systemOrange: UIColor
+*/
+background: #FF9500;
+
+
+/* Left Side */
+
+position: absolute;
+width: 54px;
+height: 21px;
+left: 21px;
+top: 12px;
+
+
+
+/* Time */
+
+position: absolute;
+width: 54px;
+height: 21px;
+left: 21px;
+top: 12px;
+
+border-radius: 32px;
+
+
+/* 9:41 */
+
+position: absolute;
+width: 28.43px;
+height: 11.09px;
+left: 12.45px;
+top: 5.17px;
+
+/* Black */
+background: #000000;
+
+
+/* Input */
+
+/* Auto layout */
+display: flex;
+flex-direction: column;
+align-items: flex-start;
+padding: 0px;
+gap: 8px;
+
+position: absolute;
+width: 335px;
+height: 76px;
+left: 21px;
+top: 216px;
+
+
+
+/* Tittle */
+
+width: 113px;
+height: 20px;
+
+/* Caption /  Regular */
+font-family: 'SF Pro Display';
+font-style: normal;
+font-weight: 400;
+font-size: 14px;
+line-height: 20px;
+/* identical to box height, or 143% */
+
+/* Description */
+color: #7E7E9A;
+
+
+/* Inside auto layout */
+flex: none;
+order: 0;
+flex-grow: 0;
+
+
+/* Input */
+
+width: 335px;
+height: 48px;
+
+
+/* Inside auto layout */
+flex: none;
+order: 1;
+align-self: stretch;
+flex-grow: 0;
+
+
+/* bg */
+
+box-sizing: border-box;
+
+position: absolute;
+height: 48px;
+left: 0%;
+right: 0%;
+top: 0px;
+
+/* Input BG */
+background: #F5F5F9;
+border: 1px solid rgba(34, 84, 245, 0.5);
+border-radius: 10px;
+
+
+/* Placeholder */
+
+position: absolute;
+width: 85px;
+height: 20px;
+left: 14px;
+top: 14px;
+
+/* Text /  Regular */
+font-family: 'SF Pro Display';
+font-style: normal;
+font-weight: 400;
+font-size: 15px;
+line-height: 20px;
+/* identical to box height, or 133% */
+
+/* Caption */
+color: #939396;
+
+
+
+/* Cursor */
+
+position: absolute;
+width: 2px;
+height: 20px;
+left: 14px;
+top: 14px;
+
+/* Accent */
+background: #1A6FEE;
+
+
+/* Input */
+
+/* Auto layout */
+display: flex;
+flex-direction: column;
+align-items: flex-start;
+padding: 0px;
+gap: 8px;
+
+position: absolute;
+width: 335px;
+height: 76px;
+left: 21px;
+top: 308px;
+
+
+
+/* Tittle */
+
+width: 77px;
+height: 20px;
+
+/* Caption /  Regular */
+font-family: 'SF Pro Display';
+font-style: normal;
+font-weight: 400;
+font-size: 14px;
+line-height: 20px;
+/* identical to box height, or 143% */
+
+/* Description */
+color: #7E7E9A;
+
+
+/* Inside auto layout */
+flex: none;
+order: 0;
+flex-grow: 0;
+
+
+/* Input */
+
+width: 335px;
+height: 48px;
+
+
+/* Inside auto layout */
+flex: none;
+order: 1;
+align-self: stretch;
+flex-grow: 0;
+
+
+/* bg */
+
+box-sizing: border-box;
+
+position: absolute;
+height: 48px;
+left: 0%;
+right: 0%;
+top: 0px;
+
+/* Input BG */
+background: #F5F5F9;
+border: 1px solid rgba(34, 84, 245, 0.5);
+border-radius: 10px;
+
+
+/* Placeholder */
+
+position: absolute;
+width: 60px;
+height: 20px;
+left: 14px;
+top: 14px;
+
+/* Text /  Regular */
+font-family: 'SF Pro Display';
+font-style: normal;
+font-weight: 400;
+font-size: 15px;
+line-height: 20px;
+/* identical to box height, or 133% */
+
+/* Caption */
+color: #939396;
+
+
+
+/* Cursor */
+
+position: absolute;
+width: 2px;
+height: 20px;
+left: 14px;
+top: 14px;
+
+/* Accent */
+background: #1A6FEE;
+
+
+/* Input */
+
+/* Auto layout */
+display: flex;
+flex-direction: column;
+align-items: flex-start;
+padding: 0px;
+gap: 8px;
+
+position: absolute;
+width: 335px;
+height: 76px;
+left: 21px;
+top: 406px;
+
+
+
+/* Tittle */
+
+width: 102px;
+height: 20px;
+
+/* Caption /  Regular */
+font-family: 'SF Pro Display';
+font-style: normal;
+font-weight: 400;
+font-size: 14px;
+line-height: 20px;
+/* identical to box height, or 143% */
+
+/* Description */
+color: #7E7E9A;
+
+
+/* Inside auto layout */
+flex: none;
+order: 0;
+flex-grow: 0;
+
+
+/* Input */
+
+width: 335px;
+height: 48px;
+
+
+/* Inside auto layout */
+flex: none;
+order: 1;
+align-self: stretch;
+flex-grow: 0;
+
+
+/* bg */
+
+box-sizing: border-box;
+
+position: absolute;
+height: 48px;
+left: 0%;
+right: 0%;
+top: 0px;
+
+/* Input BG */
+background: #F5F5F9;
+border: 1px solid rgba(34, 84, 245, 0.5);
+border-radius: 10px;
+
+
+/* Placeholder */
+
+position: absolute;
+width: 60px;
+height: 20px;
+left: 14px;
+top: 14px;
+
+/* Text /  Regular */
+font-family: 'SF Pro Display';
+font-style: normal;
+font-weight: 400;
+font-size: 15px;
+line-height: 20px;
+/* identical to box height, or 133% */
+
+/* Caption */
+color: #939396;
+
+
+
+/* Cursor */
+
+position: absolute;
+width: 2px;
+height: 20px;
+left: 14px;
+top: 14px;
+
+/* Accent */
+background: #1A6FEE;
+
+
+/* Input */
+
+/* Auto layout */
+display: flex;
+flex-direction: column;
+align-items: flex-start;
+padding: 0px;
+gap: 8px;
+
+position: absolute;
+width: 335px;
+height: 76px;
+left: 23px;
+top: 575px;
+
+
+
+/* Tittle */
+
+width: 122px;
+height: 20px;
+
+/* Caption /  Regular */
+font-family: 'SF Pro Display';
+font-style: normal;
+font-weight: 400;
+font-size: 14px;
+line-height: 20px;
+/* identical to box height, or 143% */
+
+/* Description */
+color: #7E7E9A;
+
+
+/* Inside auto layout */
+flex: none;
+order: 0;
+flex-grow: 0;
+
+
+/* Input */
+
+width: 335px;
+height: 48px;
+
+
+/* Inside auto layout */
+flex: none;
+order: 1;
+align-self: stretch;
+flex-grow: 0;
+
+
+/* bg */
+
+box-sizing: border-box;
+
+position: absolute;
+height: 48px;
+left: 0%;
+right: 0%;
+top: 0px;
+
+/* Input BG */
+background: #F5F5F9;
+border: 1px solid rgba(34, 84, 245, 0.5);
+border-radius: 10px;
+
+
+/* Placeholder */
+
+position: absolute;
+width: 84px;
+height: 20px;
+left: 14px;
+top: 14px;
+
+/* Text /  Regular */
+font-family: 'SF Pro Display';
+font-style: normal;
+font-weight: 400;
+font-size: 15px;
+line-height: 20px;
+/* identical to box height, or 133% */
+
+/* Caption */
+color: #939396;
+
+
+
+/* Cursor */
+
+position: absolute;
+width: 2px;
+height: 20px;
+left: 14px;
+top: 14px;
+
+/* Accent */
+background: #1A6FEE;
+
+
+/* Select */
+
+position: absolute;
+width: 335px;
+height: 67px;
+left: 21px;
+top: 133px;
+
+
+
+/* Dropdown */
+
+position: absolute;
+height: 48px;
+left: 0%;
+right: 0%;
+top: 19px;
+
+
+
+/* bg */
+
+box-sizing: border-box;
+
+position: absolute;
+height: 48px;
+left: 0%;
+right: 0%;
+top: 0px;
+
+/* Input BG */
+background: #F5F5F9;
+/* Input Stroke */
+border: 1px solid #EBEBEB;
+border-radius: 10px;
+
+
+/* Placeholder */
+
+position: absolute;
+width: 101px;
+height: 20px;
+left: 14px;
+top: 14px;
+
+/* Headline /  Regular */
+font-family: 'SF Pro Display';
+font-style: normal;
+font-weight: 400;
+font-size: 16px;
+line-height: 20px;
+/* identical to box height, or 125% */
+letter-spacing: -0.0032em;
+
+/* Black */
+color: #000000;
+
+
+
+/* icons */
+
+position: absolute;
+width: 20px;
+height: 20px;
+right: 14px;
+top: 14px;
+
+
+
+/* Vector */
+
+position: absolute;
+left: 25%;
+right: 25%;
+top: 42.5%;
+bottom: 32.5%;
+
+/* Description */
+border: 2px solid #7E7E9A;
+
+
+/* Tittle */
+
+position: absolute;
+width: 23px;
+height: 20px;
+left: 0px;
+top: -24px;
+
+/* Caption /  Regular */
+font-family: 'SF Pro Display';
+font-style: normal;
+font-weight: 400;
+font-size: 14px;
+line-height: 20px;
+/* identical to box height, or 143% */
+
+/* Description */
+color: #7E7E9A;
+
+
+
+/* Select */
+
+position: absolute;
+width: 335px;
+height: 67px;
+left: 21px;
+top: 492px;
+
+
+
+/* Dropdown */
+
+position: absolute;
+height: 48px;
+left: 0%;
+right: 0%;
+top: 19px;
+
+
+
+/* bg */
+
+box-sizing: border-box;
+
+position: absolute;
+height: 48px;
+left: 0%;
+right: 0%;
+top: 0px;
+
+/* Input BG */
+background: #F5F5F9;
+/* Input Stroke */
+border: 1px solid #EBEBEB;
+border-radius: 10px;
+
+
+/* Placeholder */
+
+position: absolute;
+width: 112px;
+height: 20px;
+left: 14px;
+top: 14px;
+
+/* Headline /  Regular */
+font-family: 'SF Pro Display';
+font-style: normal;
+font-weight: 400;
+font-size: 16px;
+line-height: 20px;
+/* identical to box height, or 125% */
+letter-spacing: -0.0032em;
+
+/* Black */
+color: #000000;
+
+
+
+/* icons */
+
+position: absolute;
+width: 20px;
+height: 20px;
+right: 14px;
+top: 14px;
+
+
+
+/* Vector */
+
+position: absolute;
+left: 25%;
+right: 25%;
+top: 42.5%;
+bottom: 32.5%;
+
+/* Description */
+border: 2px solid #7E7E9A;
+
+
+/* Tittle */
+
+position: absolute;
+width: 33px;
+height: 20px;
+left: 0px;
+top: -24px;
+
+/* Caption /  Regular */
+font-family: 'SF Pro Display';
+font-style: normal;
+font-weight: 400;
+font-size: 14px;
+line-height: 20px;
+/* identical to box height, or 143% */
+
+/* Description */
+color: #7E7E9A;
+
+
+
+/* Select */
+
+position: absolute;
+width: 335px;
+height: 67px;
+left: 21px;
+top: 668px;
+
+
+
+/* Dropdown */
+
+position: absolute;
+height: 48px;
+left: 0%;
+right: 0%;
+top: 19px;
+
+
+
+/* bg */
+
+box-sizing: border-box;
+
+position: absolute;
+height: 48px;
+left: 0%;
+right: 0%;
+top: 0px;
+
+/* Input BG */
+background: #F5F5F9;
+/* Input Stroke */
+border: 1px solid #EBEBEB;
+border-radius: 10px;
+
+
+/* Placeholder */
+
+position: absolute;
+width: 152px;
+height: 20px;
+left: 14px;
+top: 14px;
+
+/* Headline /  Regular */
+font-family: 'SF Pro Display';
+font-style: normal;
+font-weight: 400;
+font-size: 16px;
+line-height: 20px;
+/* identical to box height, or 125% */
+letter-spacing: -0.0032em;
+
+/* Black */
+color: #000000;
+
+
+
+/* icons */
+
+position: absolute;
+width: 20px;
+height: 20px;
+right: 14px;
+top: 14px;
+
+
+
+/* Vector */
+
+position: absolute;
+left: 25%;
+right: 25%;
+top: 42.5%;
+bottom: 32.5%;
+
+/* Description */
+border: 2px solid #7E7E9A;
+
+
+/* Tittle */
+
+position: absolute;
+width: 65px;
+height: 20px;
+left: 0px;
+top: -24px;
+
+/* Caption /  Regular */
+font-family: 'SF Pro Display';
+font-style: normal;
+font-weight: 400;
+font-size: 14px;
+line-height: 20px;
+/* identical to box height, or 143% */
+
+/* Description */
+color: #7E7E9A;
+
+
+
+/* Button / Big */
+
+position: absolute;
+width: 335px;
+height: 56px;
+left: 19px;
+top: 996px;
+
+
+
+/* bg */
+
+position: absolute;
+height: 56px;
+left: 0%;
+right: 0%;
+top: 0px;
+
+/* Accent */
+background: #1A6FEE;
+border-radius: 10px;
+
+
+/* Text */
+
+position: absolute;
+width: 106px;
+height: 24px;
+left: calc(50% - 106px/2 + 0.5px);
+top: 16px;
+
+font-family: 'Roboto Flex';
+font-style: normal;
+font-weight: 600;
+font-size: 17px;
+line-height: 24px;
+/* identical to box height, or 141% */
+text-align: center;
+
+/* White */
+color: #FFFFFF;
+
+
+
+/* Tabbar */
+
+position: absolute;
+width: 375px;
+height: 88px;
+left: 0px;
+top: 1067px;
+
+/* White */
+background: #FFFFFF;
+box-shadow: 0px -0.5px 0px rgba(160, 160, 160, 0.3);
+backdrop-filter: blur(10px);
+/* Note: backdrop-filter has minimal browser support */
+
+
+/* Tabs */
+
+position: absolute;
+height: 51px;
+left: 7px;
+right: 8px;
+top: 8px;
+
+
+
+/* Frame 260 */
+
+/* Auto layout */
+display: flex;
+flex-direction: row;
+align-items: flex-start;
+padding: 0px;
+gap: 19px;
+
+position: absolute;
+width: 361px;
+height: 49px;
+left: 0px;
+top: 0px;
+
+
+
+/* Tab Bar Item */
+
+width: 76px;
+height: 49px;
+
+
+/* Inside auto layout */
+flex: none;
+order: 0;
+flex-grow: 0;
+
+
+/* Главная */
+
+position: absolute;
+width: 47px;
+height: 16px;
+left: calc(50% - 47px/2 + 0.5px);
+top: calc(50% - 16px/2 + 15.5px);
+
+font-family: 'Roboto Flex';
+font-style: normal;
+font-weight: 400;
+font-size: 12px;
+line-height: 16px;
+/* identical to box height, or 133% */
+text-align: center;
+
+color: #B8C1CC;
+
+
+
+/* Анализы */
+
+position: absolute;
+width: 32px;
+height: 32px;
+left: 22px;
+top: 0px;
+
+
+
+/* How To Move Out Of Your Home - iconSvg.co */
+
+position: absolute;
+width: 32px;
+height: 32px;
+left: 0px;
+top: 0px;
+
+
+
+/* Vector */
+
+position: absolute;
+left: 13.61%;
+right: 13.57%;
+top: 18.98%;
+bottom: 16.05%;
+
+background: #B8C1CC;
+
+
+/* Tab Bar Item */
+
+width: 76px;
+height: 49px;
+
+
+/* Inside auto layout */
+flex: none;
+order: 1;
+flex-grow: 0;
+
+
+/* Каталог */
+
+position: absolute;
+width: 45px;
+height: 16px;
+left: calc(50% - 45px/2 + 0.5px);
+top: calc(50% - 16px/2 + 15.5px);
+
+font-family: 'Roboto Flex';
+font-style: normal;
+font-weight: 400;
+font-size: 12px;
+line-height: 16px;
+/* identical to box height, or 133% */
+text-align: center;
+
+/* Icons */
+color: #B8C1CC;
+
+
+
+/* Результаты */
+
+position: absolute;
+width: 32px;
+height: 32px;
+left: 22px;
+top: 0px;
+
+
+
+/* Результаты */
+
+position: absolute;
+width: 24px;
+height: 24px;
+left: calc(50% - 24px/2);
+top: calc(50% - 24px/2);
+
+
+
+/* Vector 31 */
+
+position: absolute;
+width: 18px;
+height: 20px;
+left: 3px;
+top: 2px;
+
+/* Icons */
+border: 2px solid #B8C1CC;
+border-radius: 2.52083px;
+
+
+/* Vector 32 */
+
+position: absolute;
+width: 5px;
+height: 5px;
+left: 7px;
+top: 7px;
+
+/* Icons */
+border: 2px solid #B8C1CC;
+
+
+/* Vector 37 */
+
+position: absolute;
+width: 1px;
+height: 0px;
+left: 16px;
+top: 7px;
+
+/* Icons */
+border: 2px solid #B8C1CC;
+
+
+/* Vector 34 */
+
+position: absolute;
+width: 1px;
+height: 0px;
+left: 16px;
+top: 12px;
+
+/* Icons */
+border: 2px solid #B8C1CC;
+
+
+/* Vector 36 */
+
+position: absolute;
+width: 10px;
+height: 0px;
+left: 7px;
+top: 17px;
+
+/* Icons */
+border: 2px solid #B8C1CC;
+
+
+/* Tab Bar Item */
+
+width: 76px;
+height: 49px;
+
+
+/* Inside auto layout */
+flex: none;
+order: 2;
+flex-grow: 0;
+
+
+/* Проекты */
+
+position: absolute;
+width: 50px;
+height: 16px;
+left: calc(50% - 50px/2);
+top: calc(50% - 16px/2 + 15.5px);
+
+font-family: 'Roboto Flex';
+font-style: normal;
+font-weight: 400;
+font-size: 12px;
+line-height: 16px;
+/* identical to box height, or 133% */
+text-align: center;
+
+color: #1A6FEE;
+
+
+
+/* Поддержка */
+
+position: absolute;
+width: 24px;
+height: 24px;
+left: 27px;
+top: 5px;
+
+
+
+/* Group */
+
+position: absolute;
+left: 0%;
+right: 0%;
+top: 0%;
+bottom: 0%;
+
+
+
+/* Vector */
+
+position: absolute;
+left: 9.6%;
+right: 67.86%;
+top: 7.65%;
+bottom: 70%;
+
+background: #1A6FEE;
+
+
+/* Vector */
+
+position: absolute;
+left: 9.6%;
+right: 67.86%;
+top: 38.75%;
+bottom: 38.91%;
+
+background: #1A6FEE;
+
+
+/* Vector */
+
+position: absolute;
+left: 9.6%;
+right: 67.86%;
+top: 70%;
+bottom: 7.66%;
+
+background: #1A6FEE;
+
+
+/* Vector */
+
+position: absolute;
+left: 14.17%;
+right: 72.29%;
+top: 13.43%;
+bottom: 75.94%;
+
+background: #1A6FEE;
+
+
+/* Vector */
+
+position: absolute;
+left: 14.17%;
+right: 72.29%;
+top: 44.68%;
+bottom: 44.69%;
+
+background: #1A6FEE;
+
+
+/* Vector */
+
+position: absolute;
+left: 14.17%;
+right: 72.29%;
+top: 75.93%;
+bottom: 13.44%;
+
+background: #1A6FEE;
+
+
+/* Vector */
+
+position: absolute;
+left: 0%;
+right: 0%;
+top: 0%;
+bottom: 0%;
+
+background: #1A6FEE;
+
+
+/* Tab Bar Item */
+
+width: 76px;
+height: 49px;
+
+
+/* Inside auto layout */
+flex: none;
+order: 3;
+flex-grow: 0;
+
+
+/* star.fill */
+
+position: absolute;
+visibility: hidden;
+width: 23.5px;
+height: 22.45px;
+left: calc(50% - 23.5px/2 - 0.25px);
+top: calc(50% - 22.45px/2 - 5.86px);
+
+/* SystemBlue / Light
+
+class var systemBlue: UIColor
+*/
+background: #007AFF;
+
+
+/* Профиль */
+
+position: absolute;
+width: 52px;
+height: 16px;
+left: calc(50% - 52px/2);
+top: calc(50% - 16px/2 + 15.5px);
+
+font-family: 'Roboto Flex';
+font-style: normal;
+font-weight: 400;
+font-size: 12px;
+line-height: 16px;
+/* identical to box height, or 133% */
+text-align: center;
+
+/* Icons */
+color: #B8C1CC;
+
+
+
+/* Пользователь */
+
+position: absolute;
+width: 32px;
+height: 32px;
+left: 22px;
+top: 0px;
+
+
+
+/* Пользователь */
+
+position: absolute;
+width: 24px;
+height: 24px;
+left: calc(50% - 24px/2);
+top: calc(50% - 24px/2);
+
+
+
+/* Ellipse 55 */
+
+position: absolute;
+width: 8px;
+height: 8px;
+left: 8px;
+top: 2px;
+
+border: 2px solid #B8C1CC;
+
+
+/* Ellipse 56 */
+
+box-sizing: border-box;
+
+position: absolute;
+width: 18px;
+height: 11px;
+left: 3px;
+top: 12px;
+
+border: 2px solid #B8C1CC;
+
+
+/* Home Indicator */
+
+position: absolute;
+left: 32.27%;
+right: 32%;
+top: 85.23%;
+bottom: 9.09%;
+
+
+
+/* Home Indicator */
+
+position: absolute;
+width: 134px;
+height: 5px;
+left: calc(50% - 134px/2 + 0.5px);
+bottom: 8px;
+
+/* Black */
+background: #000000;
+border-radius: 100px;
+
+
+/* SelectImage */
+
+position: absolute;
+width: 202px;
+height: 192px;
+left: 86px;
+top: 772px;
+
+
+
+/* Rectangle 1 */
+
+position: absolute;
+left: 0%;
+right: 0%;
+top: 0%;
+bottom: 0%;
+
+/* input_bg */
+background: #F7F7FA;
+border-radius: 10px;
+
+
+/* icons */
+
+position: absolute;
+left: 30.69%;
+right: 29.7%;
+top: 29.17%;
+bottom: 29.17%;
+
+
+
+/* Vector */
+
+position: absolute;
+left: 50%;
+right: 50%;
+top: 20.83%;
+bottom: 20.83%;
+
+/* Description */
+border: 2px solid #7E7E9A;
+
+
+/* Vector */
+
+position: absolute;
+left: 20.83%;
+right: 20.83%;
+top: 50%;
+bottom: 50%;
+
+/* description */
+border: 2px solid #8787A1;

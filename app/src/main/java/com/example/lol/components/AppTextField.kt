@@ -1,0 +1,93 @@
+package com.example.lol.components
+
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.BasicTextField
+import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.SolidColor
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.input.VisualTransformation
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import com.example.lol.ui.theme.InputBg
+import com.example.lol.ui.theme.InputStroke
+import com.example.lol.ui.theme.TextGray
+import com.example.lol.ui.theme.TextRegular
+import com.example.lol.ui.theme.CaptionRegular
+import com.example.lol.ui.theme.Roboto
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun AppTextField(
+    value: String,
+    onValueChange: (String) -> Unit,
+    label: String? = null,
+    placeholder: String = "",
+    modifier: Modifier = Modifier,
+    visualTransformation: VisualTransformation = VisualTransformation.None,
+    keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
+    trailingIcon: @Composable (() -> Unit)? = null,
+    leadingIcon: @Composable (() -> Unit)? = null,
+    singleLine: Boolean = true
+) {
+    Column(modifier = modifier) {
+        if (label != null) {
+            Text(
+                text = label,
+                style = CaptionRegular,
+                color = TextGray
+            )
+            Spacer(modifier = Modifier.height(8.dp))
+        }
+        BasicTextField(
+            value = value,
+            onValueChange = onValueChange,
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(48.dp)
+                .background(InputBg, RoundedCornerShape(10.dp))
+                .border(1.dp, InputStroke, RoundedCornerShape(10.dp)),
+            textStyle = TextRegular.copy(
+                color = Color.Black
+            ),
+            visualTransformation = visualTransformation,
+            keyboardOptions = keyboardOptions,
+            singleLine = singleLine,
+            cursorBrush = SolidColor(Color.Black),
+            decorationBox = { innerTextField ->
+                Row(
+                    modifier = Modifier.padding(horizontal = 16.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    if (leadingIcon != null) {
+                        leadingIcon()
+                        Spacer(modifier = Modifier.width(12.dp))
+                    }
+                    Box(modifier = Modifier.weight(1f)) {
+                        if (value.isEmpty()) {
+                            Text(
+                                text = placeholder,
+                                color = Color(0xFFBFC7D1),
+                                style = TextRegular
+                            )
+                        }
+                        innerTextField()
+                    }
+                    if (trailingIcon != null) {
+                        Spacer(modifier = Modifier.width(12.dp))
+                        trailingIcon()
+                    }
+                }
+            }
+        )
+    }
+}

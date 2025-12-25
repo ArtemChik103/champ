@@ -1,0 +1,776 @@
+/* Создание карты/заполненно */
+
+position: relative;
+width: 375px;
+height: 812px;
+
+background: #FFFFFF;
+
+
+/* Status Bar */
+
+position: absolute;
+width: 375px;
+height: 44px;
+left: 0px;
+top: 0px;
+
+
+
+/* iPhone X (or newer) */
+
+position: absolute;
+left: 0%;
+right: 0%;
+top: 0%;
+bottom: 0%;
+
+
+
+/* Notch */
+
+position: absolute;
+width: 219px;
+height: 30px;
+left: 78px;
+top: -2px;
+
+
+
+/* BG */
+
+position: absolute;
+visibility: hidden;
+left: 0px;
+right: 0px;
+top: 0px;
+bottom: 0px;
+
+background: #000000;
+
+
+/* Exclude */
+
+position: absolute;
+visibility: hidden;
+width: 375px;
+height: 44px;
+left: 0px;
+top: 0px;
+
+/* Carbon / Darkest */
+background: #24262B;
+
+
+/* BG */
+
+position: absolute;
+left: 0px;
+right: 0px;
+top: 0px;
+bottom: 0px;
+
+/* Carbon Neutral/300 */
+background: #D6D9DD;
+
+
+/* Notch */
+
+position: absolute;
+width: 219px;
+height: 30px;
+left: calc(50% - 219px/2);
+top: -2px;
+
+/* Black */
+background: #000000;
+
+
+/* Right Side */
+
+position: absolute;
+width: 66.66px;
+height: 11.34px;
+left: 293.67px;
+top: 17.33px;
+
+
+
+/* Battery */
+
+position: absolute;
+left: 89.6%;
+right: 3.91%;
+top: 39.39%;
+bottom: 34.85%;
+
+
+
+/* Rectangle */
+
+box-sizing: border-box;
+
+position: absolute;
+width: 22px;
+height: 11.33px;
+right: 17px;
+top: 17.33px;
+
+mix-blend-mode: normal;
+opacity: 0.35;
+/* Black */
+border: 1px solid #000000;
+border-radius: 2.66667px;
+
+
+/* Combined Shape */
+
+position: absolute;
+width: 1.33px;
+height: 4px;
+right: 14.67px;
+top: 21px;
+
+/* Black */
+background: #000000;
+mix-blend-mode: normal;
+opacity: 0.4;
+
+
+/* Rectangle */
+
+position: absolute;
+width: 18px;
+height: 7.33px;
+right: 19px;
+top: 19.33px;
+
+/* Black */
+background: #000000;
+border-radius: 1.33333px;
+
+
+/* Wifi */
+
+position: absolute;
+left: 84.18%;
+right: 11.74%;
+top: 39.39%;
+bottom: 35.69%;
+
+/* Black */
+background: #000000;
+
+
+/* Wifi-path */
+
+position: absolute;
+width: 15.27px;
+height: 4.74px;
+right: 44.03px;
+top: 17.33px;
+
+background: #DADADA;
+
+
+/* Wifi-path */
+
+position: absolute;
+width: 9.95px;
+height: 3.63px;
+right: 46.69px;
+top: 21.12px;
+
+background: #DADADA;
+
+
+/* Wifi-path */
+
+position: absolute;
+width: 4.63px;
+height: 3.37px;
+right: 49.36px;
+top: 24.92px;
+
+background: #DADADA;
+
+
+/* Mobile Signal */
+
+position: absolute;
+left: 78.31%;
+right: 17.16%;
+top: 40.15%;
+bottom: 35.61%;
+
+/* Black */
+background: #000000;
+
+
+/* Cellular_Connection-path */
+
+position: absolute;
+width: 3px;
+height: 4px;
+right: 78.33px;
+top: 24.33px;
+
+background: #DADADA;
+
+
+/* Cellular_Connection-path */
+
+position: absolute;
+width: 3px;
+height: 6px;
+right: 73.67px;
+top: 22.33px;
+
+background: #DADADA;
+
+
+/* Cellular_Connection-path */
+
+position: absolute;
+width: 3px;
+height: 8.33px;
+right: 69px;
+top: 20px;
+
+background: #DADADA;
+
+
+/* Cellular_Connection-path */
+
+position: absolute;
+width: 3px;
+height: 10.67px;
+right: 64.33px;
+top: 17.67px;
+
+background: #DADADA;
+
+
+/* Recording Indicator */
+
+position: absolute;
+visibility: hidden;
+width: 6px;
+height: 6px;
+left: 298px;
+top: 8px;
+
+
+
+/* Indicator */
+
+position: absolute;
+width: 6px;
+height: 6px;
+right: 71px;
+top: 8px;
+
+/* SystemOrange / Light
+
+class var systemOrange: UIColor
+*/
+background: #FF9500;
+
+
+/* Left Side */
+
+position: absolute;
+width: 54px;
+height: 21px;
+left: 21px;
+top: 12px;
+
+
+
+/* Time */
+
+position: absolute;
+width: 54px;
+height: 21px;
+left: 21px;
+top: 12px;
+
+border-radius: 32px;
+
+
+/* 9:41 */
+
+position: absolute;
+width: 28.43px;
+height: 11.09px;
+left: 12.45px;
+top: 5.17px;
+
+/* Black */
+background: #000000;
+
+
+/* Inputs */
+
+/* Auto layout */
+display: flex;
+flex-direction: column;
+align-items: flex-start;
+padding: 0px;
+gap: 24px;
+
+position: absolute;
+width: 335px;
+height: 336px;
+left: 20px;
+top: 248px;
+
+
+
+/* Input */
+
+width: 335px;
+height: 48px;
+
+
+/* Inside auto layout */
+flex: none;
+order: 0;
+flex-grow: 0;
+
+
+/* bg */
+
+box-sizing: border-box;
+
+position: absolute;
+height: 48px;
+left: 0%;
+right: 0%;
+top: 0px;
+
+/* Input BG */
+background: #F5F5F9;
+/* Icons */
+border: 1px solid #B8C1CC;
+border-radius: 10px;
+
+
+/* Text */
+
+position: absolute;
+width: 51px;
+height: 20px;
+left: 14px;
+top: 14px;
+
+/* Text /  Regular */
+font-family: 'SF Pro Display';
+font-style: normal;
+font-weight: 400;
+font-size: 15px;
+line-height: 20px;
+/* identical to box height, or 133% */
+
+/* Black */
+color: #000000;
+
+
+
+/* Input */
+
+width: 335px;
+height: 48px;
+
+
+/* Inside auto layout */
+flex: none;
+order: 1;
+flex-grow: 0;
+
+
+/* bg */
+
+box-sizing: border-box;
+
+position: absolute;
+height: 48px;
+left: 0%;
+right: 0%;
+top: 0px;
+
+/* Input BG */
+background: #F5F5F9;
+/* Icons */
+border: 1px solid #B8C1CC;
+border-radius: 10px;
+
+
+/* Text */
+
+position: absolute;
+width: 64px;
+height: 20px;
+left: 14px;
+top: 14px;
+
+/* Text /  Regular */
+font-family: 'SF Pro Display';
+font-style: normal;
+font-weight: 400;
+font-size: 15px;
+line-height: 20px;
+/* identical to box height, or 133% */
+
+/* Black */
+color: #000000;
+
+
+
+/* Input */
+
+width: 335px;
+height: 48px;
+
+
+/* Inside auto layout */
+flex: none;
+order: 2;
+flex-grow: 0;
+
+
+/* bg */
+
+box-sizing: border-box;
+
+position: absolute;
+height: 48px;
+left: 0%;
+right: 0%;
+top: 0px;
+
+/* Input BG */
+background: #F5F5F9;
+/* Icons */
+border: 1px solid #B8C1CC;
+border-radius: 10px;
+
+
+/* Text */
+
+position: absolute;
+width: 49px;
+height: 20px;
+left: 14px;
+top: 14px;
+
+/* Text /  Regular */
+font-family: 'SF Pro Display';
+font-style: normal;
+font-weight: 400;
+font-size: 15px;
+line-height: 20px;
+/* identical to box height, or 133% */
+
+/* Black */
+color: #000000;
+
+
+
+/* Input */
+
+width: 335px;
+height: 48px;
+
+
+/* Inside auto layout */
+flex: none;
+order: 3;
+flex-grow: 0;
+
+
+/* bg */
+
+box-sizing: border-box;
+
+position: absolute;
+height: 48px;
+left: 0%;
+right: 0%;
+top: 0px;
+
+/* Input BG */
+background: #F5F5F9;
+/* Icons */
+border: 1px solid #B8C1CC;
+border-radius: 10px;
+
+
+/* Text */
+
+position: absolute;
+width: 112px;
+height: 20px;
+left: 14px;
+top: 14px;
+
+/* Text /  Regular */
+font-family: 'SF Pro Display';
+font-style: normal;
+font-weight: 400;
+font-size: 15px;
+line-height: 20px;
+/* identical to box height, or 133% */
+
+/* Black */
+color: #000000;
+
+
+
+/* Select */
+
+width: 335px;
+height: 48px;
+
+
+/* Inside auto layout */
+flex: none;
+order: 4;
+flex-grow: 0;
+
+
+/* Dropdown */
+
+position: absolute;
+height: 48px;
+left: 0%;
+right: 0%;
+top: 0px;
+
+
+
+/* bg */
+
+box-sizing: border-box;
+
+position: absolute;
+height: 48px;
+left: 0%;
+right: 0%;
+top: 0px;
+
+/* Input BG */
+background: #F5F5F9;
+/* Input Stroke */
+border: 1px solid #EBEBEB;
+border-radius: 10px;
+
+
+/* Placeholder */
+
+position: absolute;
+width: 66px;
+height: 20px;
+left: 14px;
+top: 14px;
+
+/* Headline /  Regular */
+font-family: 'SF Pro Display';
+font-style: normal;
+font-weight: 400;
+font-size: 16px;
+line-height: 20px;
+/* identical to box height, or 125% */
+letter-spacing: -0.0032em;
+
+/* Black */
+color: #000000;
+
+
+
+/* icons */
+
+position: absolute;
+width: 20px;
+height: 20px;
+right: 14px;
+top: 14px;
+
+
+
+/* Vector */
+
+position: absolute;
+left: 25%;
+right: 25%;
+top: 42.5%;
+bottom: 32.5%;
+
+/* Description */
+border: 2px solid #7E7E9A;
+
+
+/* Button / Big */
+
+position: absolute;
+width: 335px;
+height: 56px;
+left: 20px;
+top: 724px;
+
+
+
+/* bg */
+
+position: absolute;
+height: 56px;
+left: 0%;
+right: 0%;
+top: 0px;
+
+/* Accent */
+background: #1A6FEE;
+border-radius: 10px;
+
+
+/* Text */
+
+position: absolute;
+width: 50px;
+height: 24px;
+left: calc(50% - 50px/2 + 0.5px);
+top: 16px;
+
+font-family: 'Roboto';
+font-style: normal;
+font-weight: 600;
+font-size: 17px;
+line-height: 24px;
+/* identical to box height, or 141% */
+text-align: center;
+
+/* White */
+color: #FFFFFF;
+
+
+
+/* Создание Профиля */
+
+position: absolute;
+width: 240px;
+height: 28px;
+left: 20px;
+top: 76px;
+
+/* Title 1/Heavy */
+font-family: 'SF Pro Display';
+font-style: normal;
+font-weight: 700;
+font-size: 24px;
+line-height: 28px;
+/* identical to box height, or 117% */
+letter-spacing: 0.0033em;
+
+/* Black */
+color: #000000;
+
+
+
+/* Без профиля вы не сможете создавать проекты. */
+
+position: absolute;
+width: 335px;
+height: 20px;
+left: 20px;
+top: 148px;
+
+/* Caption /  Regular */
+font-family: 'SF Pro Display';
+font-style: normal;
+font-weight: 400;
+font-size: 14px;
+line-height: 20px;
+/* identical to box height, or 143% */
+
+/* Caption */
+color: #939396;
+
+
+
+/* В профиле будут храниться результаты проектов и ваши описания. */
+
+position: absolute;
+width: 335px;
+height: 40px;
+left: 20px;
+top: 176px;
+
+/* Caption /  Regular */
+font-family: 'SF Pro Display';
+font-style: normal;
+font-weight: 400;
+font-size: 14px;
+line-height: 20px;
+/* or 143% */
+
+/* Caption */
+color: #939396;
+
+
+
+/* Dropdown */
+
+position: absolute;
+height: 48px;
+left: 5.33%;
+right: 5.33%;
+top: 608px;
+
+
+
+/* bg */
+
+box-sizing: border-box;
+
+position: absolute;
+height: 48px;
+left: 0%;
+right: 0%;
+top: 0px;
+
+/* Input BG */
+background: #F5F5F9;
+/* Input Stroke */
+border: 1px solid #EBEBEB;
+border-radius: 10px;
+
+
+/* Placeholder */
+
+position: absolute;
+width: 119px;
+height: 20px;
+left: 14px;
+top: 14px;
+
+font-family: 'Roboto';
+font-style: normal;
+font-weight: 400;
+font-size: 16px;
+line-height: 20px;
+/* identical to box height, or 125% */
+letter-spacing: -0.0032em;
+
+/* Black */
+color: #000000;
+
+
+
+/* icons */
+
+position: absolute;
+visibility: hidden;
+width: 20px;
+height: 20px;
+right: 14px;
+top: 14px;

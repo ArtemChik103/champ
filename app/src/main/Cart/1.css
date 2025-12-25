@@ -1,0 +1,1208 @@
+/* Корзина */
+
+position: relative;
+width: 375px;
+height: 812px;
+
+background: #FFFFFF;
+
+
+/* Корзина */
+
+/* Auto layout */
+display: flex;
+flex-direction: column;
+align-items: flex-start;
+padding: 0px;
+gap: 32px;
+
+position: absolute;
+width: 335px;
+height: 368px;
+left: 20px;
+top: 176px;
+
+
+
+/* Cart Items */
+
+/* Auto layout */
+display: flex;
+flex-direction: column;
+align-items: flex-start;
+padding: 0px;
+gap: 16px;
+
+width: 335px;
+height: 138px;
+
+
+/* Inside auto layout */
+flex: none;
+order: 0;
+flex-grow: 0;
+
+
+/* Cards / Shopping Cart Card  */
+
+width: 335px;
+height: 138px;
+
+/* shadow */
+filter: drop-shadow(0px 0px 20px rgba(228, 232, 245, 0.6));
+
+/* Inside auto layout */
+flex: none;
+order: 0;
+flex-grow: 0;
+
+
+/* Card bg */
+
+position: absolute;
+left: 0%;
+right: 0%;
+top: 0%;
+bottom: 0%;
+
+
+
+/* Card bg */
+
+box-sizing: border-box;
+
+position: absolute;
+left: 0%;
+right: 0%;
+top: 0%;
+bottom: 0%;
+
+/* White */
+background: #FFFFFF;
+/* Divider */
+border: 1px solid #F4F4F4;
+border-radius: 12px;
+
+
+/* Name */
+
+position: absolute;
+width: 275px;
+height: 40px;
+left: 16px;
+top: 16px;
+
+/* Headline /  Medium */
+font-family: 'SF Pro Display';
+font-style: normal;
+font-weight: 500;
+font-size: 16px;
+line-height: 20px;
+/* or 125% */
+letter-spacing: -0.0032em;
+
+/* Black */
+color: #000000;
+
+
+
+/* Price */
+
+position: absolute;
+width: 46px;
+height: 24px;
+right: 273px;
+bottom: 20px;
+
+/* Title 3 /  Medium  */
+font-family: 'SF Pro Display';
+font-style: normal;
+font-weight: 500;
+font-size: 17px;
+line-height: 24px;
+/* identical to box height, or 141% */
+text-align: right;
+
+/* Black */
+color: #000000;
+
+
+
+/* Pacients */
+
+position: absolute;
+width: 145px;
+height: 32px;
+left: 174px;
+bottom: 16px;
+
+
+
+/* Frame 269 */
+
+/* Auto layout */
+display: flex;
+flex-direction: row;
+align-items: center;
+padding: 0px;
+gap: 42px;
+
+position: absolute;
+width: 149px;
+height: 32px;
+left: 0px;
+top: 0px;
+
+
+
+/* Количество пациентов */
+
+width: 43px;
+height: 20px;
+
+/* Text /  Regular */
+font-family: 'SF Pro Display';
+font-style: normal;
+font-weight: 400;
+font-size: 15px;
+line-height: 20px;
+/* identical to box height, or 133% */
+text-align: center;
+
+/* Black */
+color: #000000;
+
+
+/* Inside auto layout */
+flex: none;
+order: 0;
+flex-grow: 0;
+
+
+/* Controls / Counter */
+
+width: 64px;
+height: 32px;
+
+
+/* Inside auto layout */
+flex: none;
+order: 1;
+flex-grow: 0;
+
+
+/* bg */
+
+position: absolute;
+left: 0%;
+right: 0%;
+top: 0%;
+bottom: 0%;
+
+/* Input BG */
+background: #F5F5F9;
+border-radius: 8px;
+
+
+/* Button */
+
+/* Auto layout */
+display: flex;
+flex-direction: row;
+justify-content: center;
+align-items: center;
+padding: 0px;
+gap: 6px;
+
+position: absolute;
+left: 9.38%;
+right: 9.38%;
+top: 18.75%;
+bottom: 18.75%;
+
+
+
+/* icons */
+
+width: 20px;
+height: 20px;
+
+
+/* Inside auto layout */
+flex: none;
+order: 0;
+flex-grow: 0;
+
+
+/* Vector */
+
+position: absolute;
+left: 20.83%;
+right: 20.83%;
+top: 50%;
+bottom: 50%;
+
+/* Icons */
+border: 2px solid #B8C1CC;
+
+
+/* Divider */
+
+width: 0px;
+height: 16px;
+
+/* Input Stroke */
+border: 1px solid #EBEBEB;
+
+/* Inside auto layout */
+flex: none;
+order: 1;
+flex-grow: 0;
+
+
+/* icons */
+
+width: 20px;
+height: 20px;
+
+
+/* Inside auto layout */
+flex: none;
+order: 2;
+flex-grow: 0;
+
+
+/* Vector */
+
+position: absolute;
+left: 50%;
+right: 50%;
+top: 20.83%;
+bottom: 20.83%;
+
+/* Caption */
+border: 2px solid #939396;
+
+
+/* Vector */
+
+position: absolute;
+left: 20.83%;
+right: 20.83%;
+top: 50%;
+bottom: 50%;
+
+/* Caption */
+border: 2px solid #939396;
+
+
+/* Delete */
+
+position: absolute;
+width: 20px;
+height: 20px;
+right: 16px;
+top: 16px;
+
+
+
+/* Vector */
+
+position: absolute;
+left: 25%;
+right: 25%;
+top: 25%;
+bottom: 25%;
+
+/* Description */
+border: 2px solid #7E7E9A;
+
+
+/* Vector */
+
+position: absolute;
+left: 25%;
+right: 25%;
+top: 25%;
+bottom: 25%;
+
+/* Description */
+border: 2px solid #7E7E9A;
+
+
+/* Cart Items */
+
+/* Auto layout */
+display: flex;
+flex-direction: column;
+align-items: flex-start;
+padding: 0px;
+gap: 16px;
+
+width: 335px;
+height: 138px;
+
+
+/* Inside auto layout */
+flex: none;
+order: 1;
+flex-grow: 0;
+
+
+/* Cards / Shopping Cart Card  */
+
+width: 335px;
+height: 138px;
+
+/* shadow */
+filter: drop-shadow(0px 0px 20px rgba(228, 232, 245, 0.6));
+
+/* Inside auto layout */
+flex: none;
+order: 0;
+flex-grow: 0;
+
+
+/* Card bg */
+
+position: absolute;
+left: 0%;
+right: 0%;
+top: 0%;
+bottom: 0%;
+
+
+
+/* Card bg */
+
+box-sizing: border-box;
+
+position: absolute;
+left: 0%;
+right: 0%;
+top: 0%;
+bottom: 0%;
+
+/* White */
+background: #FFFFFF;
+/* Divider */
+border: 1px solid #F4F4F4;
+border-radius: 12px;
+
+
+/* Name */
+
+position: absolute;
+width: 275px;
+height: 40px;
+left: 16px;
+top: 16px;
+
+/* Headline /  Medium */
+font-family: 'SF Pro Display';
+font-style: normal;
+font-weight: 500;
+font-size: 16px;
+line-height: 20px;
+/* or 125% */
+letter-spacing: -0.0032em;
+
+/* Black */
+color: #000000;
+
+
+
+/* Price */
+
+position: absolute;
+width: 46px;
+height: 24px;
+right: 273px;
+bottom: 20px;
+
+/* Title 3 /  Medium  */
+font-family: 'SF Pro Display';
+font-style: normal;
+font-weight: 500;
+font-size: 17px;
+line-height: 24px;
+/* identical to box height, or 141% */
+text-align: right;
+
+/* Black */
+color: #000000;
+
+
+
+/* Pacients */
+
+position: absolute;
+width: 145px;
+height: 32px;
+left: 174px;
+bottom: 16px;
+
+
+
+/* Frame 269 */
+
+/* Auto layout */
+display: flex;
+flex-direction: row;
+align-items: center;
+padding: 0px;
+gap: 42px;
+
+position: absolute;
+width: 149px;
+height: 32px;
+left: 0px;
+top: 0px;
+
+
+
+/* Количество пациентов */
+
+width: 43px;
+height: 20px;
+
+/* Text /  Regular */
+font-family: 'SF Pro Display';
+font-style: normal;
+font-weight: 400;
+font-size: 15px;
+line-height: 20px;
+/* identical to box height, or 133% */
+text-align: center;
+
+/* Black */
+color: #000000;
+
+
+/* Inside auto layout */
+flex: none;
+order: 0;
+flex-grow: 0;
+
+
+/* Controls / Counter */
+
+width: 64px;
+height: 32px;
+
+
+/* Inside auto layout */
+flex: none;
+order: 1;
+flex-grow: 0;
+
+
+/* bg */
+
+position: absolute;
+left: 0%;
+right: 0%;
+top: 0%;
+bottom: 0%;
+
+/* Input BG */
+background: #F5F5F9;
+border-radius: 8px;
+
+
+/* Button */
+
+/* Auto layout */
+display: flex;
+flex-direction: row;
+justify-content: center;
+align-items: center;
+padding: 0px;
+gap: 6px;
+
+position: absolute;
+left: 9.38%;
+right: 9.38%;
+top: 18.75%;
+bottom: 18.75%;
+
+
+
+/* icons */
+
+width: 20px;
+height: 20px;
+
+
+/* Inside auto layout */
+flex: none;
+order: 0;
+flex-grow: 0;
+
+
+/* Vector */
+
+position: absolute;
+left: 20.83%;
+right: 20.83%;
+top: 50%;
+bottom: 50%;
+
+/* Icons */
+border: 2px solid #B8C1CC;
+
+
+/* Divider */
+
+width: 0px;
+height: 16px;
+
+/* Input Stroke */
+border: 1px solid #EBEBEB;
+
+/* Inside auto layout */
+flex: none;
+order: 1;
+flex-grow: 0;
+
+
+/* icons */
+
+width: 20px;
+height: 20px;
+
+
+/* Inside auto layout */
+flex: none;
+order: 2;
+flex-grow: 0;
+
+
+/* Vector */
+
+position: absolute;
+left: 50%;
+right: 50%;
+top: 20.83%;
+bottom: 20.83%;
+
+/* Caption */
+border: 2px solid #939396;
+
+
+/* Vector */
+
+position: absolute;
+left: 20.83%;
+right: 20.83%;
+top: 50%;
+bottom: 50%;
+
+/* Caption */
+border: 2px solid #939396;
+
+
+/* Delete */
+
+position: absolute;
+width: 20px;
+height: 20px;
+right: 16px;
+top: 16px;
+
+
+
+/* Vector */
+
+position: absolute;
+left: 25%;
+right: 25%;
+top: 25%;
+bottom: 25%;
+
+/* Description */
+border: 2px solid #7E7E9A;
+
+
+/* Vector */
+
+position: absolute;
+left: 25%;
+right: 25%;
+top: 25%;
+bottom: 25%;
+
+/* Description */
+border: 2px solid #7E7E9A;
+
+
+/* Сумма */
+
+width: 332px;
+height: 28px;
+
+
+/* Inside auto layout */
+flex: none;
+order: 2;
+flex-grow: 0;
+
+
+/* Сумма */
+
+position: absolute;
+width: 65px;
+height: 28px;
+left: 0px;
+top: 0px;
+
+/* Title 2/Semibold */
+font-family: 'SF Pro Display';
+font-style: normal;
+font-weight: 600;
+font-size: 20px;
+line-height: 28px;
+/* identical to box height, or 140% */
+letter-spacing: 0.0038em;
+
+/* Black */
+color: #000000;
+
+
+
+/* 2490 ₽ */
+
+position: absolute;
+width: 67px;
+height: 28px;
+left: 265px;
+top: 0px;
+
+/* Title 2/Semibold */
+font-family: 'SF Pro Display';
+font-style: normal;
+font-weight: 600;
+font-size: 20px;
+line-height: 28px;
+/* identical to box height, or 140% */
+letter-spacing: 0.0038em;
+
+/* Black */
+color: #000000;
+
+
+
+/* Cart Button Stack */
+
+position: absolute;
+width: 375px;
+height: 120px;
+left: 0px;
+bottom: 0px;
+
+
+
+/* Stack bg */
+
+position: absolute;
+left: 0%;
+right: 0%;
+top: 0%;
+bottom: 0%;
+
+
+
+/* Stack bg */
+
+position: absolute;
+left: 0%;
+right: 0%;
+top: 0%;
+bottom: 0%;
+
+/* White */
+background: #FFFFFF;
+box-shadow: 0px -6px 16px rgba(255, 255, 255, 0.5);
+
+
+/* Button / Big */
+
+position: absolute;
+left: 5.33%;
+right: 5.33%;
+top: 26.67%;
+bottom: 26.67%;
+
+
+
+/* bg */
+
+position: absolute;
+height: 56px;
+left: 0%;
+right: 0%;
+top: 0px;
+
+/* Accent */
+background: #1A6FEE;
+border-radius: 10px;
+
+
+/* Text */
+
+position: absolute;
+width: 248px;
+height: 24px;
+left: calc(50% - 248px/2 + 0.5px);
+top: 16px;
+
+/* Title 3 /  Semibold */
+font-family: 'SF Pro Display';
+font-style: normal;
+font-weight: 600;
+font-size: 17px;
+line-height: 24px;
+/* identical to box height, or 141% */
+text-align: center;
+
+/* White */
+color: #FFFFFF;
+
+
+
+/* Header */
+
+position: absolute;
+width: 329px;
+height: 84px;
+left: 20px;
+top: 60px;
+
+
+
+/* Button / Back */
+
+position: absolute;
+width: 32px;
+height: 32px;
+left: 0px;
+top: 0px;
+
+
+
+/* bg */
+
+position: absolute;
+left: 0%;
+right: 0%;
+top: 0%;
+bottom: 0%;
+
+/* Input BG */
+background: #F5F5F9;
+border-radius: 8px;
+
+
+/* icons */
+
+position: absolute;
+width: 20px;
+height: 20px;
+left: calc(50% - 20px/2);
+top: calc(50% - 20px/2);
+
+
+
+/* Vector */
+
+position: absolute;
+left: 32.5%;
+right: 42.5%;
+top: 25%;
+bottom: 25%;
+
+/* Description */
+border: 2px solid #7E7E9A;
+
+
+/* Tittle */
+
+position: absolute;
+width: 99px;
+height: 28px;
+left: 0px;
+top: 56px;
+
+/* Title 1/Heavy */
+font-family: 'SF Pro Display';
+font-style: normal;
+font-weight: 700;
+font-size: 24px;
+line-height: 28px;
+/* identical to box height, or 117% */
+letter-spacing: 0.0033em;
+
+/* Black */
+color: #000000;
+
+
+
+/* icons */
+
+position: absolute;
+width: 20px;
+height: 20px;
+left: 309px;
+top: 60px;
+
+
+
+/* Vector */
+
+position: absolute;
+left: 12.5%;
+right: 12.5%;
+top: 25%;
+bottom: 75%;
+
+/* Icons */
+border: 2px solid #B8C1CC;
+
+
+/* Vector */
+
+position: absolute;
+left: 20.83%;
+right: 20.83%;
+top: 8.33%;
+bottom: 8.33%;
+
+/* Icons */
+border: 2px solid #B8C1CC;
+
+
+/* Vector */
+
+position: absolute;
+left: 41.67%;
+right: 58.33%;
+top: 45.83%;
+bottom: 29.17%;
+
+/* Icons */
+border: 2px solid #B8C1CC;
+
+
+/* Vector */
+
+position: absolute;
+left: 58.33%;
+right: 41.67%;
+top: 45.83%;
+bottom: 29.17%;
+
+/* Icons */
+border: 2px solid #B8C1CC;
+
+
+/* Status Bar */
+
+position: absolute;
+width: 375px;
+height: 44px;
+left: 0px;
+top: 0px;
+
+
+
+/* iPhone X (or newer) */
+
+position: absolute;
+left: 0%;
+right: 0%;
+top: 0%;
+bottom: 0%;
+
+
+
+/* Notch */
+
+position: absolute;
+width: 219px;
+height: 30px;
+left: 78px;
+top: -2px;
+
+
+
+/* BG */
+
+position: absolute;
+visibility: hidden;
+left: 0px;
+right: 0px;
+top: 0px;
+bottom: 0px;
+
+background: #000000;
+
+
+/* Exclude */
+
+position: absolute;
+visibility: hidden;
+width: 375px;
+height: 44px;
+left: 0px;
+top: 0px;
+
+/* Carbon / Darkest */
+background: #24262B;
+
+
+/* BG */
+
+position: absolute;
+left: 0px;
+right: 0px;
+top: 0px;
+bottom: 0px;
+
+/* Carbon Neutral/300 */
+background: #D6D9DD;
+
+
+/* Notch */
+
+position: absolute;
+width: 219px;
+height: 30px;
+left: calc(50% - 219px/2);
+top: -2px;
+
+/* Black */
+background: #000000;
+
+
+/* Right Side */
+
+position: absolute;
+width: 66.66px;
+height: 11.34px;
+left: 293.67px;
+top: 17.33px;
+
+
+
+/* Battery */
+
+position: absolute;
+left: 89.6%;
+right: 3.91%;
+top: 39.39%;
+bottom: 34.85%;
+
+
+
+/* Rectangle */
+
+box-sizing: border-box;
+
+position: absolute;
+width: 22px;
+height: 11.33px;
+right: 17px;
+top: 17.33px;
+
+mix-blend-mode: normal;
+opacity: 0.35;
+/* Black */
+border: 1px solid #000000;
+border-radius: 2.66667px;
+
+
+/* Combined Shape */
+
+position: absolute;
+width: 1.33px;
+height: 4px;
+right: 14.67px;
+top: 21px;
+
+/* Black */
+background: #000000;
+mix-blend-mode: normal;
+opacity: 0.4;
+
+
+/* Rectangle */
+
+position: absolute;
+width: 18px;
+height: 7.33px;
+right: 19px;
+top: 19.33px;
+
+/* Black */
+background: #000000;
+border-radius: 1.33333px;
+
+
+/* Wifi */
+
+position: absolute;
+left: 84.18%;
+right: 11.74%;
+top: 39.39%;
+bottom: 35.69%;
+
+/* Black */
+background: #000000;
+
+
+/* Wifi-path */
+
+position: absolute;
+width: 15.27px;
+height: 4.74px;
+right: 44.03px;
+top: 17.33px;
+
+background: #DADADA;
+
+
+/* Wifi-path */
+
+position: absolute;
+width: 9.95px;
+height: 3.63px;
+right: 46.69px;
+top: 21.12px;
+
+background: #DADADA;
+
+
+/* Wifi-path */
+
+position: absolute;
+width: 4.63px;
+height: 3.37px;
+right: 49.36px;
+top: 24.92px;
+
+background: #DADADA;
+
+
+/* Mobile Signal */
+
+position: absolute;
+left: 78.31%;
+right: 17.16%;
+top: 40.15%;
+bottom: 35.61%;
+
+/* Black */
+background: #000000;
+
+
+/* Cellular_Connection-path */
+
+position: absolute;
+width: 3px;
+height: 4px;
+right: 78.33px;
+top: 24.33px;
+
+background: #DADADA;
+
+
+/* Cellular_Connection-path */
+
+position: absolute;
+width: 3px;
+height: 6px;
+right: 73.67px;
+top: 22.33px;
+
+background: #DADADA;
+
+
+/* Cellular_Connection-path */
+
+position: absolute;
+width: 3px;
+height: 8.33px;
+right: 69px;
+top: 20px;
+
+background: #DADADA;
+
+
+/* Cellular_Connection-path */
+
+position: absolute;
+width: 3px;
+height: 10.67px;
+right: 64.33px;
+top: 17.67px;
+
+background: #DADADA;
+
+
+/* Recording Indicator */
+
+position: absolute;
+visibility: hidden;
+width: 6px;
+height: 6px;
+left: 298px;
+top: 8px;
+
+
+
+/* Indicator */
+
+position: absolute;
+width: 6px;
+height: 6px;
+right: 71px;
+top: 8px;
+
+/* SystemOrange / Light
+
+class var systemOrange: UIColor
+*/
+background: #FF9500;
+
+
+/* Left Side */
+
+position: absolute;
+width: 54px;
+height: 21px;
+left: 21px;
+top: 12px;
+
+
+
+/* Time */
+
+position: absolute;
+width: 54px;
+height: 21px;
+left: 21px;
+top: 12px;
+
+border-radius: 32px;
+
+
+/* 9:41 */
+
+position: absolute;
+width: 28.43px;
+height: 11.09px;
+left: 12.45px;
+top: 5.17px;
+
+/* Black */
+background: #000000;
