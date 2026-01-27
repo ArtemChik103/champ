@@ -25,6 +25,22 @@ import com.example.lol.ui.theme.TextRegular
 import com.example.lol.ui.theme.CaptionRegular
 import com.example.lol.ui.theme.Roboto
 
+/**
+ * Custom text field component for the app with consistent styling.
+ * 
+ * @param value Current text value
+ * @param onValueChange Callback when text changes
+ * @param label Optional label above the field
+ * @param placeholder Placeholder text when empty
+ * @param modifier Modifier for styling
+ * @param visualTransformation Transformation for password etc.
+ * @param keyboardOptions Keyboard configuration
+ * @param trailingIcon Icon at the end
+ * @param leadingIcon Icon at the start
+ * @param singleLine Whether to restrict to single line
+ * @param isError Whether to show error state
+ * @param errorMessage Text to display when in error state
+ */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AppTextField(
@@ -37,7 +53,9 @@ fun AppTextField(
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
     trailingIcon: @Composable (() -> Unit)? = null,
     leadingIcon: @Composable (() -> Unit)? = null,
-    singleLine: Boolean = true
+    singleLine: Boolean = true,
+    isError: Boolean = false,
+    errorMessage: String? = null
 ) {
     Column(modifier = modifier) {
         if (label != null) {
@@ -54,8 +72,8 @@ fun AppTextField(
             modifier = Modifier
                 .fillMaxWidth()
                 .height(48.dp)
-                .background(InputBg, RoundedCornerShape(10.dp))
-                .border(1.dp, InputStroke, RoundedCornerShape(10.dp)),
+                .background(if (isError) Color(0xFFFFF5F5) else InputBg, RoundedCornerShape(10.dp))
+                .border(1.dp, if (isError) com.example.lol.ui.theme.RedError else InputStroke, RoundedCornerShape(10.dp)),
             textStyle = TextRegular.copy(
                 color = Color.Black
             ),
@@ -89,5 +107,14 @@ fun AppTextField(
                 }
             }
         )
+        if (isError && errorMessage != null) {
+            Spacer(modifier = Modifier.height(4.dp))
+            Text(
+                text = errorMessage,
+                style = CaptionRegular,
+                color = com.example.lol.ui.theme.RedError,
+                fontSize = 12.sp
+            )
+        }
     }
 }

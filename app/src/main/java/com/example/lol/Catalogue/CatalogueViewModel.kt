@@ -13,6 +13,10 @@ class CatalogueViewModel(application: Application) : AndroidViewModel(applicatio
     
     private val _products = MutableStateFlow<List<Product>>(emptyList())
     val products: StateFlow<List<Product>> = _products.asStateFlow()
+    
+    // All products for banners (not affected by filters)
+    private val _allProducts = MutableStateFlow<List<Product>>(emptyList())
+    val allProducts: StateFlow<List<Product>> = _allProducts.asStateFlow()
 
     private val _selectedCategory = MutableStateFlow("Все")
     val selectedCategory: StateFlow<String> = _selectedCategory.asStateFlow()
@@ -24,7 +28,9 @@ class CatalogueViewModel(application: Application) : AndroidViewModel(applicatio
     }
 
     private fun loadProducts() {
-        _products.value = repository.getProducts()
+        val productsList = repository.getProducts()
+        _products.value = productsList
+        _allProducts.value = productsList
     }
     
     fun setCategory(category: String) {
