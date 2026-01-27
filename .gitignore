@@ -1,3 +1,4 @@
+# Android
 *.iml
 .gradle
 /local.properties
@@ -13,3 +14,28 @@
 .externalNativeBuild
 .cxx
 local.properties
+
+# Custom Exclusions (Design Assets & Docs)
+app/src/main/Authorization/
+app/src/main/Catalogue/
+app/src/main/Cart/
+app/src/main/UIkit/
+app/src/main/Main/
+app/src/main/screenshots/
+app/src/main/app.pdf
+app/src/main/app.md
+app/src/main/api.yaml
+app/src/main/Profile/
+app/src/main/Project/
+app/src/main/Settings/
+app/src/main/Checkout/
+app/src/main/Home/
+app/src/main/Onboarding/
+app/src/main/ProductDetail/
+app/src/main/Search/
+app/src/main/Shared/
+app/src/main/Splash/
+app/src/main/Wishlist/
+app/src/main/assets/*.json
+!app/src/main/assets/google-services.json
+app/build/
