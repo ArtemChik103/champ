@@ -1,0 +1,82 @@
+[
+  {
+    "id": 1,
+    "name": "Nike Air Max 270",
+    "price": 150.0,
+    "category": "Sneakers",
+    "image": "nike_air_max_270",
+    "description": "The Nike Air Max 270 is a stylish and comfortable sneaker for everyday wear."
+  },
+  {
+    "id": 2,
+    "name": "Adidas Ultraboost 21",
+    "price": 180.0,
+    "category": "Running",
+    "image": "adidas_ultraboost_21",
+    "description": "The Adidas Ultraboost 21 offers incredible energy return and comfort."
+  },
+  {
+    "id": 3,
+    "name": "Puma Suede Classic",
+    "price": 70.0,
+    "category": "Sneakers",
+    "image": "puma_suede_classic",
+    "description": "A timeless classic, the Puma Suede is perfect for any casual outfit."
+  },
+  {
+    "id": 4,
+    "name": "Reebok Nano X1",
+    "price": 130.0,
+    "category": "Training",
+    "image": "reebok_nano_x1",
+    "description": "The Reebok Nano X1 is designed for high-performance training."
+  },
+  {
+    "id": 5,
+    "name": "Nike Juniper Trail",
+    "price": 80.0,
+    "category": "Running",
+    "image": "nike_juniper_trail",
+    "description": "The Nike Juniper Trail is built for off-road running adventures."
+  },
+  {
+    "id": 6,
+    "name": "New Balance 574",
+    "price": 85.0,
+    "category": "Sneakers",
+    "image": "new_balance_574",
+    "description": "A true icon, the New Balance 574 is a versatile and durable sneaker."
+  },
+  {
+    "id": 7,
+    "name": "Asics Gel-Kayano 27",
+    "price": 160.0,
+    "category": "Running",
+    "image": "asics_gel_kayano_27",
+    "description": "The Asics Gel-Kayano 27 provides excellent stability and support for runners."
+  },
+  {
+    "id": 8,
+    "name": "Converse Chuck Taylor All Star",
+    "price": 55.0,
+    "category": "Sneakers",
+    "image": "converse_chuck_taylor",
+    "description": "The Converse Chuck Taylor is a staple in any sneaker collection."
+  },
+  {
+    "id": 9,
+    "name": "Vans Old Skool",
+    "price": 60.0,
+    "category": "Sneakers",
+    "image": "vans_old_skool",
+    "description": "The Vans Old Skool is a classic skate shoe that never goes out of style."
+  },
+  {
+    "id": 10,
+    "name": "Jordan Air Jordan 1",
+    "price": 170.0,
+    "category": "Basketball",
+    "image": "jordan_1",
+    "description": "The Air Jordan 1 is a legendary basketball shoe with a rich history."
+  }
+]
