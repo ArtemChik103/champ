@@ -8,7 +8,6 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -30,6 +29,12 @@ import com.example.lol.R
 import com.example.lol.components.AppTextField
 import com.example.lol.components.ErrorNotification
 import com.example.lol.components.GenderSelectionSheet
+import com.example.lol.data.network.RetrofitInstance
+import com.example.lol.data.network.TokenManager
+import com.example.lol.data.repository.AuthRepository
+import com.example.lol.domain.usecase.auth.LoginUseCase
+import com.example.lol.domain.usecase.auth.LogoutUseCase
+import com.example.lol.domain.usecase.auth.RegisterUseCase
 import com.example.lol.ui.theme.CaptionRegular
 import com.example.lol.ui.theme.Title1Semibold
 import com.example.lol.ui.theme.Title3Semibold
@@ -55,7 +60,22 @@ fun SignUpScreen(navController: NavController) {
 
     val context = LocalContext.current
     val sessionManager = remember { SessionManager(context) }
-    val viewModel: AuthViewModel = viewModel(factory = AuthViewModelFactory(sessionManager))
+    val tokenManager = remember { TokenManager(context) }
+    val authRepository = remember { AuthRepository(RetrofitInstance.api, tokenManager) }
+    val loginUseCase = remember { LoginUseCase(authRepository) }
+    val registerUseCase = remember { RegisterUseCase(authRepository) }
+    val logoutUseCase = remember { LogoutUseCase(authRepository) }
+    val viewModel: AuthViewModel =
+            viewModel(
+                    factory =
+                            AuthViewModelFactory(
+                                    loginUseCase,
+                                    registerUseCase,
+                                    logoutUseCase,
+                                    tokenManager,
+                                    sessionManager
+                            )
+            )
     val authState by viewModel.authState.collectAsState()
 
     LaunchedEffect(authState) {
@@ -73,8 +93,6 @@ fun SignUpScreen(navController: NavController) {
     }
 
     Box(modifier = Modifier.fillMaxSize()) {
-        ErrorNotification(message = errorMessage, onDismiss = { errorMessage = null })
-
         Column(
                 modifier =
                         Modifier.fillMaxSize().background(Color.White).padding(horizontal = 20.dp),
@@ -85,11 +103,12 @@ fun SignUpScreen(navController: NavController) {
 
             // Back Button
             Row(modifier = Modifier.fillMaxWidth()) {
-                IconButton(
-                        onClick = { navController.popBackStack() },
+                Box(
                         modifier =
-                                Modifier.background(Color(0xFFF5F5F9), RoundedCornerShape(8.dp))
-                                        .size(32.dp)
+                                Modifier.size(32.dp)
+                                        .background(Color(0xFFF5F5F9), RoundedCornerShape(8.dp))
+                                        .clickable { navController.popBackStack() },
+                        contentAlignment = Alignment.Center
                 ) {
                     Icon(
                             painter = painterResource(id = R.drawable.icon_chevron_left),
@@ -294,7 +313,7 @@ fun SignUpScreen(navController: NavController) {
                         if (!isValid) {
                             errorMessage = "Заполните все поля корректно"
                         } else {
-                            viewModel.signUp(email, name)
+                            viewModel.signUpLocal(email, name)
                         }
                     },
                     modifier = Modifier.fillMaxWidth().height(56.dp),
@@ -319,5 +338,7 @@ fun SignUpScreen(navController: NavController) {
                     }
             )
         }
+
+        ErrorNotification(message = errorMessage, onDismiss = { errorMessage = null })
     } // End Box
 }

@@ -94,7 +94,15 @@ fun CatalogueScreen(
                                                 Color.Black,
                                                 androidx.compose.foundation.shape.CircleShape
                                         )
-                                        .clickable { navController.navigate("Profile") },
+                                        .clickable {
+                                            navController.navigate("Profile") {
+                                                popUpTo(navController.graph.startDestinationId) {
+                                                    saveState = true
+                                                }
+                                                launchSingleTop = true
+                                                restoreState = true
+                                            }
+                                        },
                         contentAlignment = Alignment.Center
                 ) {
                     Icon(

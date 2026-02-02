@@ -24,7 +24,26 @@ class SessionManager(context: Context) {
     }
 
     fun getLastRoute(): String {
-        return prefs.getString(KEY_LAST_ROUTE, "Main") ?: "Main"
+        val route = prefs.getString(KEY_LAST_ROUTE, "Main") ?: "Main"
+        // Valid start destinations (no arguments)
+        // Valid start destinations
+        val validStartRoutes =
+                setOf(
+                        "Main",
+                        "Catalogue",
+                        "Projects",
+                        "Profile",
+                        "Cart",
+                        "MyOrders",
+                        "CreateProject"
+                )
+
+        return when {
+            route in validStartRoutes -> route
+            route.startsWith("OrderDetails/") -> route
+            route.startsWith("ProjectDetails/") -> route
+            else -> "Main"
+        }
     }
 
     // --- Mock Database Logic ---
@@ -80,7 +99,11 @@ class SessionManager(context: Context) {
     }
 
     fun clearSession() {
-        prefs.edit().remove(KEY_IS_LOGGED_IN).remove(KEY_CURRENT_USER_EMAIL).apply()
+        prefs.edit()
+                .remove(KEY_IS_LOGGED_IN)
+                .remove(KEY_CURRENT_USER_EMAIL)
+                .remove(KEY_LAST_ROUTE)
+                .apply()
     }
 
     // Keep legacy methods for backward compatibility if needed, but point to current user

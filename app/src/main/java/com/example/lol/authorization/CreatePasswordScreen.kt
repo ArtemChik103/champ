@@ -42,6 +42,12 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.lol.R
 import com.example.lol.components.AppTextField
+import com.example.lol.data.network.RetrofitInstance
+import com.example.lol.data.network.TokenManager
+import com.example.lol.data.repository.AuthRepository
+import com.example.lol.domain.usecase.auth.LoginUseCase
+import com.example.lol.domain.usecase.auth.LogoutUseCase
+import com.example.lol.domain.usecase.auth.RegisterUseCase
 import com.example.lol.ui.theme.AccentBlue
 import com.example.lol.ui.theme.CaptionRegular
 import com.example.lol.ui.theme.TextBlack
@@ -54,7 +60,22 @@ import com.example.lol.ui.theme.Title3Semibold
 fun CreatePasswordScreen(navController: NavController) {
         val context = LocalContext.current
         val sessionManager = remember { SessionManager(context) }
-        val viewModel: AuthViewModel = viewModel(factory = AuthViewModelFactory(sessionManager))
+        val tokenManager = remember { TokenManager(context) }
+        val authRepository = remember { AuthRepository(RetrofitInstance.api, tokenManager) }
+        val loginUseCase = remember { LoginUseCase(authRepository) }
+        val registerUseCase = remember { RegisterUseCase(authRepository) }
+        val logoutUseCase = remember { LogoutUseCase(authRepository) }
+        val viewModel: AuthViewModel =
+                viewModel(
+                        factory =
+                                AuthViewModelFactory(
+                                        loginUseCase,
+                                        registerUseCase,
+                                        logoutUseCase,
+                                        tokenManager,
+                                        sessionManager
+                                )
+                )
         var password by remember { mutableStateOf("") }
         var confirmPassword by remember { mutableStateOf("") }
         val authState by viewModel.authState.collectAsState()
@@ -143,8 +164,12 @@ fun CreatePasswordScreen(navController: NavController) {
                                                 painter =
                                                         painterResource(
                                                                 id =
-                                                                        R.drawable
-                                                                                .eye_off_an_inner_journey_icon_svg_co
+                                                                        if (passwordVisible)
+                                                                                R.drawable
+                                                                                        .eye_off_an_inner_journey_icon_svg_co // Visible
+                                                                        else
+                                                                                R.drawable
+                                                                                        .eye_closed // Hidden
                                                         ),
                                                 contentDescription =
                                                         if (passwordVisible) "Hide password"
@@ -185,8 +210,12 @@ fun CreatePasswordScreen(navController: NavController) {
                                                 painter =
                                                         painterResource(
                                                                 id =
-                                                                        R.drawable
-                                                                                .eye_off_an_inner_journey_icon_svg_co
+                                                                        if (confirmPasswordVisible)
+                                                                                R.drawable
+                                                                                        .eye_off_an_inner_journey_icon_svg_co // Visible
+                                                                        else
+                                                                                R.drawable
+                                                                                        .eye_closed // Hidden
                                                         ),
                                                 contentDescription =
                                                         if (confirmPasswordVisible) "Hide password"

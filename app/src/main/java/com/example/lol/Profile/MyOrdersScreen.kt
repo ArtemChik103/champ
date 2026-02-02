@@ -1,6 +1,7 @@
 package com.example.lol.Profile
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -10,6 +11,8 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -20,13 +23,8 @@ import com.example.lol.R
 import com.example.lol.ui.theme.*
 
 @Composable
-fun MyOrdersScreen(navController: NavController) {
-        val orders =
-                listOf(
-                        Order("ORD-2023-001", "12.01.2023", "3 500 ₽", "Доставлен"),
-                        Order("ORD-2023-002", "15.02.2023", "12 000 ₽", "В обработке"),
-                        Order("ORD-2023-003", "20.03.2023", "850 ₽", "Отменен")
-                )
+fun MyOrdersScreen(navController: NavController, viewModel: OrdersViewModel) {
+        val orders by viewModel.orders.collectAsState()
 
         Column(modifier = Modifier.fillMaxSize().background(Color.White)) {
                 // Header
@@ -41,7 +39,17 @@ fun MyOrdersScreen(navController: NavController) {
                                         )
                 ) {
                         IconButton(
-                                onClick = { navController.popBackStack() },
+                                onClick = {
+                                        if (!navController.popBackStack()) {
+                                                navController.navigate("Profile") {
+                                                        popUpTo(
+                                                                navController
+                                                                        .graph
+                                                                        .startDestinationId
+                                                        ) { inclusive = true }
+                                                }
+                                        }
+                                },
                                 modifier =
                                         Modifier.align(Alignment.CenterStart)
                                                 .size(32.dp)
@@ -77,18 +85,28 @@ fun MyOrdersScreen(navController: NavController) {
                         LazyColumn(
                                 contentPadding = PaddingValues(20.dp),
                                 verticalArrangement = Arrangement.spacedBy(16.dp)
-                        ) { items(orders) { order -> OrderCard(order) } }
+                        ) {
+                                items(orders) { order ->
+                                        OrderCard(
+                                                order = order,
+                                                onClick = {
+                                                        navController.navigate(
+                                                                "OrderDetails/${order.id}"
+                                                        )
+                                                }
+                                        )
+                                }
+                        }
                 }
         }
 }
 
-data class Order(val id: String, val date: String, val price: String, val status: String)
-
 @Composable
-fun OrderCard(order: Order) {
+fun OrderCard(order: Order, onClick: () -> Unit) {
         Box(
                 modifier =
                         Modifier.fillMaxWidth()
+                                .clickable(onClick = onClick)
                                 .background(Color(0xFFF5F5F9), RoundedCornerShape(12.dp))
                                 .padding(16.dp)
         ) {
@@ -102,7 +120,11 @@ fun OrderCard(order: Order) {
                                         style = Title3Semibold,
                                         color = Color.Black
                                 )
-                                Text(text = order.price, style = Title3Semibold, color = AccentBlue)
+                                Text(
+                                        text = order.totalPrice,
+                                        style = Title3Semibold,
+                                        color = AccentBlue
+                                )
                         }
                         Spacer(modifier = Modifier.height(8.dp))
                         Row(

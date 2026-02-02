@@ -1,0 +1,8 @@
+# 1. Ignore EVERYTHING by default (This kills UIkit, Cart, Profile, etc.)
+*
+# 2. Whitelist only the true source folders
+!java/
+!res/
+# 3. Whitelist essential config files
+!AndroidManifest.xml
+!.gitignore

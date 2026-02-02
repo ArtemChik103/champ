@@ -81,6 +81,20 @@ fun ProjectDetailsScreen(
                                 modifier = Modifier.align(Alignment.Center),
                                 color = Color.Black
                         )
+                        IconButton(
+                                onClick = {
+                                        viewModel.removeProject(project.id)
+                                        navController.popBackStack()
+                                },
+                                modifier = Modifier.align(Alignment.CenterEnd).size(32.dp)
+                        ) {
+                                Icon(
+                                        painter = painterResource(id = R.drawable.icon_delete),
+                                        contentDescription = "Delete",
+                                        tint = Color.Red,
+                                        modifier = Modifier.size(24.dp)
+                                )
+                        }
                 }
 
                 HorizontalDivider(color = Color(0xFFF5F5F9), thickness = 1.dp)

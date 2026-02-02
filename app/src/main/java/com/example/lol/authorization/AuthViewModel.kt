@@ -1,53 +1,119 @@
 package com.example.lol.authorization
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
-import kotlinx.coroutines.delay
+import com.example.lol.data.network.NetworkResult
+import com.example.lol.data.network.TokenManager
+import com.example.lol.domain.usecase.auth.LoginUseCase
+import com.example.lol.domain.usecase.auth.LogoutUseCase
+import com.example.lol.domain.usecase.auth.RegisterUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
-class AuthViewModel(private val sessionManager: SessionManager) : ViewModel() {
+/**
+ * ViewModel для авторизации и регистрации пользователей. Использует UseCases для бизнес-логики и
+ * SessionManager для локального кэша.
+ */
+class AuthViewModel(
+        private val loginUseCase: LoginUseCase,
+        private val registerUseCase: RegisterUseCase,
+        private val logoutUseCase: LogoutUseCase,
+        private val tokenManager: TokenManager,
+        private val sessionManager: SessionManager
+) : ViewModel() {
 
     private val _authState = MutableStateFlow<AuthState>(AuthState.Idle)
     val authState: StateFlow<AuthState> = _authState
 
-    // Mock validation
+    private val _isLoading = MutableStateFlow(false)
+    val isLoading: StateFlow<Boolean> = _isLoading
+
+    /** Валидация email по паттерну name@domenname.ru (только строчные буквы и цифры). */
     fun isValidEmail(email: String): Boolean {
         return email.matches(Regex("^[a-z0-9]+@[a-z0-9]+\\.[a-z]+$"))
     }
 
+    /** Валидация пароля: не менее 8 символов. */
     fun isValidPassword(password: String): Boolean {
         return password.length >= 8
     }
 
+    /** Проверка наличия пользователя в локальном кэше. */
     fun checkUserExists(email: String): Boolean {
         return sessionManager.isUserExists(email)
     }
 
-    fun signIn(email: String, pass: String) {
+    /**
+     * Вход пользователя через API. При успехе токен сохраняется в TokenManager автоматически (через
+     * Repository, вызываемый UseCase).
+     */
+    fun signIn(email: String, password: String) {
         viewModelScope.launch {
             _authState.value = AuthState.Loading
-            delay(1000)
+            _isLoading.value = true
 
-            if (!sessionManager.isUserExists(email)) {
-                _authState.value = AuthState.Error("Пользователь не найден")
-                return@launch
-            }
+            when (val result = loginUseCase(email, password)) {
+                is NetworkResult.Success -> {
+                    // Сохраняем данные в локальный кэш для совместимости
+                    sessionManager.setCurrentEmail(email)
+                    sessionManager.setLoggedIn(true)
 
-            if (sessionManager.validatePassword(email, pass)) {
-                sessionManager.setCurrentEmail(email)
-                _authState.value = AuthState.Success
-            } else {
-                _authState.value = AuthState.Error("Неверный пароль")
+                    // Сохраняем в SessionManager если пользователь новый
+                    if (!sessionManager.isUserExists(email)) {
+                        val name = result.data.record.firstname.ifBlank { "User" }
+                        sessionManager.registerUser(email, name)
+                    }
+
+                    _authState.value = AuthState.Success
+                }
+                is NetworkResult.Error -> {
+                    _authState.value = AuthState.Error(result.message)
+                }
+                is NetworkResult.Loading -> {
+                    // Уже обрабатывается выше
+                }
             }
+            _isLoading.value = false
         }
     }
 
-    fun signUp(email: String, name: String) {
+    /** Регистрация нового пользователя через API. */
+    fun signUp(email: String, name: String, password: String) {
         viewModelScope.launch {
             _authState.value = AuthState.Loading
-            delay(1000)
+            _isLoading.value = true
+
+            when (val result = registerUseCase(email, password)) {
+                is NetworkResult.Success -> {
+                    // Сохраняем данные локально
+                    sessionManager.registerUser(email, name)
+                    sessionManager.setCurrentEmail(email)
+                    sessionManager.savePassword(email, password)
+
+                    _authState.value = AuthState.Success
+                }
+                is NetworkResult.Error -> {
+                    _authState.value = AuthState.Error(result.message)
+                }
+                is NetworkResult.Loading -> {
+                    // Уже обрабатывается выше
+                }
+            }
+            _isLoading.value = false
+        }
+    }
+
+    /**
+     * Регистрация без API (для обратной совместимости). Используется когда нужна только локальная
+     * регистрация.
+     */
+    fun signUpLocal(email: String, name: String) {
+        viewModelScope.launch {
+            _authState.value = AuthState.Loading
+            _isLoading.value = true
+
             if (sessionManager.isUserExists(email)) {
                 _authState.value = AuthState.Error("Аккаунт уже существует")
             } else {
@@ -55,21 +121,52 @@ class AuthViewModel(private val sessionManager: SessionManager) : ViewModel() {
                 sessionManager.setCurrentEmail(email)
                 _authState.value = AuthState.Success
             }
+            _isLoading.value = false
         }
     }
 
+    /** Выход из системы. */
+    fun logout() {
+        viewModelScope.launch {
+            _isLoading.value = true
+
+            logoutUseCase()
+            sessionManager.clearSession()
+            tokenManager.clearAuth()
+
+            _authState.value = AuthState.Idle
+            _isLoading.value = false
+        }
+    }
+
+    /** Сброс состояния авторизации. */
     fun resetState() {
         _authState.value = AuthState.Idle
     }
 }
 
-class AuthViewModelFactory(private val sessionManager: SessionManager) :
-        androidx.lifecycle.ViewModelProvider.Factory {
-    override fun <T : androidx.lifecycle.ViewModel> create(modelClass: Class<T>): T {
-        @Suppress("UNCHECKED_CAST") return AuthViewModel(sessionManager) as T
+/** Factory для создания AuthViewModel с зависимостями. */
+class AuthViewModelFactory(
+        private val loginUseCase: LoginUseCase,
+        private val registerUseCase: RegisterUseCase,
+        private val logoutUseCase: LogoutUseCase,
+        private val tokenManager: TokenManager,
+        private val sessionManager: SessionManager
+) : ViewModelProvider.Factory {
+    @Suppress("UNCHECKED_CAST")
+    override fun <T : ViewModel> create(modelClass: Class<T>): T {
+        return AuthViewModel(
+                loginUseCase,
+                registerUseCase,
+                logoutUseCase,
+                tokenManager,
+                sessionManager
+        ) as
+                T
     }
 }
 
+/** Состояния авторизации. */
 sealed class AuthState {
     object Idle : AuthState()
     object Loading : AuthState()

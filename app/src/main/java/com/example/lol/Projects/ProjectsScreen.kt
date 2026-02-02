@@ -1,7 +1,6 @@
 package com.example.lol.Projects
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -22,6 +21,7 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -56,15 +56,17 @@ fun ProjectsScreen(navController: NavController, viewModel: ProjectsViewModel) {
                     modifier = Modifier.align(Alignment.Center),
                     color = Color.Black
             )
-            Icon(
-                    painter = painterResource(id = R.drawable.icon_plus),
-                    contentDescription = "Создать проект",
-                    tint = Color(0xFFB8C1CC),
-                    modifier =
-                            Modifier.align(Alignment.CenterEnd).size(24.dp).clickable {
-                                navController.navigate("CreateProject")
-                            }
-            )
+            IconButton(
+                    onClick = { navController.navigate("CreateProject") },
+                    modifier = Modifier.align(Alignment.CenterEnd)
+            ) {
+                Icon(
+                        painter = painterResource(id = R.drawable.icon_plus),
+                        contentDescription = "Создать проект",
+                        tint = Color(0xFFB8C1CC),
+                        modifier = Modifier.size(24.dp)
+                )
+            }
         }
 
         Box(modifier = Modifier.fillMaxWidth().height(1.dp).background(Color(0xFFF4F4F4)))

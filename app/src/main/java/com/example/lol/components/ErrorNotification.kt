@@ -22,58 +22,58 @@ import com.example.lol.ui.theme.RedError
 import kotlinx.coroutines.delay
 
 @Composable
-fun ErrorNotification(
-    message: String?,
-    onDismiss: () -> Unit
-) {
-    var isVisible by remember(message) { mutableStateOf(message != null) }
+fun ErrorNotification(message: String?, onDismiss: () -> Unit) {
+        var isVisible by remember(message) { mutableStateOf(message != null) }
 
-    LaunchedEffect(message) {
-        if (message != null) {
-            isVisible = true
-            delay(5000)
-            isVisible = false
-            onDismiss()
+        LaunchedEffect(message) {
+                if (message != null) {
+                        isVisible = true
+                        delay(5000)
+                        isVisible = false
+                        onDismiss()
+                }
         }
-    }
 
-    AnimatedVisibility(
-        visible = isVisible && message != null,
-        enter = slideInVertically(initialOffsetY = { -it }),
-        exit = slideOutVertically(targetOffsetY = { -it }),
-        modifier = Modifier.zIndex(100f) // Ensure it's on top
-    ) {
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(top = 40.dp, start = 20.dp, end = 20.dp) // Top padding for status bar
+        AnimatedVisibility(
+                visible = isVisible && message != null,
+                enter = slideInVertically(initialOffsetY = { -it }),
+                exit = slideOutVertically(targetOffsetY = { -it }),
+                modifier = Modifier.zIndex(100f) // Ensure it's on top
         ) {
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .background(RedError, RoundedCornerShape(12.dp))
-                    .padding(16.dp),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Text(
-                    text = message ?: "",
-                    color = Color.White,
-                    style = CaptionRegular,
-                    modifier = Modifier.weight(1f)
-                )
-                
-                Icon(
-                    painter = painterResource(id = R.drawable.icon_close),
-                    contentDescription = "Close",
-                    tint = Color.White,
-                    modifier = Modifier
-                        .size(20.dp)
-                        .clickable { 
-                            isVisible = false
-                            onDismiss()
+                Box(
+                        modifier =
+                                Modifier.fillMaxWidth()
+                                        .padding(
+                                                top = 40.dp,
+                                                start = 20.dp,
+                                                end = 20.dp
+                                        ) // Top padding for status bar
+                ) {
+                        Row(
+                                modifier =
+                                        Modifier.fillMaxWidth()
+                                                .background(RedError, RoundedCornerShape(12.dp))
+                                                .padding(16.dp),
+                                verticalAlignment = Alignment.CenterVertically
+                        ) {
+                                Text(
+                                        text = message ?: "",
+                                        color = Color.White,
+                                        style = CaptionRegular,
+                                        modifier = Modifier.weight(1f)
+                                )
+
+                                Icon(
+                                        painter = painterResource(id = R.drawable.icon_close),
+                                        contentDescription = "Close",
+                                        tint = Color.White,
+                                        modifier =
+                                                Modifier.size(20.dp).clickable {
+                                                        isVisible = false
+                                                        onDismiss()
+                                                }
+                                )
                         }
-                )
-            }
+                }
         }
-    }
 }

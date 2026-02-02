@@ -327,7 +327,10 @@ fun CreateProjectScreen(navController: NavController, viewModel: ProjectsViewMod
                                             imageUri = selectedImageUri?.toString()
                                     )
                             viewModel.addProject(newProject)
-                            navController.popBackStack()
+                            // Явная навигация на Projects с очисткой стека
+                            navController.navigate("Projects") {
+                                popUpTo("Projects") { inclusive = true }
+                            }
                         }
                     },
                     modifier = Modifier.fillMaxWidth().height(56.dp),
