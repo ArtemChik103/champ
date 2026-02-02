@@ -36,6 +36,5 @@ app/src/main/Search/
 app/src/main/Shared/
 app/src/main/Splash/
 app/src/main/Wishlist/
-app/src/main/assets/*.json
 !app/src/main/assets/google-services.json
 app/build/
