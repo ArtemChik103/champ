@@ -13,6 +13,8 @@ composeBom = "2024.09.00"
 adsMobileSdk = "0.22.0-beta04"
 coil = "2.7.0"
 lifecycleRuntimeKtxVersion = "2.10.0"
+benchmarkMacroJunit4 = "1.3.3"
+uiautomator = "2.3.0"
 
 [libraries]
 androidx-activity-compose-v1121 = { module = "androidx.activity:activity-compose", version.ref = "activityComposeVersion" }
@@ -37,9 +39,14 @@ androidx-material3 = { group = "androidx.compose.material3", name = "material3" 
 ads-mobile-sdk = { group = "com.google.android.libraries.ads.mobile.sdk", name = "ads-mobile-sdk", version.ref = "adsMobileSdk" }
 coil-compose = { group = "io.coil-kt", name = "coil-compose", version.ref = "coil" }
 coil-svg = { group = "io.coil-kt", name = "coil-svg", version.ref = "coil" }
+androidx-benchmark-macro-junit4 = { group = "androidx.benchmark", name = "benchmark-macro-junit4", version.ref = "benchmarkMacroJunit4" }
+androidx-uiautomator = { group = "androidx.test.uiautomator", name = "uiautomator", version.ref = "uiautomator" }
+androidx-test-rules = { group = "androidx.test", name = "rules", version = "1.6.1" }
+androidx-profileinstaller = { group = "androidx.profileinstaller", name = "profileinstaller", version = "1.4.1" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
+android-test = { id = "com.android.test", version.ref = "agp" }
 

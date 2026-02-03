@@ -20,4 +20,4 @@ dependencyResolutionManagement {
 }
 
 rootProject.name = "Matule"
-include(":app")
+include(":app", ":benchmark")

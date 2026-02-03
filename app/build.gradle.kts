@@ -28,6 +28,15 @@ android {
                 "proguard-rules.pro"
             )
         }
+        create("benchmark") {
+            initWith(getByName("release"))
+            signingConfig = signingConfigs.getByName("debug")
+            matchingFallbacks += listOf("release")
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
+        }
     }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
@@ -48,6 +57,7 @@ dependencies {
     implementation(libs.androidx.lifecycle.runtime.ktx.v2100)
     implementation(libs.androidx.activity.compose.v1121)
     implementation(platform(libs.androidx.compose.bom.v20251200))
+    implementation(libs.androidx.profileinstaller)
     implementation(libs.androidx.compose.ui)
     implementation(libs.androidx.compose.ui.graphics)
     implementation("androidx.compose.ui:ui-tooling-preview")

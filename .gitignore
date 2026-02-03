@@ -13,4 +13,7 @@
 /captures
 .externalNativeBuild
 .cxx
-local.properties
+*.hprof
+*.apk
+*.ap_
+repomix-output.xml
