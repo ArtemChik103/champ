@@ -117,32 +117,7 @@ class AuthRepositoryTest {
         assertTrue(result.isError)
         assertEquals("Failed to create record.", result.errorMessageOrNull())
     }
-}
 
-/** Stub реализация для тестов без Android Context. Имитирует поведение TokenManager в памяти. */
-class StubTokenManager : com.example.lol.data.network.ITokenManager {
-    var savedToken: String? = null
-    var savedUserId: String? = null
-
-    override fun saveToken(token: String) {
-        savedToken = token
-    }
-
-    override fun getToken(): String? = savedToken
-
-    override fun saveUserId(userId: String) {
-        savedUserId = userId
-    }
-
-    override fun getUserId(): String? = savedUserId
-
-    override fun hasToken(): Boolean = !savedToken.isNullOrBlank()
-
-    override fun clearAuth() {
-        savedToken = null
-        savedUserId = null
-    }
-}
     @Test
     fun `updateUser success returns updated user`() = runTest {
         // Given

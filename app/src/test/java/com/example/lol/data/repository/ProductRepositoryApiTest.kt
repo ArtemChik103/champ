@@ -110,26 +110,3 @@ class ProductRepositoryApiTest {
         assertNotNull(result.errorMessageOrNull())
     }
 }
-        // Then
-        assertTrue(result.isSuccess)
-        val news = result.getOrNull()
-        assertNotNull(news)
-        assertEquals(1, news?.size)
-        assertEquals("news1", news?.first()?.id)
-    }
-
-    @Test
-    fun `getNews failure returns error`() = runTest {
-        // Given
-        mockWebServer.enqueue(
-                MockResponse().setResponseCode(500).setBody(TestJsonResponses.errorJson)
-        )
-
-        // When
-        val result = repository.getNews()
-
-        // Then
-        assertTrue(result.isError)
-        assertNotNull(result.errorMessageOrNull())
-    }
-}

@@ -29,9 +29,7 @@ import com.example.lol.R
 import com.example.lol.components.AppTextField
 import com.example.lol.components.ErrorNotification
 import com.example.lol.components.GenderSelectionSheet
-import com.example.lol.data.network.RetrofitInstance
 import com.example.lol.data.network.TokenManager
-import com.example.lol.data.repository.AuthRepository
 import com.example.lol.domain.usecase.auth.LoginUseCase
 import com.example.lol.domain.usecase.auth.LogoutUseCase
 import com.example.lol.domain.usecase.auth.RegisterUseCase
@@ -61,7 +59,7 @@ fun SignUpScreen(navController: NavController) {
     val context = LocalContext.current
     val sessionManager = remember { SessionManager(context) }
     val tokenManager = remember { TokenManager(context) }
-    val authRepository = remember { AuthRepository(RetrofitInstance.api, tokenManager) }
+    val authRepository = remember { com.example.lol.data.repository.MockAuthRepository.instance }
     val loginUseCase = remember { LoginUseCase(authRepository) }
     val registerUseCase = remember { RegisterUseCase(authRepository) }
     val logoutUseCase = remember { LogoutUseCase(authRepository) }
@@ -309,11 +307,12 @@ fun SignUpScreen(navController: NavController) {
                             isEmailError = true
                             isValid = false
                         }
-
                         if (!isValid) {
                             errorMessage = "Заполните все поля корректно"
                         } else {
-                            viewModel.signUpLocal(email, name)
+                            sessionManager.setCurrentEmail(email)
+                            sessionManager.registerUser(email, name) // Store name locally for now
+                            navController.navigate("CreatePassword")
                         }
                     },
                     modifier = Modifier.fillMaxWidth().height(56.dp),

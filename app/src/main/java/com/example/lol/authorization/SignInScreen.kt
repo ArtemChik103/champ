@@ -45,9 +45,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.lol.R
 import com.example.lol.components.AppTextField
-import com.example.lol.data.network.RetrofitInstance
 import com.example.lol.data.network.TokenManager
-import com.example.lol.data.repository.AuthRepository
 import com.example.lol.domain.usecase.auth.LoginUseCase
 import com.example.lol.domain.usecase.auth.LogoutUseCase
 import com.example.lol.domain.usecase.auth.RegisterUseCase
@@ -69,7 +67,9 @@ fun SignInScreen(navController: NavController) {
         val context = LocalContext.current
         val sessionManager = remember { SessionManager(context) }
         val tokenManager = remember { TokenManager(context) }
-        val authRepository = remember { AuthRepository(RetrofitInstance.api, tokenManager) }
+        val authRepository = remember {
+                com.example.lol.data.repository.MockAuthRepository.instance
+        }
         val loginUseCase = remember { LoginUseCase(authRepository) }
         val registerUseCase = remember { RegisterUseCase(authRepository) }
         val logoutUseCase = remember { LogoutUseCase(authRepository) }
@@ -158,7 +158,8 @@ fun SignInScreen(navController: NavController) {
                         placeholder = "example@mail.com",
                         modifier = Modifier.fillMaxWidth(),
                         isError = isEmailError,
-                        errorMessage = if (isEmailError) "Введите корректный E-mail" else null
+                        errorMessage =
+                                if (isEmailError) "Некорректная почта (name@domain.ru)" else null
                 )
 
                 Spacer(modifier = Modifier.height(16.dp))
@@ -180,7 +181,10 @@ fun SignInScreen(navController: NavController) {
                         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
                         modifier = Modifier.fillMaxWidth(),
                         isError = isPasswordError,
-                        errorMessage = if (isPasswordError) "Введите пароль" else null,
+                        errorMessage =
+                                if (isPasswordError)
+                                        "Пароль: мин. 8 символов, A-z, 0-9, спецсимволы"
+                                else null,
                         trailingIcon = {
                                 IconButton(onClick = { passwordVisible = !passwordVisible }) {
                                         Icon(
@@ -220,11 +224,11 @@ fun SignInScreen(navController: NavController) {
                 Button(
                         onClick = {
                                 var isValid = true
-                                if (email.isBlank()) { // Basic check, could be stricter
+                                if (!viewModel.isValidEmail(email)) {
                                         isEmailError = true
                                         isValid = false
                                 }
-                                if (password.isBlank()) {
+                                if (!viewModel.isValidPassword(password)) {
                                         isPasswordError = true
                                         isValid = false
                                 }

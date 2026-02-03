@@ -319,59 +319,48 @@ object TestJsonResponses {
                     datebirthday = "",
                     gender = ""
             )
-}
-                    dateStart = "2026-01-01",
-                    dateEnd = "2026-12-31",
-                    gender = "Мужской",
-                    descriptionSource = "Описание",
-                    category = "Популярные",
-                    image = "image.jpg",
-                    userId = "user123"
-            )
 
-    fun createTestResponseCart(id: String = "cart1", productId: String = "prod1", count: Int = 1) =
-            ResponseCart(
-                    id = id,
-                    collectionId = "cart",
-                    collectionName = "cart",
-                    created = "2026-01-01T00:00:00Z",
-                    updated = "2026-01-01T00:00:00Z",
-                    userId = "user123",
-                    productId = productId,
-                    count = count
-            )
+    val updatedUserJson =
+            """
+        {
+            "id": "user123",
+            "collectionId": "users",
+            "collectionName": "_pb_users_auth_",
+            "created": "2026-01-01T00:00:00Z",
+            "updated": "2026-01-01T00:00:00Z",
+            "emailVisibility": true,
+            "firstname": "Петр",
+            "lastname": "Петров",
+            "secondname": "Петрович",
+            "verified": true,
+            "datebirthday": "1995-05-15",
+            "gender": "Мужской"
+        }
+    """.trimIndent()
 
-    fun createTestResponseOrder(
-            id: String = "order1",
-            productId: String = "prod1",
-            count: Int = 1
-    ) =
-            ResponseOrder(
-                    id = id,
-                    collectionId = "orders",
-                    collectionName = "orders",
-                    created = "2026-01-01T00:00:00Z",
-                    updated = "2026-01-01T00:00:00Z",
-                    userId = "user123",
-                    productId = productId,
-                    count = count
-            )
-
-    fun createTestResponseAuth() = ResponseAuth(record = createTestUser(), token = "test_token_123")
-
-    fun createTestResponseRegister() =
-            ResponseRegister(
-                    id = "user456",
-                    collectionId = "users",
-                    collectionName = "_pb_users_auth_",
-                    created = "2026-01-02T00:00:00Z",
-                    updated = "2026-01-02T00:00:00Z",
-                    emailVisibility = true,
-                    firstname = "",
-                    lastname = "",
-                    secondname = "",
-                    verified = false,
-                    datebirthday = "",
-                    gender = ""
-            )
+    val usersAuthJson =
+            """
+        {
+            "page": 1,
+            "perPage": 30,
+            "totalPages": 1,
+            "totalItems": 1,
+            "items": [
+                {
+                    "id": "user123",
+                    "collectionId": "users",
+                    "collectionName": "_pb_users_auth_",
+                    "created": "2026-01-01T00:00:00Z",
+                    "updated": "2026-01-01T00:00:00Z",
+                    "emailVisibility": true,
+                    "firstname": "Иван",
+                    "lastname": "Иванов",
+                    "secondname": "Иванович",
+                    "verified": true,
+                    "datebirthday": "1990-01-01",
+                    "gender": "Мужской"
+                }
+            ]
+        }
+    """.trimIndent()
 }

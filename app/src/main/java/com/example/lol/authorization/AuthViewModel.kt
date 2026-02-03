@@ -35,9 +35,19 @@ class AuthViewModel(
         return email.matches(Regex("^[a-z0-9]+@[a-z0-9]+\\.[a-z]+$"))
     }
 
-    /** Валидация пароля: не менее 8 символов. */
+    /**
+     * Валидация пароля:
+     * - Не менее 8 символов
+     * - Заглавные и строчные буквы
+     * - Цифры
+     * - Спецсимволы
+     */
     fun isValidPassword(password: String): Boolean {
-        return password.length >= 8
+        val hasLength = password.length >= 8
+        val hasCase = password.any { it.isLowerCase() } && password.any { it.isUpperCase() }
+        val hasDigit = password.any { it.isDigit() }
+        val hasSpecial = password.any { !it.isLetterOrDigit() && !it.isWhitespace() }
+        return hasLength && hasCase && hasDigit && hasSpecial
     }
 
     /** Проверка наличия пользователя в локальном кэше. */

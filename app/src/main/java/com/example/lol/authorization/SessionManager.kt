@@ -17,6 +17,16 @@ class SessionManager(context: Context) {
         private fun keyPassword(email: String) = "user:$email:password"
         private fun keyPin(email: String) = "user:$email:pin"
         private fun keyName(email: String) = "user:$email:name"
+
+        private const val KEY_NOTIFICATIONS_ENABLED = "notifications_enabled"
+    }
+
+    fun setNotificationsEnabled(enabled: Boolean) {
+        prefs.edit().putBoolean(KEY_NOTIFICATIONS_ENABLED, enabled).apply()
+    }
+
+    fun isNotificationsEnabled(): Boolean {
+        return prefs.getBoolean(KEY_NOTIFICATIONS_ENABLED, false) // Default false
     }
 
     fun saveLastRoute(route: String) {

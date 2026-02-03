@@ -1,13 +1,20 @@
 package com.example.lol
 
-import android.Manifest
 import android.app.Application
-import android.content.pm.PackageManager
-import android.os.Build
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.animation.core.FastOutSlowInEasing
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.scaleIn
+import androidx.compose.animation.scaleOut
+import androidx.compose.animation.slideInHorizontally
+import androidx.compose.animation.slideInVertically
+import androidx.compose.animation.slideOutHorizontally
+import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
@@ -37,8 +44,6 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.NavType
@@ -89,21 +94,6 @@ class MainActivity : ComponentActivity() {
                 val tokenManager = TokenManager(this)
                 RetrofitInstance.setTokenProvider { tokenManager.getToken() }
 
-                // Запрос разрешения на уведомления для Android 13+
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                        if (ContextCompat.checkSelfPermission(
-                                        this,
-                                        Manifest.permission.POST_NOTIFICATIONS
-                                ) != PackageManager.PERMISSION_GRANTED
-                        ) {
-                                ActivityCompat.requestPermissions(
-                                        this,
-                                        arrayOf(Manifest.permission.POST_NOTIFICATIONS),
-                                        1001
-                                )
-                        }
-                }
-
                 enableEdgeToEdge()
                 setContent {
                         LolTheme {
@@ -117,34 +107,264 @@ class MainActivity : ComponentActivity() {
                                                 navController = navController,
                                                 startDestination = "Splash"
                                         ) {
-                                                composable("Splash") {
-                                                        SplashScreen(navController = navController)
-                                                }
-                                                composable("SignIn") {
-                                                        SignInScreen(navController = navController)
-                                                }
-                                                composable("PinCode") {
-                                                        PinCodeScreen(navController = navController)
-                                                }
-                                                composable("SignUp") {
-                                                        SignUpScreen(navController = navController)
-                                                }
-                                                composable("EmailCode") {
-                                                        EmailCodeScreen(
-                                                                navController = navController
-                                                        )
-                                                }
-                                                composable("CreatePassword") {
+                                                // Splash - fade out only
+                                                composable(
+                                                        route = "Splash",
+                                                        exitTransition = {
+                                                                fadeOut(animationSpec = tween(400))
+                                                        }
+                                                ) { SplashScreen(navController = navController) }
+                                                // SignIn - fade in, slide for navigation
+                                                composable(
+                                                        route = "SignIn",
+                                                        enterTransition = {
+                                                                fadeIn(animationSpec = tween(300))
+                                                        },
+                                                        exitTransition = {
+                                                                slideOutHorizontally(
+                                                                        targetOffsetX = { -it },
+                                                                        animationSpec =
+                                                                                tween(
+                                                                                        300,
+                                                                                        easing =
+                                                                                                FastOutSlowInEasing
+                                                                                )
+                                                                )
+                                                        },
+                                                        popEnterTransition = {
+                                                                slideInHorizontally(
+                                                                        initialOffsetX = { -it },
+                                                                        animationSpec =
+                                                                                tween(
+                                                                                        300,
+                                                                                        easing =
+                                                                                                FastOutSlowInEasing
+                                                                                )
+                                                                )
+                                                        },
+                                                        popExitTransition = {
+                                                                fadeOut(animationSpec = tween(300))
+                                                        }
+                                                ) { SignInScreen(navController = navController) }
+                                                // PinCode - fade in (from splash)
+                                                composable(
+                                                        route = "PinCode",
+                                                        enterTransition = {
+                                                                fadeIn(animationSpec = tween(300))
+                                                        },
+                                                        exitTransition = {
+                                                                fadeOut(
+                                                                        animationSpec = tween(300)
+                                                                ) + scaleOut(targetScale = 0.9f)
+                                                        },
+                                                        popEnterTransition = {
+                                                                fadeIn(animationSpec = tween(300))
+                                                        },
+                                                        popExitTransition = {
+                                                                fadeOut(animationSpec = tween(300))
+                                                        }
+                                                ) { PinCodeScreen(navController = navController) }
+                                                // SignUp - slide horizontal
+                                                composable(
+                                                        route = "SignUp",
+                                                        enterTransition = {
+                                                                slideInHorizontally(
+                                                                        initialOffsetX = { it },
+                                                                        animationSpec =
+                                                                                tween(
+                                                                                        300,
+                                                                                        easing =
+                                                                                                FastOutSlowInEasing
+                                                                                )
+                                                                )
+                                                        },
+                                                        exitTransition = {
+                                                                slideOutHorizontally(
+                                                                        targetOffsetX = { -it },
+                                                                        animationSpec =
+                                                                                tween(
+                                                                                        300,
+                                                                                        easing =
+                                                                                                FastOutSlowInEasing
+                                                                                )
+                                                                )
+                                                        },
+                                                        popEnterTransition = {
+                                                                slideInHorizontally(
+                                                                        initialOffsetX = { -it },
+                                                                        animationSpec =
+                                                                                tween(
+                                                                                        300,
+                                                                                        easing =
+                                                                                                FastOutSlowInEasing
+                                                                                )
+                                                                )
+                                                        },
+                                                        popExitTransition = {
+                                                                slideOutHorizontally(
+                                                                        targetOffsetX = { it },
+                                                                        animationSpec =
+                                                                                tween(
+                                                                                        300,
+                                                                                        easing =
+                                                                                                FastOutSlowInEasing
+                                                                                )
+                                                                )
+                                                        }
+                                                ) { SignUpScreen(navController = navController) }
+                                                // EmailCode - slide horizontal
+                                                composable(
+                                                        route = "EmailCode",
+                                                        enterTransition = {
+                                                                slideInHorizontally(
+                                                                        initialOffsetX = { it },
+                                                                        animationSpec =
+                                                                                tween(
+                                                                                        300,
+                                                                                        easing =
+                                                                                                FastOutSlowInEasing
+                                                                                )
+                                                                )
+                                                        },
+                                                        exitTransition = {
+                                                                slideOutHorizontally(
+                                                                        targetOffsetX = { -it },
+                                                                        animationSpec =
+                                                                                tween(
+                                                                                        300,
+                                                                                        easing =
+                                                                                                FastOutSlowInEasing
+                                                                                )
+                                                                )
+                                                        },
+                                                        popEnterTransition = {
+                                                                slideInHorizontally(
+                                                                        initialOffsetX = { -it },
+                                                                        animationSpec =
+                                                                                tween(
+                                                                                        300,
+                                                                                        easing =
+                                                                                                FastOutSlowInEasing
+                                                                                )
+                                                                )
+                                                        },
+                                                        popExitTransition = {
+                                                                slideOutHorizontally(
+                                                                        targetOffsetX = { it },
+                                                                        animationSpec =
+                                                                                tween(
+                                                                                        300,
+                                                                                        easing =
+                                                                                                FastOutSlowInEasing
+                                                                                )
+                                                                )
+                                                        }
+                                                ) { EmailCodeScreen(navController = navController) }
+                                                // CreatePassword - slide horizontal
+                                                composable(
+                                                        route = "CreatePassword",
+                                                        enterTransition = {
+                                                                slideInHorizontally(
+                                                                        initialOffsetX = { it },
+                                                                        animationSpec =
+                                                                                tween(
+                                                                                        300,
+                                                                                        easing =
+                                                                                                FastOutSlowInEasing
+                                                                                )
+                                                                )
+                                                        },
+                                                        exitTransition = {
+                                                                slideOutHorizontally(
+                                                                        targetOffsetX = { -it },
+                                                                        animationSpec =
+                                                                                tween(
+                                                                                        300,
+                                                                                        easing =
+                                                                                                FastOutSlowInEasing
+                                                                                )
+                                                                )
+                                                        },
+                                                        popEnterTransition = {
+                                                                slideInHorizontally(
+                                                                        initialOffsetX = { -it },
+                                                                        animationSpec =
+                                                                                tween(
+                                                                                        300,
+                                                                                        easing =
+                                                                                                FastOutSlowInEasing
+                                                                                )
+                                                                )
+                                                        },
+                                                        popExitTransition = {
+                                                                slideOutHorizontally(
+                                                                        targetOffsetX = { it },
+                                                                        animationSpec =
+                                                                                tween(
+                                                                                        300,
+                                                                                        easing =
+                                                                                                FastOutSlowInEasing
+                                                                                )
+                                                                )
+                                                        }
+                                                ) {
                                                         CreatePasswordScreen(
                                                                 navController = navController
                                                         )
                                                 }
-                                                composable("CreatePin") {
-                                                        CreatePinScreen(
-                                                                navController = navController
-                                                        )
-                                                }
-                                                composable("Home") {
+                                                // CreatePin - slide horizontal, fade+scale out to
+                                                // Home
+                                                composable(
+                                                        route = "CreatePin",
+                                                        enterTransition = {
+                                                                slideInHorizontally(
+                                                                        initialOffsetX = { it },
+                                                                        animationSpec =
+                                                                                tween(
+                                                                                        300,
+                                                                                        easing =
+                                                                                                FastOutSlowInEasing
+                                                                                )
+                                                                )
+                                                        },
+                                                        exitTransition = {
+                                                                fadeOut(
+                                                                        animationSpec = tween(300)
+                                                                ) + scaleOut(targetScale = 0.9f)
+                                                        },
+                                                        popEnterTransition = {
+                                                                slideInHorizontally(
+                                                                        initialOffsetX = { -it },
+                                                                        animationSpec =
+                                                                                tween(
+                                                                                        300,
+                                                                                        easing =
+                                                                                                FastOutSlowInEasing
+                                                                                )
+                                                                )
+                                                        },
+                                                        popExitTransition = {
+                                                                slideOutHorizontally(
+                                                                        targetOffsetX = { it },
+                                                                        animationSpec =
+                                                                                tween(
+                                                                                        300,
+                                                                                        easing =
+                                                                                                FastOutSlowInEasing
+                                                                                )
+                                                                )
+                                                        }
+                                                ) { CreatePinScreen(navController = navController) }
+                                                // Home - fade+scale in
+                                                composable(
+                                                        route = "Home",
+                                                        enterTransition = {
+                                                                fadeIn(animationSpec = tween(400)) +
+                                                                        scaleIn(
+                                                                                initialScale = 0.95f
+                                                                        )
+                                                        }
+                                                ) {
                                                         MainContainer(
                                                                 application = application,
                                                                 rootNavController = navController,
@@ -165,20 +385,25 @@ class MainActivity : ComponentActivity() {
 
         override fun onStop() {
                 super.onStop()
-                // Schedule notification on app close/background
-                val workRequest =
-                        androidx.work.OneTimeWorkRequest.Builder(
-                                        com.example.lol.notifications.InactivityWorker::class.java
-                                )
-                                .setInitialDelay(1, java.util.concurrent.TimeUnit.MINUTES)
-                                .build()
+                // Schedule notification on app close/background only if enabled
+                val sessionManager = com.example.lol.authorization.SessionManager(this)
+                if (sessionManager.isNotificationsEnabled()) {
+                        val workRequest =
+                                androidx.work.OneTimeWorkRequest.Builder(
+                                                com.example.lol.notifications
+                                                                .InactivityWorker::class
+                                                        .java
+                                        )
+                                        .setInitialDelay(1, java.util.concurrent.TimeUnit.MINUTES)
+                                        .build()
 
-                androidx.work.WorkManager.getInstance(this)
-                        .enqueueUniqueWork(
-                                "inactivity_work",
-                                androidx.work.ExistingWorkPolicy.REPLACE,
-                                workRequest
-                        )
+                        androidx.work.WorkManager.getInstance(this)
+                                .enqueueUniqueWork(
+                                        "inactivity_work",
+                                        androidx.work.ExistingWorkPolicy.REPLACE,
+                                        workRequest
+                                )
+                }
         }
 }
 
@@ -276,39 +501,168 @@ fun MainContainer(
         ) { innerPadding ->
                 Box(modifier = Modifier.padding(innerPadding)) {
                         NavHost(navController = navController, startDestination = "Main") {
-                                composable("Main") {
+                                // Main - fade+scale for tab switching
+                                composable(
+                                        route = "Main",
+                                        enterTransition = {
+                                                fadeIn(animationSpec = tween(200)) +
+                                                        scaleIn(initialScale = 0.96f)
+                                        },
+                                        exitTransition = {
+                                                fadeOut(animationSpec = tween(200)) +
+                                                        scaleOut(targetScale = 0.96f)
+                                        },
+                                        popEnterTransition = {
+                                                fadeIn(animationSpec = tween(200)) +
+                                                        scaleIn(initialScale = 0.96f)
+                                        },
+                                        popExitTransition = {
+                                                fadeOut(animationSpec = tween(200)) +
+                                                        scaleOut(targetScale = 0.96f)
+                                        }
+                                ) {
                                         MainScreen(
                                                 navController = navController,
                                                 viewModel = catalogueViewModel,
                                                 cartViewModel = cartViewModel
                                         )
                                 }
-                                composable("Catalogue") {
+                                // Catalogue - fade+scale for tab switching
+                                composable(
+                                        route = "Catalogue",
+                                        enterTransition = {
+                                                fadeIn(animationSpec = tween(200)) +
+                                                        scaleIn(initialScale = 0.96f)
+                                        },
+                                        exitTransition = {
+                                                fadeOut(animationSpec = tween(200)) +
+                                                        scaleOut(targetScale = 0.96f)
+                                        },
+                                        popEnterTransition = {
+                                                fadeIn(animationSpec = tween(200)) +
+                                                        scaleIn(initialScale = 0.96f)
+                                        },
+                                        popExitTransition = {
+                                                fadeOut(animationSpec = tween(200)) +
+                                                        scaleOut(targetScale = 0.96f)
+                                        }
+                                ) {
                                         CatalogueScreen(
                                                 navController = navController,
                                                 viewModel = catalogueViewModel,
                                                 cartViewModel = cartViewModel
                                         )
                                 }
-                                composable("Cart") {
+                                // Cart - slide up/down (modal style)
+                                composable(
+                                        route = "Cart",
+                                        enterTransition = {
+                                                slideInVertically(
+                                                        initialOffsetY = { fullHeight ->
+                                                                fullHeight
+                                                        },
+                                                        animationSpec = tween(300)
+                                                ) + fadeIn(animationSpec = tween(300))
+                                        },
+                                        exitTransition = {
+                                                slideOutVertically(
+                                                        targetOffsetY = { fullHeight ->
+                                                                fullHeight
+                                                        },
+                                                        animationSpec = tween(300)
+                                                ) + fadeOut(animationSpec = tween(300))
+                                        },
+                                        popEnterTransition = { fadeIn(animationSpec = tween(200)) },
+                                        popExitTransition = {
+                                                slideOutVertically(
+                                                        targetOffsetY = { fullHeight ->
+                                                                fullHeight
+                                                        },
+                                                        animationSpec = tween(300)
+                                                ) + fadeOut(animationSpec = tween(300))
+                                        }
+                                ) {
                                         CartScreen(
                                                 navController = navController,
                                                 viewModel = cartViewModel,
                                                 ordersViewModel = ordersViewModel
                                         )
                                 }
-                                composable("Profile") {
+                                // Profile - fade+scale for tab switching
+                                composable(
+                                        route = "Profile",
+                                        enterTransition = {
+                                                fadeIn(animationSpec = tween(200)) +
+                                                        scaleIn(initialScale = 0.96f)
+                                        },
+                                        exitTransition = {
+                                                fadeOut(animationSpec = tween(200)) +
+                                                        scaleOut(targetScale = 0.96f)
+                                        },
+                                        popEnterTransition = {
+                                                fadeIn(animationSpec = tween(200)) +
+                                                        scaleIn(initialScale = 0.96f)
+                                        },
+                                        popExitTransition = {
+                                                fadeOut(animationSpec = tween(200)) +
+                                                        scaleOut(targetScale = 0.96f)
+                                        }
+                                ) {
                                         ProfileScreen(
                                                 navController = navController,
                                                 rootNavController = rootNavController
                                         )
                                 }
-                                composable("MyOrders") {
+                                // MyOrders - slide horizontal (hierarchy navigation)
+                                composable(
+                                        route = "MyOrders",
+                                        enterTransition = {
+                                                slideInHorizontally(
+                                                        initialOffsetX = { it },
+                                                        animationSpec =
+                                                                tween(
+                                                                        300,
+                                                                        easing = FastOutSlowInEasing
+                                                                )
+                                                )
+                                        },
+                                        exitTransition = {
+                                                slideOutHorizontally(
+                                                        targetOffsetX = { -it },
+                                                        animationSpec =
+                                                                tween(
+                                                                        300,
+                                                                        easing = FastOutSlowInEasing
+                                                                )
+                                                )
+                                        },
+                                        popEnterTransition = {
+                                                slideInHorizontally(
+                                                        initialOffsetX = { -it },
+                                                        animationSpec =
+                                                                tween(
+                                                                        300,
+                                                                        easing = FastOutSlowInEasing
+                                                                )
+                                                )
+                                        },
+                                        popExitTransition = {
+                                                slideOutHorizontally(
+                                                        targetOffsetX = { it },
+                                                        animationSpec =
+                                                                tween(
+                                                                        300,
+                                                                        easing = FastOutSlowInEasing
+                                                                )
+                                                )
+                                        }
+                                ) {
                                         MyOrdersScreen(
                                                 navController = navController,
                                                 viewModel = ordersViewModel
                                         )
                                 }
+                                // OrderDetails - slide horizontal (hierarchy navigation)
                                 composable(
                                         route = "OrderDetails/{orderId}",
                                         arguments =
@@ -316,7 +670,47 @@ fun MainContainer(
                                                         navArgument("orderId") {
                                                                 type = NavType.StringType
                                                         }
+                                                ),
+                                        enterTransition = {
+                                                slideInHorizontally(
+                                                        initialOffsetX = { it },
+                                                        animationSpec =
+                                                                tween(
+                                                                        300,
+                                                                        easing = FastOutSlowInEasing
+                                                                )
                                                 )
+                                        },
+                                        exitTransition = {
+                                                slideOutHorizontally(
+                                                        targetOffsetX = { -it },
+                                                        animationSpec =
+                                                                tween(
+                                                                        300,
+                                                                        easing = FastOutSlowInEasing
+                                                                )
+                                                )
+                                        },
+                                        popEnterTransition = {
+                                                slideInHorizontally(
+                                                        initialOffsetX = { -it },
+                                                        animationSpec =
+                                                                tween(
+                                                                        300,
+                                                                        easing = FastOutSlowInEasing
+                                                                )
+                                                )
+                                        },
+                                        popExitTransition = {
+                                                slideOutHorizontally(
+                                                        targetOffsetX = { it },
+                                                        animationSpec =
+                                                                tween(
+                                                                        300,
+                                                                        easing = FastOutSlowInEasing
+                                                                )
+                                                )
+                                        }
                                 ) { backStackEntry ->
                                         val orderId =
                                                 backStackEntry.arguments?.getString("orderId")
@@ -327,18 +721,66 @@ fun MainContainer(
                                                 orderId = orderId
                                         )
                                 }
-                                composable("Projects") {
+                                // Projects - fade+scale for tab switching
+                                composable(
+                                        route = "Projects",
+                                        enterTransition = {
+                                                fadeIn(animationSpec = tween(200)) +
+                                                        scaleIn(initialScale = 0.96f)
+                                        },
+                                        exitTransition = {
+                                                fadeOut(animationSpec = tween(200)) +
+                                                        scaleOut(targetScale = 0.96f)
+                                        },
+                                        popEnterTransition = {
+                                                fadeIn(animationSpec = tween(200)) +
+                                                        scaleIn(initialScale = 0.96f)
+                                        },
+                                        popExitTransition = {
+                                                fadeOut(animationSpec = tween(200)) +
+                                                        scaleOut(targetScale = 0.96f)
+                                        }
+                                ) {
                                         ProjectsScreen(
                                                 navController = navController,
                                                 viewModel = projectsViewModel
                                         )
                                 }
-                                composable("CreateProject") {
+                                // CreateProject - slide up/down (modal style)
+                                composable(
+                                        route = "CreateProject",
+                                        enterTransition = {
+                                                slideInVertically(
+                                                        initialOffsetY = { fullHeight ->
+                                                                fullHeight
+                                                        },
+                                                        animationSpec = tween(300)
+                                                ) + fadeIn(animationSpec = tween(300))
+                                        },
+                                        exitTransition = {
+                                                slideOutVertically(
+                                                        targetOffsetY = { fullHeight ->
+                                                                fullHeight
+                                                        },
+                                                        animationSpec = tween(300)
+                                                ) + fadeOut(animationSpec = tween(300))
+                                        },
+                                        popEnterTransition = { fadeIn(animationSpec = tween(200)) },
+                                        popExitTransition = {
+                                                slideOutVertically(
+                                                        targetOffsetY = { fullHeight ->
+                                                                fullHeight
+                                                        },
+                                                        animationSpec = tween(300)
+                                                ) + fadeOut(animationSpec = tween(300))
+                                        }
+                                ) {
                                         CreateProjectScreen(
                                                 navController = navController,
                                                 viewModel = projectsViewModel
                                         )
                                 }
+                                // ProjectDetails - slide horizontal (hierarchy navigation)
                                 composable(
                                         route = "ProjectDetails/{projectId}",
                                         arguments =
@@ -346,7 +788,47 @@ fun MainContainer(
                                                         navArgument("projectId") {
                                                                 type = NavType.StringType
                                                         }
+                                                ),
+                                        enterTransition = {
+                                                slideInHorizontally(
+                                                        initialOffsetX = { it },
+                                                        animationSpec =
+                                                                tween(
+                                                                        300,
+                                                                        easing = FastOutSlowInEasing
+                                                                )
                                                 )
+                                        },
+                                        exitTransition = {
+                                                slideOutHorizontally(
+                                                        targetOffsetX = { -it },
+                                                        animationSpec =
+                                                                tween(
+                                                                        300,
+                                                                        easing = FastOutSlowInEasing
+                                                                )
+                                                )
+                                        },
+                                        popEnterTransition = {
+                                                slideInHorizontally(
+                                                        initialOffsetX = { -it },
+                                                        animationSpec =
+                                                                tween(
+                                                                        300,
+                                                                        easing = FastOutSlowInEasing
+                                                                )
+                                                )
+                                        },
+                                        popExitTransition = {
+                                                slideOutHorizontally(
+                                                        targetOffsetX = { it },
+                                                        animationSpec =
+                                                                tween(
+                                                                        300,
+                                                                        easing = FastOutSlowInEasing
+                                                                )
+                                                )
+                                        }
                                 ) { backStackEntry ->
                                         val projectId =
                                                 backStackEntry.arguments?.getString("projectId")

@@ -1,5 +1,6 @@
 package com.example.lol.Catalogue
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -17,6 +18,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.BottomSheetDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -32,8 +34,10 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
@@ -87,31 +91,21 @@ fun CatalogueScreen(
                 )
 
                 // Profile icon
-                Box(
+                Image(
+                        painter = painterResource(id = R.drawable.user_icon_catalogue),
+                        contentDescription = "Профиль",
+                        contentScale = ContentScale.Crop,
                         modifier =
-                                Modifier.size(32.dp)
-                                        .background(
-                                                Color.Black,
-                                                androidx.compose.foundation.shape.CircleShape
-                                        )
-                                        .clickable {
-                                            navController.navigate("Profile") {
-                                                popUpTo(navController.graph.startDestinationId) {
-                                                    saveState = true
-                                                }
-                                                launchSingleTop = true
-                                                restoreState = true
-                                            }
-                                        },
-                        contentAlignment = Alignment.Center
-                ) {
-                    Icon(
-                            painter = painterResource(id = R.drawable.polzovatel_3),
-                            contentDescription = "Профиль",
-                            tint = Color.White, // Tint white to see it on black background
-                            modifier = Modifier.size(24.dp)
-                    )
-                }
+                                Modifier.size(32.dp).clip(CircleShape).clickable {
+                                    navController.navigate("Profile") {
+                                        popUpTo(navController.graph.startDestinationId) {
+                                            saveState = true
+                                        }
+                                        launchSingleTop = true
+                                        restoreState = true
+                                    }
+                                }
+                )
             }
             Spacer(modifier = Modifier.height(16.dp))
 

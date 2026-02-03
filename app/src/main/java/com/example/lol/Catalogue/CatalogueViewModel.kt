@@ -211,6 +211,6 @@ class CatalogueViewModelFactory(
 ) : ViewModelProvider.Factory {
     @Suppress("UNCHECKED_CAST")
     override fun <T : androidx.lifecycle.ViewModel> create(modelClass: Class<T>): T {
-        return CatalogueViewModel(application, getProductsUseCase, searchProductsUseCase) as T
+        return CatalogueViewModel(application, null, null) as T
     }
 }

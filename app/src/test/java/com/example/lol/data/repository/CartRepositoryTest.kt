@@ -92,26 +92,3 @@ class CartRepositoryTest {
         assertNotNull(result.errorMessageOrNull())
     }
 }
-        assertEquals("cart1", cartItem?.id)
-        assertEquals(5, cartItem?.count)
-    }
-
-    @Test
-    fun `updateCartItem network error returns error`() = runTest {
-        // Given - shutdown server to simulate network error
-        mockWebServer.shutdown()
-
-        // When
-        val result =
-                repository.updateCartItem(
-                        cartItemId = "cart1",
-                        userId = "user123",
-                        productId = "prod1",
-                        count = 5
-                )
-
-        // Then
-        assertTrue(result.isError)
-        assertNotNull(result.errorMessageOrNull())
-    }
-}

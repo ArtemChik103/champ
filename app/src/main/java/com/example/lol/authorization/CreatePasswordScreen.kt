@@ -28,6 +28,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -42,9 +43,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.lol.R
 import com.example.lol.components.AppTextField
-import com.example.lol.data.network.RetrofitInstance
 import com.example.lol.data.network.TokenManager
-import com.example.lol.data.repository.AuthRepository
 import com.example.lol.domain.usecase.auth.LoginUseCase
 import com.example.lol.domain.usecase.auth.LogoutUseCase
 import com.example.lol.domain.usecase.auth.RegisterUseCase
@@ -54,14 +53,19 @@ import com.example.lol.ui.theme.TextBlack
 import com.example.lol.ui.theme.TextRegular
 import com.example.lol.ui.theme.Title1Semibold
 import com.example.lol.ui.theme.Title3Semibold
+import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CreatePasswordScreen(navController: NavController) {
         val context = LocalContext.current
+        val scope = rememberCoroutineScope()
+        val credentialHelper = remember { CredentialHelper(context) }
         val sessionManager = remember { SessionManager(context) }
         val tokenManager = remember { TokenManager(context) }
-        val authRepository = remember { AuthRepository(RetrofitInstance.api, tokenManager) }
+        val authRepository = remember {
+                com.example.lol.data.repository.MockAuthRepository.instance
+        }
         val loginUseCase = remember { LoginUseCase(authRepository) }
         val registerUseCase = remember { RegisterUseCase(authRepository) }
         val logoutUseCase = remember { LogoutUseCase(authRepository) }
@@ -260,7 +264,7 @@ fun CreatePasswordScreen(navController: NavController) {
                                                         Toast.LENGTH_SHORT
                                                 )
                                                 .show()
-                                } else if (!(hasLength && hasCase && hasDigit && hasSpecial)) {
+                                } else if (!viewModel.isValidPassword(password)) {
                                         isPasswordError = true
                                         Toast.makeText(
                                                         context,
@@ -270,15 +274,16 @@ fun CreatePasswordScreen(navController: NavController) {
                                                 .show()
                                 } else {
                                         val email = sessionManager.getCurrentEmail() ?: ""
-                                        sessionManager.savePassword(email, password)
-                                        Toast.makeText(
-                                                        context,
-                                                        "Пароль установлен!",
-                                                        Toast.LENGTH_SHORT
+                                        val name = sessionManager.getUserName(email) ?: ""
+                                        viewModel.signUp(email, name, password)
+
+                                        // Сохраняем в Google Password Manager (опционально)
+                                        scope.launch {
+                                                credentialHelper.saveCredentials(
+                                                        context = context,
+                                                        email = email,
+                                                        password = password
                                                 )
-                                                .show()
-                                        navController.navigate("CreatePin") {
-                                                popUpTo("CreatePassword") { inclusive = true }
                                         }
                                 }
                         },
