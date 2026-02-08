@@ -106,14 +106,14 @@ class MainActivity : ComponentActivity() {
                                                 navController = navController,
                                                 startDestination = "Splash"
                                         ) {
-                                                // Splash - fade out only
+                                                // Splash: только плавное исчезновение.
                                                 composable(
                                                         route = "Splash",
                                                         exitTransition = {
                                                                 fadeOut(animationSpec = tween(400))
                                                         }
                                                 ) { SplashScreen(navController = navController) }
-                                                // SignIn - fade in, slide for navigation
+                                                // SignIn: плавное появление и сдвиг при переходах.
                                                 composable(
                                                         route = "SignIn",
                                                         enterTransition = {
@@ -145,7 +145,7 @@ class MainActivity : ComponentActivity() {
                                                                 fadeOut(animationSpec = tween(300))
                                                         }
                                                 ) { SignInScreen(navController = navController) }
-                                                // PinCode - fade in (from splash)
+                                                // PinCode: плавное появление после Splash.
                                                 composable(
                                                         route = "PinCode",
                                                         enterTransition = {
@@ -163,7 +163,7 @@ class MainActivity : ComponentActivity() {
                                                                 fadeOut(animationSpec = tween(300))
                                                         }
                                                 ) { PinCodeScreen(navController = navController) }
-                                                // SignUp - slide horizontal
+                                                // SignUp: горизонтальные переходы.
                                                 composable(
                                                         route = "SignUp",
                                                         enterTransition = {
@@ -211,7 +211,7 @@ class MainActivity : ComponentActivity() {
                                                                 )
                                                         }
                                                 ) { SignUpScreen(navController = navController) }
-                                                // CreatePassword - slide horizontal
+                                                // CreatePassword: горизонтальные переходы.
                                                 composable(
                                                         route = "CreatePassword",
                                                         enterTransition = {
@@ -263,8 +263,7 @@ class MainActivity : ComponentActivity() {
                                                                 navController = navController
                                                         )
                                                 }
-                                                // CreatePin - slide horizontal, fade+scale out to
-                                                // Home
+                                                // CreatePin: горизонтальные переходы, затем fade+scale в Home.
                                                 composable(
                                                         route = "CreatePin",
                                                         enterTransition = {
@@ -306,7 +305,7 @@ class MainActivity : ComponentActivity() {
                                                                 )
                                                         }
                                                 ) { CreatePinScreen(navController = navController) }
-                                                // Home - fade+scale in
+                                                // Home: плавное появление и масштаб.
                                                 composable(
                                                         route = "Home",
                                                         enterTransition = {
@@ -330,13 +329,13 @@ class MainActivity : ComponentActivity() {
 
         override fun onResume() {
                 super.onResume()
-                // Cancel notification when app is open
+                // Отменяем уведомление, пока приложение открыто.
                 androidx.work.WorkManager.getInstance(this).cancelUniqueWork("inactivity_work")
         }
 
         override fun onStop() {
                 super.onStop()
-                // Schedule notification on app close/background only if enabled
+                // Планируем уведомление при сворачивании/закрытии, если включено.
                 val sessionManager = com.example.lol.authorization.SessionManager(this)
                 if (sessionManager.isNotificationsEnabled()) {
                         val workRequest =
@@ -375,13 +374,13 @@ fun MainContainer(
         val projectRepository = remember { ProjectRepository(api) }
         val orderRepository = remember { OrderRepository(api) }
 
-        // Создание UseCases
+        // Создание use case-ов.
         val getProductsUseCase = remember { GetProductsUseCase(productRepositoryApi) }
         val searchProductsUseCase = remember { SearchProductsUseCase(productRepositoryApi) }
         val addToCartUseCase = remember { AddToCartUseCase(cartRepository) }
         val updateCartItemUseCase = remember { UpdateCartItemUseCase(cartRepository) }
 
-        // Создание ViewModels с UseCases (Domain Layer integration)
+        // Создание ViewModel с use case-ами из domain-слоя.
         val catalogueViewModel: CatalogueViewModel =
                 viewModel(
                         factory =
@@ -452,7 +451,7 @@ fun MainContainer(
         ) { innerPadding ->
                 Box(modifier = Modifier.padding(innerPadding)) {
                         NavHost(navController = navController, startDestination = "Main") {
-                                // Main - fade+scale for tab switching
+                                // Main: fade+scale при переключении табов.
                                 composable(
                                         route = "Main",
                                         enterTransition = {
@@ -478,7 +477,7 @@ fun MainContainer(
                                                 cartViewModel = cartViewModel
                                         )
                                 }
-                                // Catalogue - fade+scale for tab switching
+                                // Catalogue: fade+scale при переключении табов.
                                 composable(
                                         route = "Catalogue",
                                         enterTransition = {
@@ -504,7 +503,7 @@ fun MainContainer(
                                                 cartViewModel = cartViewModel
                                         )
                                 }
-                                // Cart - slide up/down (modal style)
+                                // Cart: вертикальные переходы в модальном стиле.
                                 composable(
                                         route = "Cart",
                                         enterTransition = {
@@ -539,7 +538,7 @@ fun MainContainer(
                                                 ordersViewModel = ordersViewModel
                                         )
                                 }
-                                // Profile - fade+scale for tab switching
+                                // Profile: fade+scale при переключении табов.
                                 composable(
                                         route = "Profile",
                                         enterTransition = {
@@ -564,7 +563,7 @@ fun MainContainer(
                                                 rootNavController = rootNavController
                                         )
                                 }
-                                // MyOrders - slide horizontal (hierarchy navigation)
+                                // MyOrders: горизонтальные переходы по иерархии.
                                 composable(
                                         route = "MyOrders",
                                         enterTransition = {
@@ -613,7 +612,7 @@ fun MainContainer(
                                                 viewModel = ordersViewModel
                                         )
                                 }
-                                // OrderDetails - slide horizontal (hierarchy navigation)
+                                // OrderDetails: горизонтальные переходы по иерархии.
                                 composable(
                                         route = "OrderDetails/{orderId}",
                                         arguments =
@@ -672,7 +671,7 @@ fun MainContainer(
                                                 orderId = orderId
                                         )
                                 }
-                                // Projects - fade+scale for tab switching
+                                // Projects: fade+scale при переключении табов.
                                 composable(
                                         route = "Projects",
                                         enterTransition = {
@@ -697,7 +696,7 @@ fun MainContainer(
                                                 viewModel = projectsViewModel
                                         )
                                 }
-                                // CreateProject - slide up/down (modal style)
+                                // CreateProject: вертикальные переходы в модальном стиле.
                                 composable(
                                         route = "CreateProject",
                                         enterTransition = {
@@ -731,7 +730,7 @@ fun MainContainer(
                                                 viewModel = projectsViewModel
                                         )
                                 }
-                                // ProjectDetails - slide horizontal (hierarchy navigation)
+                                // ProjectDetails: горизонтальные переходы по иерархии.
                                 composable(
                                         route = "ProjectDetails/{projectId}",
                                         arguments =
@@ -809,9 +808,7 @@ fun BottomNavigationBar(navController: NavController) {
                 modifier =
                         Modifier.height(88.dp)
                                 .shadow(
-                                        elevation =
-                                                0.5.dp, // box-shadow: 0px -0.5px 0px rgba(160, 160,
-                                        // 160, 0.3)
+                                        elevation = 0.5.dp,
                                         spotColor = Color(0x4DA0A0A0)
                                 ),
                 containerColor = Color.White,
@@ -829,7 +826,7 @@ fun BottomNavigationBar(navController: NavController) {
                                                 contentDescription = item.title,
                                                 modifier = Modifier.size(32.dp)
                                         )
-                                }, // From 1.css item height
+                                },
                                 label = {
                                         Text(
                                                 item.title,
@@ -844,8 +841,7 @@ fun BottomNavigationBar(navController: NavController) {
                                                 selectedIconColor = AccentBlue,
                                                 selectedTextColor = AccentBlue,
                                                 indicatorColor = Color.Transparent,
-                                                unselectedIconColor =
-                                                        Color(0xFFB8C1CC), // Icons color from 1.css
+                                                unselectedIconColor = Color(0xFFB8C1CC),
                                                 unselectedTextColor = Color(0xFFB8C1CC)
                                         ),
                                 onClick = {

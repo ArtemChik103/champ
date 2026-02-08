@@ -4,7 +4,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Text
@@ -15,10 +14,16 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.lol.ui.theme.AccentBlue
 import com.example.lol.ui.theme.TextRegular
 import com.example.lol.ui.theme.Title3Semibold
 
+/**
+ * BottomSheet выбора источника фотографии.
+ *
+ * @param onDismiss Колбэк закрытия BottomSheet.
+ * @param onCameraClick Обработчик выбора камеры.
+ * @param onGalleryClick Обработчик выбора галереи.
+ */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun PhotoPickerBottomSheet(
@@ -62,6 +67,13 @@ fun PhotoPickerBottomSheet(
     }
 }
 
+/**
+ * Элемент списка выбора источника фото.
+ *
+ * @param text Отображаемый текст пункта.
+ * @param icon Эмодзи-иконка пункта.
+ * @param onClick Обработчик нажатия на пункт.
+ */
 @Composable
 fun PhotoOption(text: String, icon: String, onClick: () -> Unit) {
     Row(

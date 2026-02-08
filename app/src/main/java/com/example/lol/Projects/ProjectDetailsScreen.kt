@@ -21,7 +21,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
-import com.example.lol.R // Ensure this R is correct
+import com.example.lol.R
 import com.example.lol.ui.theme.*
 
 @Composable
@@ -46,7 +46,6 @@ fun ProjectDetailsScreen(
                                 .background(Color.White)
                                 .verticalScroll(rememberScrollState())
         ) {
-                // Header
                 Box(
                         modifier =
                                 Modifier.fillMaxWidth()
@@ -100,7 +99,6 @@ fun ProjectDetailsScreen(
                 HorizontalDivider(color = Color(0xFFF5F5F9), thickness = 1.dp)
 
                 Column(modifier = Modifier.padding(20.dp)) {
-                        // Image
                         if (project.imageUri != null) {
                                 AsyncImage(
                                         model = project.imageUri,
@@ -117,7 +115,7 @@ fun ProjectDetailsScreen(
                                 Box(
                                         modifier =
                                                 Modifier.fillMaxWidth()
-                                                        .height(200.dp) // Placeholder height
+                                                        .height(200.dp)
                                                         .clip(RoundedCornerShape(12.dp))
                                                         .background(Color(0xFFF5F5F9)),
                                         contentAlignment = Alignment.Center
@@ -126,7 +124,7 @@ fun ProjectDetailsScreen(
                                                 painter =
                                                         painterResource(
                                                                 id = R.drawable.icon_file_text
-                                                        ), // Using existing icon as placeholder
+                                                        ),
                                                 contentDescription = null,
                                                 tint = Color(0xFFBFC7D1),
                                                 modifier = Modifier.size(48.dp)
@@ -135,7 +133,6 @@ fun ProjectDetailsScreen(
                                 Spacer(modifier = Modifier.height(24.dp))
                         }
 
-                        // Info Section
                         Text(text = "Информация", style = Title3Semibold, color = Color.Black)
                         Spacer(modifier = Modifier.height(16.dp))
 
@@ -158,7 +155,6 @@ fun ProjectDetailsScreen(
 
                         Spacer(modifier = Modifier.height(32.dp))
 
-                        // Description
                         Text(text = "Описание", style = Title3Semibold, color = Color.Black)
                         Spacer(modifier = Modifier.height(12.dp))
                         Text(
@@ -169,7 +165,6 @@ fun ProjectDetailsScreen(
 
                         Spacer(modifier = Modifier.height(32.dp))
 
-                        // Results (Placeholder)
                         Text(text = "Результаты", style = Title3Semibold, color = Color.Black)
                         Spacer(modifier = Modifier.height(12.dp))
                         Box(

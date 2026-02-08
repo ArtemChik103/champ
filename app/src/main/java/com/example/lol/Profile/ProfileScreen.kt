@@ -35,7 +35,7 @@ import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat
 import androidx.navigation.NavController
 import androidx.work.WorkManager
-import com.example.lol.R // Assuming R is available, or use Icons
+import com.example.lol.R
 import com.example.lol.authorization.SessionManager
 import com.example.lol.ui.theme.HeadlineRegular
 import com.example.lol.ui.theme.TextMedium
@@ -61,10 +61,7 @@ fun ProfileScreen(navController: NavController, rootNavController: NavController
                 modifier =
                         Modifier.fillMaxSize().background(Color.White).padding(horizontal = 20.dp)
         ) {
-                // User Info Section
-                Column(
-                        modifier = Modifier.padding(top = 76.dp) // From 1.css top: 76px
-                ) {
+                Column(modifier = Modifier.padding(top = 76.dp)) {
                         Text(
                                 text = sessionManager.getUserName() ?: "Эдуард",
                                 style = Title1Bold,
@@ -80,13 +77,12 @@ fun ProfileScreen(navController: NavController, rootNavController: NavController
 
                 Spacer(modifier = Modifier.height(24.dp))
 
-                // Menu Items
                 ProfileMenuItem(iconRes = R.drawable.order, title = "Мои заказы") {
                         navController.navigate("MyOrders")
                 }
 
                 ProfileMenuItem(
-                        iconRes = R.drawable.settings, // Gear icon as per screen1.png
+                        iconRes = R.drawable.settings,
                         title = "Уведомления",
                         isSwitch = true,
                         checked = showNotifications.value,
@@ -125,7 +121,6 @@ fun ProfileScreen(navController: NavController, rootNavController: NavController
 
                 Spacer(modifier = Modifier.height(176.dp))
 
-                // Footer (Policies & Logout)
                 Column(
                         horizontalAlignment = Alignment.CenterHorizontally,
                         modifier = Modifier.fillMaxWidth()
@@ -226,11 +221,6 @@ fun ProfileMenuItem(
                                                 uncheckedBorderColor = Color.Transparent
                                         )
                         )
-                } else {
-                        // No chevron in screen1.png for "Мои заказы", but usually it's there.
-                        // Design shows no chevron for the first item either.
-                        // I'll leave it as is for now or remove if strictly following PNG.
-                        // PNG shows NO chevron for "Мои заказы".
                 }
         }
 }

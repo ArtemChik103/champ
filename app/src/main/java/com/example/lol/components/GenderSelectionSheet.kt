@@ -16,6 +16,12 @@ import androidx.compose.ui.unit.dp
 import com.example.lol.ui.theme.TextRegular
 import com.example.lol.ui.theme.Title3Semibold
 
+/**
+ * BottomSheet для выбора пола на экране регистрации.
+ *
+ * @param onDismiss Колбэк закрытия BottomSheet.
+ * @param onGenderSelected Колбэк выбора значения пола.
+ */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun GenderSelectionSheet(
@@ -58,6 +64,13 @@ fun GenderSelectionSheet(
     }
 }
 
+/**
+ * Элемент списка выбора пола в BottomSheet.
+ *
+ * @param text Отображаемое название варианта.
+ * @param emoji Эмодзи для визуального акцента.
+ * @param onClick Обработчик выбора варианта.
+ */
 @Composable
 fun GenderOption(text: String, emoji: String, onClick: () -> Unit) {
     Row(

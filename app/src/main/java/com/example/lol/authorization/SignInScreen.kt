@@ -119,7 +119,6 @@ fun SignInScreen(navController: NavController) {
         ) {
                 Spacer(modifier = Modifier.height(103.dp))
 
-                // Tittle Section
                 Column(
                         modifier = Modifier.fillMaxWidth(),
                         horizontalAlignment = Alignment.CenterHorizontally
@@ -141,13 +140,8 @@ fun SignInScreen(navController: NavController) {
 
                 Spacer(modifier = Modifier.height(80.dp))
 
-                // Email
                 var isEmailError by remember { mutableStateOf(false) }
                 var isPasswordError by remember { mutableStateOf(false) }
-
-                // ... within Column ...
-
-                // Email
                 AppTextField(
                         value = email,
                         onValueChange = {
@@ -164,7 +158,6 @@ fun SignInScreen(navController: NavController) {
 
                 Spacer(modifier = Modifier.height(16.dp))
 
-                // Password
                 var passwordVisible by remember { mutableStateOf(false) }
                 AppTextField(
                         value = password,
@@ -193,10 +186,10 @@ fun SignInScreen(navController: NavController) {
                                                                 id =
                                                                         if (passwordVisible)
                                                                                 R.drawable
-                                                                                        .eye_off_an_inner_journey_icon_svg_co // Visible
+                                                                                        .eye_off_an_inner_journey_icon_svg_co
                                                                         else
                                                                                 R.drawable
-                                                                                        .eye_closed // Hidden
+                                                                                        .eye_closed
                                                         ),
                                                 contentDescription =
                                                         if (passwordVisible) "Hide password"
@@ -215,7 +208,9 @@ fun SignInScreen(navController: NavController) {
                                 color = TextGray,
                                 style = CaptionRegular,
                                 modifier =
-                                        Modifier.align(Alignment.CenterEnd).clickable { /* TODO */}
+                                        Modifier.align(Alignment.CenterEnd).clickable {
+                                                /* TODO: открыть экран восстановления пароля */
+                                        }
                         )
                 }
 
@@ -241,7 +236,7 @@ fun SignInScreen(navController: NavController) {
                         colors =
                                 ButtonDefaults.buttonColors(
                                         containerColor =
-                                                AccentBlue, // Always colored, validated on click
+                                                AccentBlue,
                                         disabledContainerColor = Color(0xFFC9D4FB)
                                 ),
                         shape = RoundedCornerShape(10.dp),
@@ -263,7 +258,7 @@ fun SignInScreen(navController: NavController) {
                         Text("Нет аккаунта? ", color = TextGray, style = TextRegular)
                         Text(
                                 "Зарегистрироваться",
-                                color = Color(0xFF2074F2), // Accent from 3.css
+                                color = Color(0xFF2074F2),
                                 style = TextMedium,
                                 fontWeight = FontWeight.Bold,
                                 modifier = Modifier.clickable { navController.navigate("SignUp") }
@@ -272,7 +267,6 @@ fun SignInScreen(navController: NavController) {
 
                 Spacer(modifier = Modifier.weight(1f))
 
-                // Social Login Section
                 Text(
                         text = "Или войдите с помощью",
                         style = TextRegular,
@@ -282,9 +276,10 @@ fun SignInScreen(navController: NavController) {
 
                 Spacer(modifier = Modifier.height(16.dp))
 
-                // VK Button
                 Button(
-                        onClick = { /* TODO */},
+                        onClick = {
+                                /* TODO: реализовать авторизацию через VK SDK */
+                        },
                         modifier = Modifier.fillMaxWidth().height(60.dp),
                         colors = ButtonDefaults.buttonColors(containerColor = Color.White),
                         shape = RoundedCornerShape(12.dp),
@@ -309,9 +304,10 @@ fun SignInScreen(navController: NavController) {
 
                 Spacer(modifier = Modifier.height(12.dp))
 
-                // Yandex Button
                 Button(
-                        onClick = { /* TODO */},
+                        onClick = {
+                                /* TODO: реализовать авторизацию через Яндекс ID */
+                        },
                         modifier = Modifier.fillMaxWidth().height(60.dp),
                         colors = ButtonDefaults.buttonColors(containerColor = Color.White),
                         shape = RoundedCornerShape(12.dp),

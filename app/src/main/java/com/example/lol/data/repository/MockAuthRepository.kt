@@ -15,7 +15,6 @@ class MockAuthRepository : IAuthRepository {
         private val users = mutableMapOf<String, MockUser>()
         private var currentUser: MockUser? = null
 
-        // Helper data class for internal storage
         data class MockUser(
                 val id: String,
                 val email: String,
@@ -39,7 +38,6 @@ class MockAuthRepository : IAuthRepository {
 
                 users[email] = MockUser(id = id, email = email, password = password)
 
-                // Return dummy ResponseRegister
                 return NetworkResult.Success(
                         ResponseRegister(
                                 id = id,
@@ -61,19 +59,11 @@ class MockAuthRepository : IAuthRepository {
         override suspend fun login(email: String, password: String): NetworkResult<ResponseAuth> {
                 val user = users[email]
                 if (user == null || user.password != password) {
-                        // For testing purposes, if no user exists, let's create a default one if it
-                        // matches a
-                        // specific "test" pattern or just return error as expected.
-                        // But usually mock needs to be pre-filled or allowed to register.
-                        // Let's stick to the plan: register first then login.
-                        // OR allow login for any user if we want (but plan said "in memory
-                        // storage").
                         return NetworkResult.Error("Неверный email или пароль")
                 }
 
                 currentUser = user
 
-                // Create user object for response
                 val userModel =
                         User(
                                 id = user.id,
@@ -134,14 +124,12 @@ class MockAuthRepository : IAuthRepository {
                         return NetworkResult.Error("Пользователь не найден")
                 }
 
-                // Update fields if provided
                 firstname?.let { user.firstname = it }
                 lastname?.let { user.lastname = it }
                 secondname?.let { user.secondname = it }
                 datebirthday?.let { user.datebirthday = it }
                 gender?.let { user.gender = it }
 
-                // Update map just in case (though it's reference so it should be fine)
                 users[user.email] = user
 
                 return NetworkResult.Success(

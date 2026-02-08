@@ -10,10 +10,10 @@ class SessionManager(context: Context) {
     companion object {
         private const val KEY_IS_LOGGED_IN = "is_logged_in"
         private const val KEY_CURRENT_USER_EMAIL = "current_user_email"
-        private const val KEY_USERS_LIST = "registered_users" // StringSet of emails
+        private const val KEY_USERS_LIST = "registered_users"
         private const val KEY_LAST_ROUTE = "last_route"
 
-        // Multi-user key templates
+        // Шаблоны ключей для данных конкретного пользователя.
         private fun keyPassword(email: String) = "user:$email:password"
         private fun keyPin(email: String) = "user:$email:pin"
         private fun keyName(email: String) = "user:$email:name"
@@ -26,7 +26,7 @@ class SessionManager(context: Context) {
     }
 
     fun isNotificationsEnabled(): Boolean {
-        return prefs.getBoolean(KEY_NOTIFICATIONS_ENABLED, false) // Default false
+        return prefs.getBoolean(KEY_NOTIFICATIONS_ENABLED, false)
     }
 
     fun saveLastRoute(route: String) {
@@ -35,8 +35,6 @@ class SessionManager(context: Context) {
 
     fun getLastRoute(): String {
         val route = prefs.getString(KEY_LAST_ROUTE, "Main") ?: "Main"
-        // Valid start destinations (no arguments)
-        // Valid start destinations
         val validStartRoutes =
                 setOf(
                         "Main",
@@ -55,8 +53,6 @@ class SessionManager(context: Context) {
             else -> "Main"
         }
     }
-
-    // --- Mock Database Logic ---
 
     fun isUserExists(email: String): Boolean {
         val users = prefs.getStringSet(KEY_USERS_LIST, emptySet()) ?: emptySet()
@@ -90,8 +86,6 @@ class SessionManager(context: Context) {
         return prefs.getString(keyName(email), null)
     }
 
-    // --- Current Session Logic ---
-
     fun setCurrentEmail(email: String) {
         prefs.edit().putString(KEY_CURRENT_USER_EMAIL, email).apply()
     }
@@ -116,7 +110,7 @@ class SessionManager(context: Context) {
                 .apply()
     }
 
-    // Keep legacy methods for backward compatibility if needed, but point to current user
+    // Методы сохранены для совместимости со старым кодом и проксируют текущего пользователя.
     fun getEmail(): String? = getCurrentEmail()
     fun getUserName(): String? = getCurrentEmail()?.let { getUserName(it) } ?: "Эдуард"
     fun getPin(): String? = getCurrentEmail()?.let { getUserPin(it) }

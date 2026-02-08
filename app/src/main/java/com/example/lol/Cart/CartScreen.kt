@@ -63,7 +63,7 @@ fun CartScreen(
 
         Box(modifier = Modifier.fillMaxSize().background(Color.White)) {
                 Column(modifier = Modifier.fillMaxSize().padding(horizontal = 20.dp)) {
-                        Spacer(modifier = Modifier.height(52.dp)) // Sufficient space for status bar
+                        Spacer(modifier = Modifier.height(52.dp))
                         Row(
                                 modifier = Modifier.fillMaxWidth(),
                                 verticalAlignment = Alignment.CenterVertically
@@ -131,7 +131,6 @@ fun CartScreen(
                 }
 
                 if (cartItems.isNotEmpty()) {
-                        // Checkout Bottom Bar
                         Box(
                                 modifier =
                                         Modifier.align(Alignment.BottomCenter)
@@ -152,10 +151,7 @@ fun CartScreen(
                                         Row(
                                                 modifier =
                                                         Modifier.fillMaxWidth()
-                                                                .padding(
-                                                                        horizontal = 4.dp
-                                                                ), // Align with 332px width in
-                                                // 1.css
+                                                                .padding(horizontal = 4.dp),
                                                 horizontalArrangement = Arrangement.SpaceBetween
                                         ) {
                                                 Text(
@@ -175,7 +171,6 @@ fun CartScreen(
                                                 onClick = {
                                                         scope.launch {
                                                                 isProcessing = true
-                                                                // Save the order
                                                                 ordersViewModel.addOrder(
                                                                         items = cartItems,
                                                                         totalPrice =
@@ -205,9 +200,7 @@ fun CartScreen(
                                                                 containerColor = AccentBlue
                                                         ),
                                                 shape =
-                                                        RoundedCornerShape(
-                                                                10.dp
-                                                        ), // Updated to 10dp per spec
+                                                        RoundedCornerShape(10.dp),
                                                 enabled = !isProcessing
                                         ) {
                                                 Text(
@@ -237,7 +230,7 @@ fun CartItemView(
                                 .shadow(
                                         elevation = 20.dp,
                                         shape = RoundedCornerShape(12.dp),
-                                        spotColor = Color(0x99E4E8F5) // rgba(228, 232, 245, 0.6)
+                                        spotColor = Color(0x99E4E8F5)
                                 ),
                 shape = RoundedCornerShape(12.dp),
                 colors = CardDefaults.cardColors(containerColor = Color.White),
@@ -245,7 +238,6 @@ fun CartItemView(
                 elevation = CardDefaults.cardElevation(defaultElevation = 0.dp)
         ) {
                 Box(modifier = Modifier.fillMaxSize()) {
-                        // Delete Icon
                         Icon(
                                 painter = painterResource(id = R.drawable.icon_delete),
                                 contentDescription = "Delete",
@@ -257,7 +249,6 @@ fun CartItemView(
                                                 .clickable(onClick = onRemove)
                         )
 
-                        // Name
                         Text(
                                 text = item.product.title,
                                 style = HeadlineRegular,
@@ -266,7 +257,6 @@ fun CartItemView(
                                         Modifier.padding(start = 16.dp, top = 16.dp).width(250.dp)
                         )
 
-                        // Price - Positioned at bottom left (roughly)
                         Text(
                                 text = "${item.product.price * item.quantity} ₽",
                                 style = Title3Medium,
@@ -276,7 +266,6 @@ fun CartItemView(
                                                 .padding(start = 16.dp, bottom = 20.dp)
                         )
 
-                        // Counter - Positioned at bottom right (roughly)
                         Row(
                                 verticalAlignment = Alignment.CenterVertically,
                                 modifier =

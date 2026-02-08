@@ -65,11 +65,11 @@ fun MainScreen(
     val sheetState = rememberModalBottomSheetState()
     var searchQuery by remember { mutableStateOf("") }
 
-    // Banner products for promotions (first two from ALL products, not affected by filters)
+    // Баннеры берём из полного списка, чтобы они не зависели от фильтров.
     val bannerProducts = remember(allProducts) { allProducts.take(2) }
 
     Column(modifier = Modifier.fillMaxSize().background(Color.White)) {
-        // Search Bar (Header)
+        // Поиск в шапке.
         Box(modifier = Modifier.fillMaxWidth().padding(20.dp)) {
             AppTextField(
                     value = searchQuery,
@@ -91,9 +91,9 @@ fun MainScreen(
 
         LazyColumn(
                 modifier = Modifier.fillMaxSize(),
-                contentPadding = PaddingValues(bottom = 80.dp) // Space for BottomBar
+                contentPadding = PaddingValues(bottom = 80.dp)
         ) {
-            // Banners
+            // Блок баннеров.
             item {
                 Text(
                         text = "Акции и новости",
@@ -122,7 +122,7 @@ fun MainScreen(
                 Spacer(modifier = Modifier.height(32.dp))
             }
 
-            // Categories
+            // Блок категорий.
             item {
                 Text(
                         text = "Каталог описаний",
@@ -157,7 +157,7 @@ fun MainScreen(
                 Spacer(modifier = Modifier.height(24.dp))
             }
 
-            // Products
+            // Блок товаров.
             items(products) { product ->
                 val isInCart = cartItems.any { it.product.id == product.id }
                 ProductCard(
@@ -214,18 +214,18 @@ fun BannerCard(index: Int, product: Product?, onClick: () -> Unit) {
                             .background(gradient, shape = RoundedCornerShape(12.dp))
                             .clickable(onClick = onClick)
     ) {
-        // Image Layer
+        // Слой изображения.
         androidx.compose.foundation.Image(
                 painter = painterResource(id = imageRes),
                 contentDescription = null,
                 contentScale = androidx.compose.ui.layout.ContentScale.Fit,
                 modifier =
                         Modifier.align(Alignment.CenterEnd)
-                                .size(150.dp) // Adjust size as needed based on asset
+                                .size(150.dp)
                                 .padding(end = 8.dp)
         )
 
-        // Text Layer
+        // Текстовый слой.
         Column(modifier = Modifier.fillMaxSize().padding(16.dp)) {
             Text(
                     text =
@@ -251,24 +251,22 @@ fun BannerCard(index: Int, product: Product?, onClick: () -> Unit) {
 fun CategoryChip(text: String, isSelected: Boolean, onClick: () -> Unit) {
     Box(
             modifier =
-                    Modifier.height(48.dp) // From 1.css: height: 48px
+                    Modifier.height(48.dp)
                             .background(
                                     color =
                                             if (isSelected) AccentBlue
-                                            else Color(0xFFF5F5F9), // Input BG from 1.css
+                                            else Color(0xFFF5F5F9),
                                     shape = RoundedCornerShape(10.dp)
                             )
                             .clickable(onClick = onClick)
-                            .padding(
-                                    horizontal = 20.dp
-                            ), // Approx from padding: 26px 20px (total width varies)
+                            .padding(horizontal = 20.dp),
             contentAlignment = Alignment.Center
     ) {
         Text(
                 text = text,
                 color =
                         if (isSelected) Color.White
-                        else Color(0xFF7E7E9A), // Description from 1.css
+                        else Color(0xFF7E7E9A),
                 style = TextMedium
         )
     }

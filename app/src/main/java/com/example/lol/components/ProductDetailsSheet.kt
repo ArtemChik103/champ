@@ -18,6 +18,13 @@ import com.example.lol.R
 import com.example.lol.data.Product
 import com.example.lol.ui.theme.AccentBlue
 
+/**
+ * Контент BottomSheet с подробной информацией о товаре.
+ *
+ * @param product Товар для отображения.
+ * @param onAddToCart Обработчик добавления товара в корзину.
+ * @param onClose Обработчик закрытия BottomSheet.
+ */
 @Composable
 fun ProductDetailsContent(product: Product, onAddToCart: () -> Unit, onClose: () -> Unit) {
         Column(
@@ -26,7 +33,6 @@ fun ProductDetailsContent(product: Product, onAddToCart: () -> Unit, onClose: ()
                                 .background(Color.White)
                                 .padding(horizontal = 20.dp, vertical = 24.dp)
         ) {
-                // Header
                 Row(
                         modifier = Modifier.fillMaxWidth(),
                         horizontalArrangement = Arrangement.SpaceBetween,
@@ -59,7 +65,6 @@ fun ProductDetailsContent(product: Product, onAddToCart: () -> Unit, onClose: ()
 
                 Spacer(modifier = Modifier.height(24.dp))
 
-                // Description Section
                 Text(
                         text = "Описание",
                         fontSize = 16.sp,
@@ -78,10 +83,10 @@ fun ProductDetailsContent(product: Product, onAddToCart: () -> Unit, onClose: ()
 
                 Spacer(modifier = Modifier.height(24.dp))
 
-                // Consumption Section (matching screen4.png "Примерный расход")
                 Text(text = "Примерный расход:", fontSize = 14.sp, color = Color(0xFF939396))
                 Text(
-                        text = "80-90 г", // Static for now as per Figma, or could be linked to data
+                        // Значение фиксировано в текущем макете.
+                        text = "80-90 г",
                         fontSize = 16.sp,
                         fontWeight = FontWeight.Medium,
                         color = Color.Black

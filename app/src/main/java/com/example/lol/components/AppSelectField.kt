@@ -19,6 +19,16 @@ import com.example.lol.ui.theme.InputStroke
 import com.example.lol.ui.theme.TextGray
 import com.example.lol.ui.theme.TextRegular
 
+/**
+ * Поле выбора значения из списка с выпадающим меню.
+ *
+ * @param value Текущее выбранное значение.
+ * @param label Подпись над полем.
+ * @param placeholder Текст-заполнитель, когда значение не выбрано.
+ * @param options Список доступных вариантов.
+ * @param onOptionSelected Колбэк выбора варианта.
+ * @param modifier Модификатор контейнера.
+ */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AppSelectField(

@@ -106,8 +106,6 @@ fun CreatePasswordScreen(navController: NavController) {
                         else -> {}
                 }
         }
-        // ... rest of the UI stays similar ...
-
         Column(
                 modifier =
                         Modifier.fillMaxSize().background(Color.White).padding(horizontal = 20.dp),
@@ -116,7 +114,6 @@ fun CreatePasswordScreen(navController: NavController) {
         ) {
                 Spacer(modifier = Modifier.height(103.dp))
 
-                // Tittle Section
                 Column(
                         modifier = Modifier.fillMaxWidth(),
                         horizontalAlignment = Alignment.CenterHorizontally
@@ -138,7 +135,6 @@ fun CreatePasswordScreen(navController: NavController) {
 
                 Spacer(modifier = Modifier.height(60.dp))
 
-                // Password
                 var passwordVisible by remember { mutableStateOf(false) }
                 var confirmPasswordVisible by remember { mutableStateOf(false) }
                 var isPasswordError by remember { mutableStateOf(false) }
@@ -170,10 +166,10 @@ fun CreatePasswordScreen(navController: NavController) {
                                                                 id =
                                                                         if (passwordVisible)
                                                                                 R.drawable
-                                                                                        .eye_off_an_inner_journey_icon_svg_co // Visible
+                                                                                        .eye_off_an_inner_journey_icon_svg_co
                                                                         else
                                                                                 R.drawable
-                                                                                        .eye_closed // Hidden
+                                                                                        .eye_closed
                                                         ),
                                                 contentDescription =
                                                         if (passwordVisible) "Hide password"
@@ -187,7 +183,6 @@ fun CreatePasswordScreen(navController: NavController) {
 
                 Spacer(modifier = Modifier.height(16.dp))
 
-                // Confirm Password
                 AppTextField(
                         value = confirmPassword,
                         onValueChange = {
@@ -216,10 +211,10 @@ fun CreatePasswordScreen(navController: NavController) {
                                                                 id =
                                                                         if (confirmPasswordVisible)
                                                                                 R.drawable
-                                                                                        .eye_off_an_inner_journey_icon_svg_co // Visible
+                                                                                        .eye_off_an_inner_journey_icon_svg_co
                                                                         else
                                                                                 R.drawable
-                                                                                        .eye_closed // Hidden
+                                                                                        .eye_closed
                                                         ),
                                                 contentDescription =
                                                         if (confirmPasswordVisible) "Hide password"
@@ -233,7 +228,6 @@ fun CreatePasswordScreen(navController: NavController) {
 
                 Spacer(modifier = Modifier.height(16.dp))
 
-                // Password Requirements
                 val hasLength = password.length >= 8
                 val hasCase = password.any { it.isLowerCase() } && password.any { it.isUpperCase() }
                 val hasDigit = password.any { it.isDigit() }
@@ -277,7 +271,8 @@ fun CreatePasswordScreen(navController: NavController) {
                                         val name = sessionManager.getUserName(email) ?: ""
                                         viewModel.signUp(email, name, password)
 
-                                        // Сохраняем в Google Password Manager (опционально)
+                                        // Пытаемся сохранить учетные данные в Credential Manager.
+                                        // Ошибка сохранения не должна блокировать регистрацию.
                                         scope.launch {
                                                 credentialHelper.saveCredentials(
                                                         context = context,
@@ -291,7 +286,7 @@ fun CreatePasswordScreen(navController: NavController) {
                         colors =
                                 ButtonDefaults.buttonColors(
                                         containerColor =
-                                                AccentBlue, // Always colored, validated on click
+                                                AccentBlue,
                                         disabledContainerColor = Color(0xFFC9D4FB)
                                 ),
                         shape = RoundedCornerShape(10.dp),

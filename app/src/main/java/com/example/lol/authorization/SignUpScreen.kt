@@ -99,7 +99,6 @@ fun SignUpScreen(navController: NavController) {
         ) {
             Spacer(modifier = Modifier.height(24.dp))
 
-            // Back Button
             Row(modifier = Modifier.fillMaxWidth()) {
                 Box(
                         modifier =
@@ -119,7 +118,6 @@ fun SignUpScreen(navController: NavController) {
 
             Spacer(modifier = Modifier.height(20.dp))
 
-            // Tittle Section
             Column(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalAlignment = Alignment.CenterHorizontally
@@ -132,9 +130,8 @@ fun SignUpScreen(navController: NavController) {
                 )
             }
 
-            Spacer(modifier = Modifier.height(20.dp)) // Spacing adjustment
+            Spacer(modifier = Modifier.height(20.dp))
 
-            // Hint messages
             Text(
                     text = "Без профиля вы не сможете создавать проекты.",
                     style = CaptionRegular,
@@ -153,12 +150,10 @@ fun SignUpScreen(navController: NavController) {
 
             Spacer(modifier = Modifier.height(30.dp))
 
-            // Inputs Column
             Column(
                     modifier = Modifier.fillMaxWidth(),
-                    verticalArrangement = Arrangement.spacedBy(24.dp) // Gap from 6.css
+                    verticalArrangement = Arrangement.spacedBy(24.dp)
             ) {
-                // Name
                 AppTextField(
                         value = name,
                         onValueChange = {
@@ -169,7 +164,6 @@ fun SignUpScreen(navController: NavController) {
                         isError = isNameError,
                         errorMessage = if (isNameError) "Введите имя" else null
                 )
-                // Surname
                 AppTextField(
                         value = surname,
                         onValueChange = {
@@ -180,7 +174,6 @@ fun SignUpScreen(navController: NavController) {
                         isError = isSurnameError,
                         errorMessage = if (isSurnameError) "Введите фамилию" else null
                 )
-                // Patronymic
                 AppTextField(
                         value = patronymic,
                         onValueChange = {
@@ -191,7 +184,6 @@ fun SignUpScreen(navController: NavController) {
                         isError = isPatronymicError,
                         errorMessage = if (isPatronymicError) "Введите отчество" else null
                 )
-                // Birthday DatePicker
                 var showDatePicker by remember { mutableStateOf(false) }
                 val datePickerState = androidx.compose.material3.rememberDatePickerState()
 
@@ -241,11 +233,10 @@ fun SignUpScreen(navController: NavController) {
                             }
                     ) { androidx.compose.material3.DatePicker(state = datePickerState) }
                 }
-                // Gender Dropdown
                 Box(modifier = Modifier.clickable { showGenderSheet = true }) {
                     AppTextField(
                             value = gender,
-                            onValueChange = {}, // Read only via sheet
+                            onValueChange = {},
                             placeholder = "Пол",
                             trailingIcon = {
                                 Icon(
@@ -260,7 +251,6 @@ fun SignUpScreen(navController: NavController) {
                     )
                     Box(modifier = Modifier.matchParentSize().clickable { showGenderSheet = true })
                 }
-                // Email (Почта)
                 AppTextField(
                         value = email,
                         onValueChange = {
@@ -278,7 +268,6 @@ fun SignUpScreen(navController: NavController) {
 
             Button(
                     onClick = {
-                        // Validation
                         var isValid = true
 
                         if (name.isBlank()) {
@@ -311,7 +300,7 @@ fun SignUpScreen(navController: NavController) {
                             errorMessage = "Заполните все поля корректно"
                         } else {
                             sessionManager.setCurrentEmail(email)
-                            sessionManager.registerUser(email, name) // Store name locally for now
+                            sessionManager.registerUser(email, name)
                             navController.navigate("CreatePassword")
                         }
                     },
@@ -319,9 +308,7 @@ fun SignUpScreen(navController: NavController) {
                     colors =
                             ButtonDefaults.buttonColors(
                                     containerColor =
-                                            Color(
-                                                    0xFF1A6FEE
-                                            ) // Always enable, handle validation on click
+                                            Color(0xFF1A6FEE)
                             ),
                     shape = RoundedCornerShape(10.dp)
             ) { Text("Далее", color = Color.White, style = Title3Semibold) }
@@ -339,5 +326,5 @@ fun SignUpScreen(navController: NavController) {
         }
 
         ErrorNotification(message = errorMessage, onDismiss = { errorMessage = null })
-    } // End Box
+    }
 }

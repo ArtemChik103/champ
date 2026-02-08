@@ -21,6 +21,12 @@ import com.example.lol.ui.theme.CaptionRegular
 import com.example.lol.ui.theme.RedError
 import kotlinx.coroutines.delay
 
+/**
+ * Всплывающее уведомление об ошибке с автозакрытием через 5 секунд.
+ *
+ * @param message Текст ошибки. Если `null`, уведомление не показывается.
+ * @param onDismiss Вызывается при ручном или автоматическом закрытии.
+ */
 @Composable
 fun ErrorNotification(message: String?, onDismiss: () -> Unit) {
         var isVisible by remember(message) { mutableStateOf(message != null) }
@@ -38,16 +44,12 @@ fun ErrorNotification(message: String?, onDismiss: () -> Unit) {
                 visible = isVisible && message != null,
                 enter = slideInVertically(initialOffsetY = { -it }),
                 exit = slideOutVertically(targetOffsetY = { -it }),
-                modifier = Modifier.zIndex(100f) // Ensure it's on top
+                modifier = Modifier.zIndex(100f)
         ) {
                 Box(
                         modifier =
                                 Modifier.fillMaxWidth()
-                                        .padding(
-                                                top = 40.dp,
-                                                start = 20.dp,
-                                                end = 20.dp
-                                        ) // Top padding for status bar
+                                        .padding(top = 40.dp, start = 20.dp, end = 20.dp)
                 ) {
                         Row(
                                 modifier =

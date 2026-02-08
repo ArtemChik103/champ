@@ -22,6 +22,16 @@ import androidx.compose.ui.unit.sp
 import com.example.lol.data.Product
 import com.example.lol.ui.theme.AccentBlue
 
+/**
+ * Карточка товара в списках каталога и главной.
+ *
+ * @param product Данные товара для отображения.
+ * @param onClick Обработчик открытия подробной информации.
+ * @param onAddToCart Обработчик добавления товара в корзину.
+ * @param onRemoveFromCart Обработчик удаления товара из корзины.
+ * @param isInCart Признак, что товар уже добавлен в корзину.
+ * @param modifier Модификатор карточки.
+ */
 @Composable
 fun ProductCard(
         product: Product,
@@ -72,7 +82,6 @@ fun ProductCard(
                                 Spacer(modifier = Modifier.weight(1f))
                         }
 
-                        // Bottom Row for Price and Button
                         Row(
                                 modifier = Modifier.fillMaxWidth().align(Alignment.BottomCenter),
                                 horizontalArrangement = Arrangement.SpaceBetween,

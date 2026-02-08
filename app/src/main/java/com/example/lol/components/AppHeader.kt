@@ -16,13 +16,13 @@ import com.example.lol.R
 import com.example.lol.ui.theme.Title3Semibold
 
 /**
- * Universal header component for the app.
+ * Универсальный заголовок экрана с опциональной кнопкой назад и правым слотом.
  *
- * @param title Optional title text in the middle
- * @param showBackButton Whether to show a back chevron on the left
- * @param onBackClick Callback for the back button
- * @param trailingIcon Optional content on the right side
- * @param modifier Modifier for styling
+ * @param title Текст в центре заголовка.
+ * @param showBackButton Показывать ли кнопку назад слева.
+ * @param onBackClick Обработчик нажатия на кнопку назад.
+ * @param trailingIcon Опциональный контент в правой части заголовка.
+ * @param modifier Модификатор контейнера.
  */
 @Composable
 fun AppHeader(
@@ -37,7 +37,6 @@ fun AppHeader(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceBetween
     ) {
-        // Left section: Back button or placeholder for symmetry
         Box(modifier = Modifier.size(44.dp), contentAlignment = Alignment.CenterStart) {
             if (showBackButton) {
                 Box(
@@ -57,12 +56,10 @@ fun AppHeader(
             }
         }
 
-        // Center section: Title
         if (title != null) {
             Text(text = title, style = Title3Semibold, color = Color.Black)
         }
 
-        // Right section: Trailing icon or placeholder
         Box(modifier = Modifier.size(44.dp), contentAlignment = Alignment.CenterEnd) {
             if (trailingIcon != null) {
                 trailingIcon()

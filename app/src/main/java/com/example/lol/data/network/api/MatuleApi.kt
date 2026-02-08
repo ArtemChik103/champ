@@ -7,27 +7,47 @@ import retrofit2.Response
 import retrofit2.http.*
 
 /**
- * API интерфейс для взаимодействия с сервером Matule. Базовый URL: https://dsn-vypryamitel.ru/api
+ * Retrofit API для взаимодействия с backend Matule.
  *
- * Документация эндпоинтов согласно api.yaml спецификации.
+ * Интерфейс описывает операции авторизации, профиля, каталога, проектов, корзины и заказов.
  */
 interface MatuleApi {
 
-        // ==================== USER ====================
-
-        /** Регистрация нового пользователя. POST /collections/users/records */
+        /**
+         * Регистрирует нового пользователя.
+         *
+         * @param request Тело запроса на регистрацию.
+         */
         @POST("collections/users/records")
         suspend fun register(@Body request: RequestRegister): Response<okhttp3.ResponseBody>
 
-        /** Авторизация пользователя. POST /collections/users/auth-with-password */
+        /**
+         * Авторизует пользователя по email и паролю.
+         *
+         * @param request Тело запроса на авторизацию.
+         */
         @POST("collections/users/auth-with-password")
         suspend fun auth(@Body request: RequestAuth): retrofit2.Response<okhttp3.ResponseBody>
 
-        /** Получение информации о пользователе. GET /collections/users/records/{id_user} */
+        /**
+         * Возвращает профиль пользователя по идентификатору.
+         *
+         * @param userId Идентификатор пользователя.
+         */
         @GET("collections/users/records/{id_user}")
         suspend fun getUser(@Path("id_user") userId: String): Response<User>
 
-        /** Обновление профиля пользователя. PATCH /collections/users/records/{id_user} */
+        /**
+         * Обновляет профиль пользователя.
+         *
+         * @param userId Идентификатор пользователя.
+         * @param email Новый email.
+         * @param firstname Имя.
+         * @param lastname Фамилия.
+         * @param secondname Отчество.
+         * @param datebirthday Дата рождения.
+         * @param gender Пол.
+         */
         @Multipart
         @PATCH("collections/users/records/{id_user}")
         suspend fun updateUser(
@@ -41,41 +61,53 @@ interface MatuleApi {
         ): Response<User>
 
         /**
-         * Получение списка токенов авторизации (для logout). GET /collections/_authOrigins/records
+         * Возвращает активные токены авторизации пользователя.
          */
         @GET("collections/_authOrigins/records") suspend fun getUsersAuth(): Response<UsersAuth>
 
         /**
-         * Удаление токена (выход из системы). DELETE /collections/_authOrigins/records/{id_token}
+         * Удаляет токен авторизации (выход из системы).
+         *
+         * @param tokenId Идентификатор токена в коллекции `_authOrigins`.
          */
         @DELETE("collections/_authOrigins/records/{id_token}")
         suspend fun logout(@Path("id_token") tokenId: String): Response<Unit>
 
-        // ==================== SHOP ====================
-
-        /** Получение списка новостей/акций. GET /collections/news/records */
+        /** Возвращает список новостей и акций. */
         @GET("collections/news/records") suspend fun getNews(): Response<ResponseNews>
 
         /**
-         * Получение списка продуктов с опциональным фильтром поиска. GET
-         * /collections/products/records
+         * Возвращает список продуктов.
+         *
          * @param filter Фильтр в формате "(title ?~ 'query')"
          */
         @GET("collections/products/records")
         suspend fun getProducts(@Query("filter") filter: String? = null): Response<ResponseProducts>
 
         /**
-         * Получение детальной информации о продукте. GET /collections/products/records/{id_product}
+         * Возвращает детальную информацию о продукте.
+         *
+         * @param productId Идентификатор продукта.
          */
         @GET("collections/products/records/{id_product}")
         suspend fun getProduct(@Path("id_product") productId: String): Response<ProductApi>
 
-        // ==================== PROJECT ====================
-
-        /** Получение списка проектов пользователя. GET /collections/project/records */
+        /** Возвращает список проектов текущего пользователя. */
         @GET("collections/project/records") suspend fun getProjects(): Response<ResponseProjects>
 
-        /** Создание нового проекта. POST /collections/project/records */
+        /**
+         * Создаёт новый проект.
+         *
+         * @param title Название проекта.
+         * @param typeProject Тип проекта.
+         * @param userId Идентификатор владельца проекта.
+         * @param dateStart Дата начала.
+         * @param dateEnd Дата окончания.
+         * @param gender Пол целевой аудитории/пол пользователя.
+         * @param descriptionSource Источник описания.
+         * @param category Категория проекта.
+         * @param image Необязательное изображение проекта.
+         */
         @Multipart
         @POST("collections/project/records")
         suspend fun createProject(
@@ -90,13 +122,22 @@ interface MatuleApi {
                 @Part image: MultipartBody.Part? = null
         ): Response<ProjectApi>
 
-        // ==================== CART ====================
-
-        /** Добавление товара в корзину. POST /collections/cart/records */
+        /**
+         * Добавляет товар в корзину.
+         *
+         * @param request Тело запроса с данными корзины.
+         */
         @POST("collections/cart/records")
         suspend fun createCartItem(@Body request: RequestCart): Response<ResponseCart>
 
-        /** Обновление количества товара в корзине. PATCH /collections/cart/records/{id_bucket} */
+        /**
+         * Обновляет количество товара в корзине.
+         *
+         * @param cartItemId Идентификатор записи корзины.
+         * @param userId Идентификатор пользователя.
+         * @param productId Идентификатор товара.
+         * @param count Новое количество.
+         */
         @Multipart
         @PATCH("collections/cart/records/{id_bucket}")
         suspend fun updateCartItem(
@@ -106,9 +147,11 @@ interface MatuleApi {
                 @Part("count") count: RequestBody
         ): Response<ResponseCart>
 
-        // ==================== ORDER ====================
-
-        /** Создание заказа. POST /collections/orders/records */
+        /**
+         * Создаёт заказ.
+         *
+         * @param request Тело запроса с параметрами заказа.
+         */
         @POST("collections/orders/records")
         suspend fun createOrder(@Body request: RequestOrder): Response<ResponseOrder>
 }

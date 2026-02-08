@@ -66,8 +66,7 @@ fun CreateProjectScreen(navController: NavController, viewModel: ProjectsViewMod
                     contract = ActivityResultContracts.TakePicturePreview()
             ) { bitmap ->
                 if (bitmap != null) {
-                    // Save bitmap to temp file to get URI, or just use a separate state for bitmap
-                    // For simplicity, let's use a separate state
+                    // Камера возвращает Bitmap, поэтому храним его отдельно от URI из галереи.
                     selectedImageBitmap = bitmap
                     selectedImageUri = null
                 }
@@ -76,7 +75,6 @@ fun CreateProjectScreen(navController: NavController, viewModel: ProjectsViewMod
     var showPhotoSheet by remember { mutableStateOf(false) }
 
     Column(modifier = Modifier.fillMaxSize().background(Color.White)) {
-        // ... Header ...
         Box(
                 modifier =
                         Modifier.fillMaxWidth()
@@ -142,7 +140,6 @@ fun CreateProjectScreen(navController: NavController, viewModel: ProjectsViewMod
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            // Date Start
             Box(
                     modifier =
                             Modifier.clickable {
@@ -176,7 +173,6 @@ fun CreateProjectScreen(navController: NavController, viewModel: ProjectsViewMod
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            // Date End
             Box(
                     modifier =
                             Modifier.clickable {
@@ -311,7 +307,6 @@ fun CreateProjectScreen(navController: NavController, viewModel: ProjectsViewMod
 
             Spacer(modifier = Modifier.height(32.dp))
 
-            // Confirm Button
             Button(
                     onClick = {
                         if (projectName.isNotBlank()) {
