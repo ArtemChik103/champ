@@ -78,14 +78,12 @@ fun ProfileScreen(navController: NavController, rootNavController: NavController
                         )
                 }
 
-                Spacer(modifier = Modifier.height(40.dp))
+                Spacer(modifier = Modifier.height(24.dp))
 
                 // Menu Items
                 ProfileMenuItem(iconRes = R.drawable.order, title = "Мои заказы") {
                         navController.navigate("MyOrders")
                 }
-
-                Spacer(modifier = Modifier.height(16.dp))
 
                 ProfileMenuItem(
                         iconRes = R.drawable.settings, // Gear icon as per screen1.png
@@ -125,16 +123,12 @@ fun ProfileScreen(navController: NavController, rootNavController: NavController
                         }
                 ) {}
 
-                Spacer(modifier = Modifier.weight(1f))
+                Spacer(modifier = Modifier.height(176.dp))
 
                 // Footer (Policies & Logout)
                 Column(
                         horizontalAlignment = Alignment.CenterHorizontally,
-                        modifier =
-                                Modifier.fillMaxWidth()
-                                        .padding(
-                                                bottom = 60.dp
-                                        ) // Adjust to match screen1.png footer gap
+                        modifier = Modifier.fillMaxWidth()
                 ) {
                         Text(
                                 text = "Политика конфиденциальности",

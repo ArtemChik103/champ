@@ -138,7 +138,10 @@ fun CreatePinScreen(navController: NavController) {
                                                 interactionSource =
                                                         remember { MutableInteractionSource() },
                                                 indication =
-                                                        ripple(bounded = true, color = AccentBlue)
+                                                        ripple(
+                                                                bounded = true,
+                                                                color = Color(0xFF2074F2)
+                                                        )
                                         ) {
                                     if (pinCode.isNotEmpty()) pinCode = pinCode.dropLast(1)
                                 },

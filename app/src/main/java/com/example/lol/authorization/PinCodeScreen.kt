@@ -38,6 +38,8 @@ import com.example.lol.ui.theme.TextBlack
 import com.example.lol.ui.theme.TextRegular
 import com.example.lol.ui.theme.Title1Semibold
 
+private val PinPressColor = Color(0xFF2074F2)
+
 @Composable
 fun PinCodeScreen(navController: NavController) {
     val context = androidx.compose.ui.platform.LocalContext.current
@@ -178,7 +180,10 @@ fun PinCodeScreen(navController: NavController) {
                                                 interactionSource =
                                                         remember { MutableInteractionSource() },
                                                 indication =
-                                                        ripple(bounded = true, color = AccentBlue),
+                                                        ripple(
+                                                                bounded = true,
+                                                                color = PinPressColor
+                                                        ),
                                                 onClick = {
                                                     if (pinCode.isNotEmpty()) {
                                                         pinCode = pinCode.dropLast(1)
@@ -212,7 +217,8 @@ fun PinKeyButton(text: String, onClick: () -> Unit, isHighlighted: Boolean = fal
                             .clip(CircleShape)
                             .clickable(
                                     interactionSource = interactionSource,
-                                    indication = ripple(bounded = true, color = AccentBlue),
+                                    indication =
+                                            ripple(bounded = true, color = PinPressColor),
                                     onClick = onClick
                             ),
             contentAlignment = Alignment.Center

@@ -68,7 +68,6 @@ import com.example.lol.Projects.ProjectsViewModel
 import com.example.lol.Projects.ProjectsViewModelFactory
 import com.example.lol.authorization.CreatePasswordScreen
 import com.example.lol.authorization.CreatePinScreen
-import com.example.lol.authorization.EmailCodeScreen
 import com.example.lol.authorization.PinCodeScreen
 import com.example.lol.authorization.SignInScreen
 import com.example.lol.authorization.SignUpScreen
@@ -212,54 +211,6 @@ class MainActivity : ComponentActivity() {
                                                                 )
                                                         }
                                                 ) { SignUpScreen(navController = navController) }
-                                                // EmailCode - slide horizontal
-                                                composable(
-                                                        route = "EmailCode",
-                                                        enterTransition = {
-                                                                slideInHorizontally(
-                                                                        initialOffsetX = { it },
-                                                                        animationSpec =
-                                                                                tween(
-                                                                                        300,
-                                                                                        easing =
-                                                                                                FastOutSlowInEasing
-                                                                                )
-                                                                )
-                                                        },
-                                                        exitTransition = {
-                                                                slideOutHorizontally(
-                                                                        targetOffsetX = { -it },
-                                                                        animationSpec =
-                                                                                tween(
-                                                                                        300,
-                                                                                        easing =
-                                                                                                FastOutSlowInEasing
-                                                                                )
-                                                                )
-                                                        },
-                                                        popEnterTransition = {
-                                                                slideInHorizontally(
-                                                                        initialOffsetX = { -it },
-                                                                        animationSpec =
-                                                                                tween(
-                                                                                        300,
-                                                                                        easing =
-                                                                                                FastOutSlowInEasing
-                                                                                )
-                                                                )
-                                                        },
-                                                        popExitTransition = {
-                                                                slideOutHorizontally(
-                                                                        targetOffsetX = { it },
-                                                                        animationSpec =
-                                                                                tween(
-                                                                                        300,
-                                                                                        easing =
-                                                                                                FastOutSlowInEasing
-                                                                                )
-                                                                )
-                                                        }
-                                                ) { EmailCodeScreen(navController = navController) }
                                                 // CreatePassword - slide horizontal
                                                 composable(
                                                         route = "CreatePassword",
