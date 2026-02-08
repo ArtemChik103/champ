@@ -16,7 +16,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
-import com.example.lol.R
+import com.example.lol.uikit.R
 import com.example.lol.ui.theme.CaptionRegular
 import com.example.lol.ui.theme.RedError
 import kotlinx.coroutines.delay

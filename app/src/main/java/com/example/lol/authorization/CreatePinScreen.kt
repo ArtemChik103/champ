@@ -103,6 +103,7 @@ fun CreatePinScreen(navController: NavController) {
                                             val email = sessionManager.getCurrentEmail() ?: ""
                                             sessionManager.savePin(email, pinCode)
                                             sessionManager.setLoggedIn(true)
+                                            sessionManager.resetOneShotInactivityNotificationCycle()
                                             navController.navigate("Home")
                                         }
                                     }
@@ -127,6 +128,7 @@ fun CreatePinScreen(navController: NavController) {
                                     val email = sessionManager.getCurrentEmail() ?: ""
                                     sessionManager.savePin(email, pinCode)
                                     sessionManager.setLoggedIn(true)
+                                    sessionManager.resetOneShotInactivityNotificationCycle()
                                     navController.navigate("Home")
                                 }
                             }

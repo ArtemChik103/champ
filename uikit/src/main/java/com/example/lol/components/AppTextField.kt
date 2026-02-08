@@ -13,6 +13,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
+import androidx.compose.ui.graphics.toArgb
+import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.input.VisualTransformation
@@ -40,6 +43,7 @@ import com.example.lol.ui.theme.Roboto
  * @param singleLine Whether to restrict to single line
  * @param isError Whether to show error state
  * @param errorMessage Text to display when in error state
+ * @param testTagPrefix Prefix for UI-test tags
  */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -55,8 +59,13 @@ fun AppTextField(
     leadingIcon: @Composable (() -> Unit)? = null,
     singleLine: Boolean = true,
     isError: Boolean = false,
-    errorMessage: String? = null
+    errorMessage: String? = null,
+    testTagPrefix: String = "app_text_field"
 ) {
+    val backgroundColor = if (isError) Color(0xFFFFF5F5) else InputBg
+    val borderColor = if (isError) com.example.lol.ui.theme.RedError else InputStroke
+    val errorColor = com.example.lol.ui.theme.RedError
+
     Column(modifier = modifier) {
         if (label != null) {
             Text(
@@ -72,8 +81,13 @@ fun AppTextField(
             modifier = Modifier
                 .fillMaxWidth()
                 .height(48.dp)
-                .background(if (isError) Color(0xFFFFF5F5) else InputBg, RoundedCornerShape(10.dp))
-                .border(1.dp, if (isError) com.example.lol.ui.theme.RedError else InputStroke, RoundedCornerShape(10.dp)),
+                .background(backgroundColor, RoundedCornerShape(10.dp))
+                .border(1.dp, borderColor, RoundedCornerShape(10.dp))
+                .testTag("${testTagPrefix}_container")
+                .semantics {
+                    uiKitBackgroundColor = backgroundColor.toArgb().toLong()
+                    uiKitBorderColor = borderColor.toArgb().toLong()
+                },
             textStyle = TextRegular.copy(
                 color = Color.Black
             ),
@@ -112,7 +126,10 @@ fun AppTextField(
             Text(
                 text = errorMessage,
                 style = CaptionRegular,
-                color = com.example.lol.ui.theme.RedError,
+                color = errorColor,
+                modifier = Modifier
+                    .testTag("${testTagPrefix}_error")
+                    .semantics { uiKitTextColor = errorColor.toArgb().toLong() },
                 fontSize = 12.sp
             )
         }

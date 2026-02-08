@@ -40,6 +40,7 @@ import androidx.navigation.NavController
 import com.example.lol.Cart.CartViewModel
 import com.example.lol.Catalogue.CatalogueViewModel
 import com.example.lol.R
+import com.example.lol.components.AppChip
 import com.example.lol.components.AppTextField
 import com.example.lol.components.ProductCard
 import com.example.lol.components.ProductDetailsContent
@@ -147,7 +148,7 @@ fun MainScreen(
                                     "Аксессуары"
                             )
                     items(categories) { category ->
-                        CategoryChip(
+                        AppChip(
                                 text = category,
                                 isSelected = category == currentCategory,
                                 onClick = { viewModel.setCategory(category) }
@@ -247,27 +248,3 @@ fun BannerCard(index: Int, product: Product?, onClick: () -> Unit) {
     }
 }
 
-@Composable
-fun CategoryChip(text: String, isSelected: Boolean, onClick: () -> Unit) {
-    Box(
-            modifier =
-                    Modifier.height(48.dp)
-                            .background(
-                                    color =
-                                            if (isSelected) AccentBlue
-                                            else Color(0xFFF5F5F9),
-                                    shape = RoundedCornerShape(10.dp)
-                            )
-                            .clickable(onClick = onClick)
-                            .padding(horizontal = 20.dp),
-            contentAlignment = Alignment.Center
-    ) {
-        Text(
-                text = text,
-                color =
-                        if (isSelected) Color.White
-                        else Color(0xFF7E7E9A),
-                style = TextMedium
-        )
-    }
-}

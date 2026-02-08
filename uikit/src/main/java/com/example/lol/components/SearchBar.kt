@@ -5,7 +5,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
-import com.example.lol.R
+import com.example.lol.uikit.R
 
 /** Reusable search bar component that wraps AppTextField with a search icon. */
 @Composable

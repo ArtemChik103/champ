@@ -45,6 +45,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.lol.R
 import com.example.lol.components.AppTextField
+import com.example.lol.components.ErrorNotification
 import com.example.lol.data.network.TokenManager
 import com.example.lol.domain.usecase.auth.LoginUseCase
 import com.example.lol.domain.usecase.auth.LogoutUseCase
@@ -64,12 +65,11 @@ import com.example.lol.ui.theme.Title3Semibold
 fun SignInScreen(navController: NavController) {
         var email by remember { mutableStateOf("") }
         var password by remember { mutableStateOf("") }
+        var errorMessage by remember { mutableStateOf<String?>(null) }
         val context = LocalContext.current
         val sessionManager = remember { SessionManager(context) }
         val tokenManager = remember { TokenManager(context) }
-        val authRepository = remember {
-                com.example.lol.data.repository.MockAuthRepository.instance
-        }
+        val authRepository = remember { AuthRepositoryProvider.provide(tokenManager) }
         val loginUseCase = remember { LoginUseCase(authRepository) }
         val registerUseCase = remember { RegisterUseCase(authRepository) }
         val logoutUseCase = remember { LogoutUseCase(authRepository) }
@@ -91,6 +91,7 @@ fun SignInScreen(navController: NavController) {
                         is AuthState.Success -> {
                                 sessionManager.setCurrentEmail(email)
                                 sessionManager.setLoggedIn(true)
+                                sessionManager.resetOneShotInactivityNotificationCycle()
                                 Toast.makeText(context, "С возвращением!", Toast.LENGTH_SHORT)
                                         .show()
                                 navController.navigate("Home") {
@@ -99,12 +100,7 @@ fun SignInScreen(navController: NavController) {
                                 viewModel.resetState()
                         }
                         is AuthState.Error -> {
-                                Toast.makeText(
-                                                context,
-                                                (authState as AuthState.Error).message,
-                                                Toast.LENGTH_SHORT
-                                        )
-                                        .show()
+                                errorMessage = (authState as AuthState.Error).message
                                 viewModel.resetState()
                         }
                         else -> {}
@@ -123,6 +119,8 @@ fun SignInScreen(navController: NavController) {
                         modifier = Modifier.fillMaxWidth(),
                         horizontalAlignment = Alignment.CenterHorizontally
                 ) {
+                        AuthModeBanner()
+                        Spacer(modifier = Modifier.height(12.dp))
                         Text(
                                 text = "Добро пожаловать!",
                                 style = Title1ExtraBold,
@@ -327,4 +325,6 @@ fun SignInScreen(navController: NavController) {
 
                 Spacer(modifier = Modifier.height(20.dp))
         }
+
+        ErrorNotification(message = errorMessage, onDismiss = { errorMessage = null })
 }

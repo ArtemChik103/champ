@@ -20,4 +20,4 @@ dependencyResolutionManagement {
 }
 
 rootProject.name = "Matule"
-include(":app", ":benchmark")
+include(":app", ":benchmark", ":uikit", ":network")

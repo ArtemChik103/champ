@@ -15,6 +15,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -40,12 +41,16 @@ import com.example.lol.ui.theme.Title3Semibold
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SignUpScreen(navController: NavController) {
-    var name by remember { mutableStateOf("") }
-    var surname by remember { mutableStateOf("") }
-    var patronymic by remember { mutableStateOf("") }
-    var birthday by remember { mutableStateOf("") }
-    var gender by remember { mutableStateOf("") }
-    var email by remember { mutableStateOf("") }
+    val context = LocalContext.current
+    val sessionManager = remember { SessionManager(context) }
+    val profileDraft = remember { sessionManager.getCreateProfileDraft() }
+
+    var name by rememberSaveable { mutableStateOf(profileDraft.name) }
+    var surname by rememberSaveable { mutableStateOf(profileDraft.surname) }
+    var patronymic by rememberSaveable { mutableStateOf(profileDraft.patronymic) }
+    var birthday by rememberSaveable { mutableStateOf(profileDraft.birthday) }
+    var gender by rememberSaveable { mutableStateOf(profileDraft.gender) }
+    var email by rememberSaveable { mutableStateOf(profileDraft.email) }
 
     var showGenderSheet by remember { mutableStateOf(false) }
     var errorMessage by remember { mutableStateOf<String?>(null) }
@@ -56,10 +61,8 @@ fun SignUpScreen(navController: NavController) {
     var isGenderError by remember { mutableStateOf(false) }
     var isEmailError by remember { mutableStateOf(false) }
 
-    val context = LocalContext.current
-    val sessionManager = remember { SessionManager(context) }
     val tokenManager = remember { TokenManager(context) }
-    val authRepository = remember { com.example.lol.data.repository.MockAuthRepository.instance }
+    val authRepository = remember { AuthRepositoryProvider.provide(tokenManager) }
     val loginUseCase = remember { LoginUseCase(authRepository) }
     val registerUseCase = remember { RegisterUseCase(authRepository) }
     val logoutUseCase = remember { LogoutUseCase(authRepository) }
@@ -79,6 +82,7 @@ fun SignUpScreen(navController: NavController) {
     LaunchedEffect(authState) {
         when (authState) {
             is AuthState.Success -> {
+                sessionManager.clearCreateProfileDraft()
                 navController.navigate("CreatePassword")
                 viewModel.resetState()
             }
@@ -88,6 +92,17 @@ fun SignUpScreen(navController: NavController) {
             }
             else -> {}
         }
+    }
+
+    LaunchedEffect(name, surname, patronymic, birthday, gender, email) {
+        sessionManager.saveCreateProfileDraft(
+                name = name,
+                surname = surname,
+                patronymic = patronymic,
+                birthday = birthday,
+                gender = gender,
+                email = email
+        )
     }
 
     Box(modifier = Modifier.fillMaxSize()) {
@@ -122,6 +137,8 @@ fun SignUpScreen(navController: NavController) {
                     modifier = Modifier.fillMaxWidth(),
                     horizontalAlignment = Alignment.CenterHorizontally
             ) {
+                AuthModeBanner()
+                Spacer(modifier = Modifier.height(12.dp))
                 Text(
                         text = "Создание Профиля",
                         style = Title1Semibold,
@@ -301,6 +318,7 @@ fun SignUpScreen(navController: NavController) {
                         } else {
                             sessionManager.setCurrentEmail(email)
                             sessionManager.registerUser(email, name)
+                            sessionManager.clearCreateProfileDraft()
                             navController.navigate("CreatePassword")
                         }
                     },

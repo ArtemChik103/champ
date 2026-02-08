@@ -34,9 +34,9 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat
 import androidx.navigation.NavController
-import androidx.work.WorkManager
 import com.example.lol.R
 import com.example.lol.authorization.SessionManager
+import com.example.lol.notifications.InactivityNotificationScheduler
 import com.example.lol.ui.theme.HeadlineRegular
 import com.example.lol.ui.theme.TextMedium
 import com.example.lol.ui.theme.Title1Bold
@@ -113,8 +113,7 @@ fun ProfileScreen(navController: NavController, rootNavController: NavController
                                 } else {
                                         showNotifications.value = false
                                         sessionManager.setNotificationsEnabled(false)
-                                        WorkManager.getInstance(context)
-                                                .cancelUniqueWork("inactivity_work")
+                                        InactivityNotificationScheduler.cancel(context)
                                 }
                         }
                 ) {}

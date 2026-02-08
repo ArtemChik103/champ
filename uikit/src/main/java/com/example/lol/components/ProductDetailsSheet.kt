@@ -14,7 +14,7 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.lol.R
+import com.example.lol.uikit.R
 import com.example.lol.data.Product
 import com.example.lol.ui.theme.AccentBlue
 

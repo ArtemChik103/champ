@@ -116,6 +116,8 @@ fun PinCodeScreen(navController: NavController) {
                                         if (pinCode.length == maxDigits) {
                                             val sessionManager = SessionManager(context)
                                             if (pinCode == sessionManager.getPin()) {
+                                                sessionManager.setLoggedIn(true)
+                                                sessionManager.resetOneShotInactivityNotificationCycle()
                                                 navController.navigate("Home") {
                                                     popUpTo("PinCode") { inclusive = true }
                                                 }
@@ -154,6 +156,8 @@ fun PinCodeScreen(navController: NavController) {
                                 if (pinCode.length == maxDigits) {
                                     val sessionManager = SessionManager(context)
                                     if (pinCode == sessionManager.getPin()) {
+                                        sessionManager.setLoggedIn(true)
+                                        sessionManager.resetOneShotInactivityNotificationCycle()
                                         navController.navigate("Home") {
                                             popUpTo("PinCode") { inclusive = true }
                                         }

@@ -167,6 +167,22 @@ class AuthRepositoryTest {
         assertNull(stubTokenManager.savedToken)
         assertNull(stubTokenManager.savedUserId)
     }
+
+    @Test
+    fun `logout when token missing still clears local auth`() = runTest {
+        stubTokenManager.savedToken = "test_token"
+        stubTokenManager.savedUserId = "unknown_user"
+
+        mockWebServer.enqueue(
+                MockResponse().setResponseCode(200).setBody(TestJsonResponses.usersAuthJson)
+        )
+
+        val result = repository.logout()
+
+        assertTrue(result.isSuccess)
+        assertNull(stubTokenManager.savedToken)
+        assertNull(stubTokenManager.savedUserId)
+    }
 }
 
 /** Stub реализация для тестов без Android Context. Имитирует поведение TokenManager в памяти. */

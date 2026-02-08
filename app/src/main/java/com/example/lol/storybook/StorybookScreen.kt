@@ -4,7 +4,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
@@ -87,6 +86,8 @@ fun StorybookScreen() {
         item {
             SectionTitle("Select Field")
             var selectedOption by remember { mutableStateOf("") }
+            var selectedWithoutIcon by remember { mutableStateOf("") }
+
             AppSelectField(
                     value = selectedOption,
                     label = "Выберите пол",
@@ -94,6 +95,36 @@ fun StorybookScreen() {
                     options = listOf("👨 Мужской", "👩 Женский"),
                     onOptionSelected = { selectedOption = it }
             )
+
+            Spacer(modifier = Modifier.height(8.dp))
+
+            AppSelectField(
+                    value = selectedWithoutIcon,
+                    label = "Select без иконки",
+                    placeholder = "Выберите опцию",
+                    options = listOf("🔥 Горячее", "✨ Новое", "✅ Подтверждено"),
+                    onOptionSelected = { selectedWithoutIcon = it },
+                    showChevron = false
+            )
+        }
+
+        // --- Chips ---
+        item {
+            SectionTitle("Chips ON/OFF")
+            var chipState by remember { mutableStateOf(true) }
+
+            Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
+                AppChip(
+                        text = "Активный",
+                        isSelected = chipState,
+                        onClick = { chipState = !chipState }
+                )
+                AppChip(
+                        text = "Неактивный",
+                        isSelected = !chipState,
+                        onClick = { chipState = !chipState }
+                )
+            }
         }
 
         // --- Icons ---
@@ -340,49 +371,19 @@ fun IconItem(iconId: Int) {
 fun StorybookBottomBar() {
     val items =
             listOf(
-                    Triple("Main", "Главная", R.drawable.analizy),
-                    Triple("Catalogue", "Каталог", R.drawable.rezultaty),
-                    Triple("Projects", "Проекты", R.drawable.podderzhka),
-                    Triple("Profile", "Профиль", R.drawable.polzovatel)
+                    AppTabBarItem("Main", "Главная", R.drawable.analizy),
+                    AppTabBarItem("Catalogue", "Каталог", R.drawable.rezultaty),
+                    AppTabBarItem("Projects", "Проекты", R.drawable.podderzhka),
+                    AppTabBarItem("Profile", "Профиль", R.drawable.polzovatel)
             )
     var selectedRoute by remember { mutableStateOf("Main") }
 
-    NavigationBar(
+    AppTabBar(
+            items = items,
+            selectedRoute = selectedRoute,
+            onItemSelected = { selectedRoute = it },
             modifier =
                     Modifier.height(88.dp)
-                            .border(1.dp, Color(0xFFF4F4F4)), // Visual border for storybook
-            containerColor = Color.White,
-            contentColor = AccentBlue,
-            tonalElevation = 0.dp
-    ) {
-        items.forEach { (route, title, iconRes) ->
-            NavigationBarItem(
-                    icon = {
-                        Icon(
-                                painterResource(id = iconRes),
-                                contentDescription = title,
-                                modifier = Modifier.size(32.dp)
-                        )
-                    },
-                    label = {
-                        Text(
-                                title,
-                                fontSize = 12.sp,
-                                fontFamily = FontFamily.Default,
-                                fontWeight = FontWeight.Normal
-                        )
-                    },
-                    selected = selectedRoute == route,
-                    colors =
-                            NavigationBarItemDefaults.colors(
-                                    selectedIconColor = AccentBlue,
-                                    selectedTextColor = AccentBlue,
-                                    indicatorColor = Color.Transparent,
-                                    unselectedIconColor = Color(0xFFB8C1CC),
-                                    unselectedTextColor = Color(0xFFB8C1CC)
-                            ),
-                    onClick = { selectedRoute = route }
-            )
-        }
-    }
+                            .border(1.dp, Color(0xFFF4F4F4))
+    )
 }

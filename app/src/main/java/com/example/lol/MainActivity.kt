@@ -72,6 +72,8 @@ import com.example.lol.authorization.PinCodeScreen
 import com.example.lol.authorization.SignInScreen
 import com.example.lol.authorization.SignUpScreen
 import com.example.lol.authorization.SplashScreen
+import com.example.lol.components.AppTabBar
+import com.example.lol.components.AppTabBarItem
 import com.example.lol.data.network.RetrofitInstance
 import com.example.lol.data.network.TokenManager
 import com.example.lol.data.repository.CartRepository
@@ -82,6 +84,7 @@ import com.example.lol.domain.usecase.cart.AddToCartUseCase
 import com.example.lol.domain.usecase.cart.UpdateCartItemUseCase
 import com.example.lol.domain.usecase.product.GetProductsUseCase
 import com.example.lol.domain.usecase.product.SearchProductsUseCase
+import com.example.lol.notifications.InactivityNotificationScheduler
 import com.example.lol.ui.theme.AccentBlue
 import com.example.lol.ui.theme.LolTheme
 
@@ -329,30 +332,14 @@ class MainActivity : ComponentActivity() {
 
         override fun onResume() {
                 super.onResume()
-                // Отменяем уведомление, пока приложение открыто.
-                androidx.work.WorkManager.getInstance(this).cancelUniqueWork("inactivity_work")
+                InactivityNotificationScheduler.cancel(this)
         }
 
         override fun onStop() {
                 super.onStop()
-                // Планируем уведомление при сворачивании/закрытии, если включено.
                 val sessionManager = com.example.lol.authorization.SessionManager(this)
                 if (sessionManager.isNotificationsEnabled()) {
-                        val workRequest =
-                                androidx.work.OneTimeWorkRequest.Builder(
-                                                com.example.lol.notifications
-                                                                .InactivityWorker::class
-                                                        .java
-                                        )
-                                        .setInitialDelay(1, java.util.concurrent.TimeUnit.MINUTES)
-                                        .build()
-
-                        androidx.work.WorkManager.getInstance(this)
-                                .enqueueUniqueWork(
-                                        "inactivity_work",
-                                        androidx.work.ExistingWorkPolicy.REPLACE,
-                                        workRequest
-                                )
+                        InactivityNotificationScheduler.schedule(this, sessionManager)
                 }
         }
 }
@@ -804,57 +791,34 @@ fun BottomNavigationBar(navController: NavController) {
                         BottomNavItem("Profile", "Профиль", R.drawable.polzovatel)
                 )
 
-        NavigationBar(
+        val navBackStackEntry by navController.currentBackStackEntryAsState()
+        val currentRoute = navBackStackEntry?.destination?.route ?: "Main"
+
+        AppTabBar(
+                items =
+                        items.map {
+                                AppTabBarItem(
+                                        route = it.route,
+                                        title = it.title,
+                                        iconRes = it.iconRes
+                                )
+                        },
+                selectedRoute = currentRoute,
+                onItemSelected = { route ->
+                        navController.navigate(route) {
+                                popUpTo(navController.graph.startDestinationId) {
+                                        saveState = true
+                                }
+                                launchSingleTop = true
+                        }
+                },
                 modifier =
                         Modifier.height(88.dp)
                                 .shadow(
                                         elevation = 0.5.dp,
                                         spotColor = Color(0x4DA0A0A0)
-                                ),
-                containerColor = Color.White,
-                contentColor = AccentBlue,
-                tonalElevation = 0.dp
-        ) {
-                val navBackStackEntry by navController.currentBackStackEntryAsState()
-                val currentRoute = navBackStackEntry?.destination?.route
-
-                items.forEach { item ->
-                        NavigationBarItem(
-                                icon = {
-                                        Icon(
-                                                painterResource(id = item.iconRes),
-                                                contentDescription = item.title,
-                                                modifier = Modifier.size(32.dp)
-                                        )
-                                },
-                                label = {
-                                        Text(
-                                                item.title,
-                                                fontSize = 12.sp,
-                                                fontFamily = FontFamily.Default,
-                                                fontWeight = FontWeight.Normal
-                                        )
-                                },
-                                selected = currentRoute == item.route,
-                                colors =
-                                        NavigationBarItemDefaults.colors(
-                                                selectedIconColor = AccentBlue,
-                                                selectedTextColor = AccentBlue,
-                                                indicatorColor = Color.Transparent,
-                                                unselectedIconColor = Color(0xFFB8C1CC),
-                                                unselectedTextColor = Color(0xFFB8C1CC)
-                                        ),
-                                onClick = {
-                                        navController.navigate(item.route) {
-                                                popUpTo(navController.graph.startDestinationId) {
-                                                        saveState = true
-                                                }
-                                                launchSingleTop = true
-                                        }
-                                }
-                        )
-                }
-        }
+                                )
+        )
 }
 
 data class BottomNavItem(val route: String, val title: String, val iconRes: Int)

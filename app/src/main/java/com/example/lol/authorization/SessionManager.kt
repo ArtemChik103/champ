@@ -12,6 +12,7 @@ class SessionManager(context: Context) {
         private const val KEY_CURRENT_USER_EMAIL = "current_user_email"
         private const val KEY_USERS_LIST = "registered_users"
         private const val KEY_LAST_ROUTE = "last_route"
+        private const val KEY_ONE_SHOT_INACTIVITY_SENT = "one_shot_inactivity_sent"
 
         // Шаблоны ключей для данных конкретного пользователя.
         private fun keyPassword(email: String) = "user:$email:password"
@@ -19,7 +20,22 @@ class SessionManager(context: Context) {
         private fun keyName(email: String) = "user:$email:name"
 
         private const val KEY_NOTIFICATIONS_ENABLED = "notifications_enabled"
+        private const val KEY_PROFILE_DRAFT_NAME = "profile_draft_name"
+        private const val KEY_PROFILE_DRAFT_SURNAME = "profile_draft_surname"
+        private const val KEY_PROFILE_DRAFT_PATRONYMIC = "profile_draft_patronymic"
+        private const val KEY_PROFILE_DRAFT_BIRTHDAY = "profile_draft_birthday"
+        private const val KEY_PROFILE_DRAFT_GENDER = "profile_draft_gender"
+        private const val KEY_PROFILE_DRAFT_EMAIL = "profile_draft_email"
     }
+
+    data class CreateProfileDraft(
+            val name: String = "",
+            val surname: String = "",
+            val patronymic: String = "",
+            val birthday: String = "",
+            val gender: String = "",
+            val email: String = ""
+    )
 
     fun setNotificationsEnabled(enabled: Boolean) {
         prefs.edit().putBoolean(KEY_NOTIFICATIONS_ENABLED, enabled).apply()
@@ -27,6 +43,58 @@ class SessionManager(context: Context) {
 
     fun isNotificationsEnabled(): Boolean {
         return prefs.getBoolean(KEY_NOTIFICATIONS_ENABLED, false)
+    }
+
+    fun markOneShotInactivityNotificationSent() {
+        prefs.edit().putBoolean(KEY_ONE_SHOT_INACTIVITY_SENT, true).apply()
+    }
+
+    fun isOneShotInactivityNotificationSent(): Boolean {
+        return prefs.getBoolean(KEY_ONE_SHOT_INACTIVITY_SENT, false)
+    }
+
+    fun resetOneShotInactivityNotificationCycle() {
+        prefs.edit().putBoolean(KEY_ONE_SHOT_INACTIVITY_SENT, false).apply()
+    }
+
+    fun saveCreateProfileDraft(
+            name: String,
+            surname: String,
+            patronymic: String,
+            birthday: String,
+            gender: String,
+            email: String
+    ) {
+        prefs.edit()
+                .putString(KEY_PROFILE_DRAFT_NAME, name)
+                .putString(KEY_PROFILE_DRAFT_SURNAME, surname)
+                .putString(KEY_PROFILE_DRAFT_PATRONYMIC, patronymic)
+                .putString(KEY_PROFILE_DRAFT_BIRTHDAY, birthday)
+                .putString(KEY_PROFILE_DRAFT_GENDER, gender)
+                .putString(KEY_PROFILE_DRAFT_EMAIL, email)
+                .apply()
+    }
+
+    fun getCreateProfileDraft(): CreateProfileDraft {
+        return CreateProfileDraft(
+                name = prefs.getString(KEY_PROFILE_DRAFT_NAME, "").orEmpty(),
+                surname = prefs.getString(KEY_PROFILE_DRAFT_SURNAME, "").orEmpty(),
+                patronymic = prefs.getString(KEY_PROFILE_DRAFT_PATRONYMIC, "").orEmpty(),
+                birthday = prefs.getString(KEY_PROFILE_DRAFT_BIRTHDAY, "").orEmpty(),
+                gender = prefs.getString(KEY_PROFILE_DRAFT_GENDER, "").orEmpty(),
+                email = prefs.getString(KEY_PROFILE_DRAFT_EMAIL, "").orEmpty()
+        )
+    }
+
+    fun clearCreateProfileDraft() {
+        prefs.edit()
+                .remove(KEY_PROFILE_DRAFT_NAME)
+                .remove(KEY_PROFILE_DRAFT_SURNAME)
+                .remove(KEY_PROFILE_DRAFT_PATRONYMIC)
+                .remove(KEY_PROFILE_DRAFT_BIRTHDAY)
+                .remove(KEY_PROFILE_DRAFT_GENDER)
+                .remove(KEY_PROFILE_DRAFT_EMAIL)
+                .apply()
     }
 
     fun saveLastRoute(route: String) {
@@ -107,6 +175,13 @@ class SessionManager(context: Context) {
                 .remove(KEY_IS_LOGGED_IN)
                 .remove(KEY_CURRENT_USER_EMAIL)
                 .remove(KEY_LAST_ROUTE)
+                .remove(KEY_ONE_SHOT_INACTIVITY_SENT)
+                .remove(KEY_PROFILE_DRAFT_NAME)
+                .remove(KEY_PROFILE_DRAFT_SURNAME)
+                .remove(KEY_PROFILE_DRAFT_PATRONYMIC)
+                .remove(KEY_PROFILE_DRAFT_BIRTHDAY)
+                .remove(KEY_PROFILE_DRAFT_GENDER)
+                .remove(KEY_PROFILE_DRAFT_EMAIL)
                 .apply()
     }
 

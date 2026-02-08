@@ -43,6 +43,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.lol.Cart.CartViewModel
 import com.example.lol.R
+import com.example.lol.components.AppChip
 import com.example.lol.components.AppTextField
 import com.example.lol.components.ProductCard
 import com.example.lol.components.ProductDetailsContent
@@ -116,7 +117,7 @@ fun CatalogueScreen(
                 val categories =
                         listOf("Все", "Популярные", "Новинки", "Мужское", "Женское", "Аксессуары")
                 items(categories) { category ->
-                    CatalogueChip(
+                    AppChip(
                             text = category,
                             isSelected = category == currentCategory,
                             onClick = { viewModel.setCategory(category) }
@@ -205,24 +206,3 @@ fun CatalogueScreen(
     }
 }
 
-@Composable
-fun CatalogueChip(text: String, isSelected: Boolean, onClick: () -> Unit) {
-    Box(
-            modifier =
-                    Modifier.background(
-                                    color =
-                                            if (isSelected) AccentBlue
-                                            else com.example.lol.ui.theme.ChipInactiveBg,
-                                    shape = RoundedCornerShape(10.dp)
-                            )
-                            .clickable(onClick = onClick)
-                            .padding(horizontal = 20.dp, vertical = 14.dp), // 48px height total
-            contentAlignment = Alignment.Center
-    ) {
-        Text(
-                text = text,
-                color = if (isSelected) Color.White else com.example.lol.ui.theme.TextGray,
-                style = TextMedium
-        )
-    }
-}

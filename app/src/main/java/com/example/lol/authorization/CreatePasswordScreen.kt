@@ -43,6 +43,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.lol.R
 import com.example.lol.components.AppTextField
+import com.example.lol.components.ErrorNotification
 import com.example.lol.data.network.TokenManager
 import com.example.lol.domain.usecase.auth.LoginUseCase
 import com.example.lol.domain.usecase.auth.LogoutUseCase
@@ -63,9 +64,7 @@ fun CreatePasswordScreen(navController: NavController) {
         val credentialHelper = remember { CredentialHelper(context) }
         val sessionManager = remember { SessionManager(context) }
         val tokenManager = remember { TokenManager(context) }
-        val authRepository = remember {
-                com.example.lol.data.repository.MockAuthRepository.instance
-        }
+        val authRepository = remember { AuthRepositoryProvider.provide(tokenManager) }
         val loginUseCase = remember { LoginUseCase(authRepository) }
         val registerUseCase = remember { RegisterUseCase(authRepository) }
         val logoutUseCase = remember { LogoutUseCase(authRepository) }
@@ -82,6 +81,7 @@ fun CreatePasswordScreen(navController: NavController) {
                 )
         var password by remember { mutableStateOf("") }
         var confirmPassword by remember { mutableStateOf("") }
+        var errorMessage by remember { mutableStateOf<String?>(null) }
         val authState by viewModel.authState.collectAsState()
 
         LaunchedEffect(authState) {
@@ -95,12 +95,7 @@ fun CreatePasswordScreen(navController: NavController) {
                                 viewModel.resetState()
                         }
                         is AuthState.Error -> {
-                                Toast.makeText(
-                                                context,
-                                                (authState as AuthState.Error).message,
-                                                Toast.LENGTH_SHORT
-                                        )
-                                        .show()
+                                errorMessage = (authState as AuthState.Error).message
                                 viewModel.resetState()
                         }
                         else -> {}
@@ -118,6 +113,8 @@ fun CreatePasswordScreen(navController: NavController) {
                         modifier = Modifier.fillMaxWidth(),
                         horizontalAlignment = Alignment.CenterHorizontally
                 ) {
+                        AuthModeBanner()
+                        Spacer(modifier = Modifier.height(12.dp))
                         Text(
                                 text = "Создание пароля",
                                 style = Title1Semibold,
@@ -302,6 +299,8 @@ fun CreatePasswordScreen(navController: NavController) {
                         }
                 }
         }
+
+        ErrorNotification(message = errorMessage, onDismiss = { errorMessage = null })
 }
 
 @Composable

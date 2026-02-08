@@ -1,114 +1,98 @@
 # Matule
 
-**Matule** — это современное Android-приложение для электронной коммерции, разработанное с использованием **Kotlin** и **Jetpack Compose**. Приложение включает функционал для просмотра товаров, управления корзиной, оформления заказов, аутентификации пользователей и управления личными проектами.
+Matule — Android-приложение на Kotlin + Jetpack Compose.
 
-## 📱 Функциональные возможности
+## Модули
 
-Основываясь на структуре репозитория и тестах, приложение поддерживает следующие функции:
+- `:app` — runtime, экраны, навигация, ViewModel, WorkManager-сценарии, auth-flow.
+- `:uikit` — UI-компоненты и тема (`components/*`, `ui/theme/*`, `data/Product.kt`).
+- `:network` — API/DTO/network-репозитории (`data/network/*`, `data/repository/*`, кроме `MockAuthRepository`).
+- `:benchmark` — макробенчмарки.
 
-*   **Аутентификация:**
-    *   Вход (Login) и Регистрация (Register).
-    *   Восстановление доступа (подразумевается).
-    *   Выход из системы (Logout).
-*   **Каталог товаров:**
-    *   Просмотр списка товаров с пагинацией.
-    *   Детальный просмотр товара.
-    *   Поиск и фильтрация товаров (по типу, названию).
-*   **Корзина и Заказы:**
-    *   Добавление товаров в корзину.
-    *   Изменение количества товара в корзине.
-    *   Оформление заказа.
-*   **Профиль пользователя:**
-    *   Редактирование личных данных (имя, фамилия, дата рождения, пол).
-*   **Проекты:**
-    *   Создание и просмотр пользовательских проектов (custom user projects).
-*   **Storybook:**
-    *   Встроенный `StorybookActivity` для изолированной разработки и тестирования UI-компонентов.
+## Runtime Auth
 
-## 🛠 Технологический стек
+Текущий runtime закреплён на `MockAuth`:
 
-Проект использует современные инструменты Android-разработки:
+- Провайдер: `app/src/main/java/com/example/lol/authorization/AuthRepositoryProvider.kt`
+- Флаг режима: `AuthRuntimeConfig.useMockAuthInRuntime = true`
+- UI-индикатор режима: `AuthModeBanner` на экранах SignIn/SignUp/CreatePassword
 
-*   **Язык:** Kotlin
-*   **UI:** [Jetpack Compose](https://developer.android.com/jetpack/compose) (Material 3)
-*   **Асинхронность:** Kotlin Coroutines & Flow
-*   **Сеть:**
-    *   [Retrofit](https://square.github.io/retrofit/) — REST клиент.
-    *   [OkHttp](https://square.github.io/okhttp/) — HTTP клиент + Logging Interceptor.
-    *   Gson — сериализация JSON.
-*   **Загрузка изображений:** [Coil](https://coil-kt.github.io/coil/)
-*   **Навигация:** Navigation Compose
-*   **Сборка:** Gradle (Kotlin DSL)
-*   **SDK:**
-    *   Min SDK: 24
-    *   Target SDK: 35
-    *   Compile SDK: 36
+Network-auth остаётся доступным как вторичный путь (переключение флага в `AuthRuntimeConfig`).
 
-## 📂 Структура проекта
+## Локальные уведомления
 
-*   `app/` — Основной модуль приложения.
-    *   `src/main/java/com/example/lol/` — Исходный код.
-    *   `src/test/` — Unit-тесты (Repository, ViewModel).
-    *   `src/androidTest/` — UI-тесты.
-*   `benchmark/` — Модуль для макробенчмаркинга (тестирование производительности, например, времени запуска).
+Реализованы два независимых сценария Sprint-4:
 
-## 🚀 Установка и запуск
+- Сценарий A: через 30 секунд после ухода из приложения и далее каждые 2 минуты до открытия приложения.
+- Сценарий B: one-shot через 1 минуту неактивности, не повторяется до следующего входа.
 
-1.  **Предварительные требования:**
-    *   Android Studio (Ladybug или новее).
-    *   JDK 17 или выше.
+Основные файлы:
 
-2.  **Клонирование репозитория:**
-    ```bash
-    git clone https://github.com/username/matule.git
-    cd matule
-    ```
+- `app/src/main/java/com/example/lol/notifications/InactivityNotificationScheduler.kt`
+- `app/src/main/java/com/example/lol/notifications/RepeatingInactivityWorker.kt`
+- `app/src/main/java/com/example/lol/notifications/OneShotInactivityWorker.kt`
+- `app/src/main/java/com/example/lol/authorization/SessionManager.kt`
 
-3.  **Открытие проекта:**
-    *   Запустите Android Studio.
-    *   Выберите "Open" и укажите папку проекта.
-    *   Дождитесь окончания синхронизации Gradle.
+## Persistence
 
-4.  **Запуск приложения:**
-    *   Выберите конфигурацию `app`.
-    *   Нажмите кнопку **Run** (зеленый треугольник) или `Shift + F10`.
+Сохранение/восстановление состояния экрана создания профиля после перезапуска:
 
-## 🧪 Тестирование
+- `SessionManager.getCreateProfileDraft()/saveCreateProfileDraft()`
+- Использование в `app/src/main/java/com/example/lol/authorization/SignUpScreen.kt`
 
-В проекте реализовано несколько уровней тестирования:
+Сохранение последнего маршрута (last route) сохранено и работает параллельно:
 
-### Unit Tests
-Проверяют бизнес-логику (ViewModel, Repository). Используется `MockWebServer` для имитации сетевых запросов.
+- `SessionManager.saveLastRoute()/getLastRoute()`
+- `MainContainer` в `app/src/main/java/com/example/lol/MainActivity.kt`
 
-Запуск тестов:
+## Storybook и UIKit
+
+- Storybook: `app/src/main/java/com/example/lol/storybook/StorybookScreen.kt`
+- `AppSelectField` переведён на `ModalBottomSheet` с emoji-опциями.
+- Добавлены `AppChip` и `AppTabBar` в `:uikit`.
+
+## Матрица требований и доказательств
+
+| Требование | Доказательство |
+|---|---|
+| Структура `:app + :uikit + :network` | `settings.gradle.kts`, `uikit/build.gradle.kts`, `network/build.gradle.kts` |
+| Storybook покрывает состояния UIKit | `app/src/main/java/com/example/lol/storybook/StorybookScreen.kt` |
+| Select открывает BottomSheet с emoji | `uikit/src/main/java/com/example/lol/components/AppSelectField.kt` |
+| UIKit state-тесты (Input error, Select no icon, Chips, TabBar, emoji select) | `uikit/src/androidTest/java/com/example/lol/components/UiKitStateTest.kt` |
+| Runtime auth через MockAuth | `app/src/main/java/com/example/lol/authorization/AuthRepositoryProvider.kt` |
+| Network-слой покрыт repo-тестами | `network/src/test/java/com/example/lol/data/repository/*.kt` |
+| Ошибки сервера показываются в 5s уведомлении с ручным закрытием | `uikit/src/main/java/com/example/lol/components/ErrorNotification.kt`, использование в auth-экранах |
+| Восстановление формы и last route после restart | `app/src/main/java/com/example/lol/authorization/SignUpScreen.kt`, `app/src/main/java/com/example/lol/MainActivity.kt`, `app/src/main/java/com/example/lol/authorization/SessionManager.kt` |
+| Уведомления соответствуют двум тайминг-сценариям | `app/src/main/java/com/example/lol/notifications/*` |
+
+## Матрица network-запросов и тестов
+
+| Запрос | Тесты |
+|---|---|
+| `POST /collections/users/auth-with-password` | `network/src/test/java/com/example/lol/data/repository/AuthRepositoryTest.kt` (`login success/failure`) |
+| `POST /collections/users/records` | `network/src/test/java/com/example/lol/data/repository/AuthRepositoryTest.kt` (`register success/failure`) |
+| `GET /collections/users/records/{id}` | `network/src/test/java/com/example/lol/data/repository/AuthRepositoryTest.kt` (`getUser success/failure`) |
+| `PATCH /collections/users/records/{id}` | `network/src/test/java/com/example/lol/data/repository/AuthRepositoryTest.kt` (`updateUser success`) |
+| `DELETE /collections/_authOrigins/records/{id}` + auth list | `network/src/test/java/com/example/lol/data/repository/AuthRepositoryTest.kt` (`logout success`, `logout token missing`) |
+| `GET /collections/products/records` | `network/src/test/java/com/example/lol/data/repository/ProductRepositoryApiTest.kt` (`getProducts success/failure`, `search filter`) |
+| `GET /collections/products/records/{id}` | `network/src/test/java/com/example/lol/data/repository/ProductRepositoryApiTest.kt` (`getProductById success`) |
+| `GET /collections/news/records` | `network/src/test/java/com/example/lol/data/repository/ProductRepositoryApiTest.kt` (`getNews success/failure`) |
+| `POST/PATCH /collections/cart/records` | `network/src/test/java/com/example/lol/data/repository/CartRepositoryTest.kt` (`add`, `update`, network error`) |
+| `POST /collections/orders/records` | `network/src/test/java/com/example/lol/data/repository/OrderRepositoryTest.kt` (`create success/failure`) |
+| `GET/POST /collections/project/records` | `network/src/test/java/com/example/lol/data/repository/ProjectRepositoryTest.kt` (`get/create success`, `create failure`) |
+
+## Сборка
+
 ```bash
-./gradlew :app:testDebugUnitTest
+./gradlew :network:compileDebugKotlin :uikit:compileDebugKotlin :app:assembleDebug
 ```
 
-### UI / Instrumentation Tests
-Базовые проверки контекста и UI.
+## Тесты
 
-Запуск:
 ```bash
-./gradlew :app:connectedAndroidTest
+# Компиляция androidTest для UIKit
+./gradlew :uikit:compileDebugAndroidTestKotlin
+
+# Unit-тесты: в текущем окружении могут падать на этапе создания AndroidUnitTest-задач
+# (ошибка Gradle/AGP: "Type T not present").
 ```
-
-### Benchmarks
-Тестирование производительности (например, время холодного старта).
-
-Запуск:
-```bash
-./gradlew :benchmark:connectedCheck
-```
-
-## 🌐 API
-
-Приложение настроено на взаимодействие с REST API. Судя по структуре ответов в тестах (`collectionId`, `collectionName`), бэкенд, вероятно, построен на **PocketBase** или похожей системе.
-
-Примеры эндпоинтов (из тестов):
-*   `POST /api/collections/users/auth-with-password` — Вход.
-*   `GET /api/collections/products/records` — Список товаров.
-
-## 📄 Лицензия
-
-© 2026 Matule Project. Все права защищены.
