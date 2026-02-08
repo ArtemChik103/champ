@@ -1,7 +1,7 @@
 # Keep all app sources/resources trackable.
-# Explicitly keep core Android resource folders trackable.
-!res/values/
-!res/xml/
+# Explicitly keep all Android resource folders and files trackable.
+!res/
+!res/**
 
 # Ignore only local docs/artifacts in this folder.
 api.yaml
