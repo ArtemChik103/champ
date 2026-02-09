@@ -14,8 +14,8 @@ Matule — Android-приложение на Kotlin + Jetpack Compose.
 Текущий runtime закреплён на `MockAuth`:
 
 - Провайдер: `app/src/main/java/com/example/lol/authorization/AuthRepositoryProvider.kt`
-- Флаг режима: `AuthRuntimeConfig.useMockAuthInRuntime = true`
-- UI-индикатор режима: `AuthModeBanner` на экранах SignIn/SignUp/CreatePassword
+- Флаг режима: `AuthRuntimeConfig.useMockAuthInRuntime = true` (объявлен в `AuthRepositoryProvider.kt`)
+- `AuthModeBanner` подключён на экранах SignIn/SignUp/CreatePassword, но визуально скрыт (`app/src/main/java/com/example/lol/authorization/AuthModeBanner.kt`)
 
 Network-auth остаётся доступным как вторичный путь (переключение флага в `AuthRuntimeConfig`).
 
@@ -73,7 +73,7 @@ Network-auth остаётся доступным как вторичный пу�
 | `POST /collections/users/records` | `network/src/test/java/com/example/lol/data/repository/AuthRepositoryTest.kt` (`register success/failure`) |
 | `GET /collections/users/records/{id}` | `network/src/test/java/com/example/lol/data/repository/AuthRepositoryTest.kt` (`getUser success/failure`) |
 | `PATCH /collections/users/records/{id}` | `network/src/test/java/com/example/lol/data/repository/AuthRepositoryTest.kt` (`updateUser success`) |
-| `DELETE /collections/_authOrigins/records/{id}` + auth list | `network/src/test/java/com/example/lol/data/repository/AuthRepositoryTest.kt` (`logout success`, `logout token missing`) |
+| `DELETE /collections/_authOrigins/records/{id}` + auth list | `network/src/test/java/com/example/lol/data/repository/AuthRepositoryTest.kt` (`logout success`, `logout when token missing still clears local auth`) |
 | `GET /collections/products/records` | `network/src/test/java/com/example/lol/data/repository/ProductRepositoryApiTest.kt` (`getProducts success/failure`, `search filter`) |
 | `GET /collections/products/records/{id}` | `network/src/test/java/com/example/lol/data/repository/ProductRepositoryApiTest.kt` (`getProductById success`) |
 | `GET /collections/news/records` | `network/src/test/java/com/example/lol/data/repository/ProductRepositoryApiTest.kt` (`getNews success/failure`) |
@@ -84,6 +84,10 @@ Network-auth остаётся доступным как вторичный пу�
 ## Сборка
 
 ```bash
+# Windows (PowerShell)
+.\gradlew.bat :network:compileDebugKotlin :uikit:compileDebugKotlin :app:assembleDebug
+
+# macOS/Linux
 ./gradlew :network:compileDebugKotlin :uikit:compileDebugKotlin :app:assembleDebug
 ```
 
@@ -91,6 +95,10 @@ Network-auth остаётся доступным как вторичный пу�
 
 ```bash
 # Компиляция androidTest для UIKit
+# Windows (PowerShell)
+.\gradlew.bat :uikit:compileDebugAndroidTestKotlin
+
+# macOS/Linux
 ./gradlew :uikit:compileDebugAndroidTestKotlin
 
 # Unit-тесты: в текущем окружении могут падать на этапе создания AndroidUnitTest-задач
