@@ -4,6 +4,7 @@ package com.example.lol.data.network
  * Sealed class для представления результата сетевого запроса. Обеспечивает типобезопасную обработку
  * успеха, ошибки и состояния загрузки.
  */
+// Определяет поведение и состояние компонента в рамках текущего модуля.
 sealed class NetworkResult<out T> {
 
     /**
@@ -35,12 +36,19 @@ sealed class NetworkResult<out T> {
         get() = this is Loading
 
     /** Получает данные или null если результат не Success. */
+    // Возвращает полезные данные из успешного результата или `null` при другом состоянии.
     fun getOrNull(): T? = (this as? Success)?.data
 
     /** Получает сообщение об ошибке или null. */
+    // Возвращает текст ошибки, если результат находится в состоянии ошибки.
     fun errorMessageOrNull(): String? = (this as? Error)?.message
 
     /** Преобразует данные в случае успеха. */
+    /**
+     * Преобразует входные данные в целевой формат результата.
+     *
+     * @param transform Функция преобразования успешного результата в новый тип.
+     */
     inline fun <R> map(transform: (T) -> R): NetworkResult<R> {
         return when (this) {
             is Success -> Success(transform(data))
@@ -50,12 +58,22 @@ sealed class NetworkResult<out T> {
     }
 
     /** Выполняет действие в случае успеха. */
+    /**
+     * Вызывает обработчик только для успешного результата и возвращает исходный `NetworkResult`.
+     *
+     * @param action Функция-обработчик, вызываемая при выполнении условия.
+     */
     inline fun onSuccess(action: (T) -> Unit): NetworkResult<T> {
         if (this is Success) action(data)
         return this
     }
 
     /** Выполняет действие в случае ошибки. */
+    /**
+     * Вызывает обработчик только при ошибке и возвращает исходный `NetworkResult`.
+     *
+     * @param action Функция-обработчик, вызываемая при выполнении условия.
+     */
     inline fun onError(action: (String, Int?) -> Unit): NetworkResult<T> {
         if (this is Error) action(message, code)
         return this

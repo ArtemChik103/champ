@@ -88,11 +88,18 @@ import com.example.lol.notifications.InactivityNotificationScheduler
 import com.example.lol.ui.theme.AccentBlue
 import com.example.lol.ui.theme.LolTheme
 
+// Управляет жизненным циклом экрана и инициализацией пользовательского интерфейса.
 class MainActivity : ComponentActivity() {
+        /**
+         * Инициализирует экран Activity и задает корневой Compose-контент.
+         *
+         * @param savedInstanceState Сохраненное состояние Activity для восстановления после пересоздания.
+         */
         override fun onCreate(savedInstanceState: Bundle?) {
                 super.onCreate(savedInstanceState)
 
                 // Инициализация TokenManager и настройка RetrofitInstance
+                // Инициализация TokenManager и настройка RetrofitInstance.
                 val tokenManager = TokenManager(this)
                 RetrofitInstance.setTokenProvider { tokenManager.getToken() }
 
@@ -110,6 +117,7 @@ class MainActivity : ComponentActivity() {
                                                 startDestination = "Splash"
                                         ) {
                                                 // Splash: только плавное исчезновение.
+                                                // Splash-экран: только плавное исчезновение.
                                                 composable(
                                                         route = "Splash",
                                                         exitTransition = {
@@ -117,6 +125,7 @@ class MainActivity : ComponentActivity() {
                                                         }
                                                 ) { SplashScreen(navController = navController) }
                                                 // SignIn: плавное появление и сдвиг при переходах.
+                                                // Экран входа: плавное появление и сдвиг при переходах.
                                                 composable(
                                                         route = "SignIn",
                                                         enterTransition = {
@@ -149,6 +158,7 @@ class MainActivity : ComponentActivity() {
                                                         }
                                                 ) { SignInScreen(navController = navController) }
                                                 // PinCode: плавное появление после Splash.
+                                                // Экран PIN-кода: плавное появление после Splash-экрана.
                                                 composable(
                                                         route = "PinCode",
                                                         enterTransition = {
@@ -167,6 +177,7 @@ class MainActivity : ComponentActivity() {
                                                         }
                                                 ) { PinCodeScreen(navController = navController) }
                                                 // SignUp: горизонтальные переходы.
+                                                // Экран регистрации: горизонтальные переходы.
                                                 composable(
                                                         route = "SignUp",
                                                         enterTransition = {
@@ -215,6 +226,7 @@ class MainActivity : ComponentActivity() {
                                                         }
                                                 ) { SignUpScreen(navController = navController) }
                                                 // CreatePassword: горизонтальные переходы.
+                                                // Экран создания пароля: горизонтальные переходы.
                                                 composable(
                                                         route = "CreatePassword",
                                                         enterTransition = {
@@ -267,6 +279,7 @@ class MainActivity : ComponentActivity() {
                                                         )
                                                 }
                                                 // CreatePin: горизонтальные переходы, затем fade+scale в Home.
+                                                // Экран создания PIN: горизонтальные переходы, затем плавное появление и масштабирование на главном экране.
                                                 composable(
                                                         route = "CreatePin",
                                                         enterTransition = {
@@ -309,6 +322,7 @@ class MainActivity : ComponentActivity() {
                                                         }
                                                 ) { CreatePinScreen(navController = navController) }
                                                 // Home: плавное появление и масштаб.
+                                                // Главный экран: плавное появление и масштабирование.
                                                 composable(
                                                         route = "Home",
                                                         enterTransition = {
@@ -330,11 +344,13 @@ class MainActivity : ComponentActivity() {
                 }
         }
 
+        // Возобновляет обработку сценариев, связанных с активным состоянием экрана.
         override fun onResume() {
                 super.onResume()
                 InactivityNotificationScheduler.cancel(this)
         }
 
+        // Останавливает активные сценарии перед уходом экрана в фоновое состояние.
         override fun onStop() {
                 super.onStop()
                 val sessionManager = com.example.lol.authorization.SessionManager(this)
@@ -344,6 +360,13 @@ class MainActivity : ComponentActivity() {
         }
 }
 
+/**
+ * Отрисовывает composable-компонент в соответствии с переданным состоянием.
+ *
+ * @param application Экземпляр приложения для инициализации общих зависимостей.
+ * @param rootNavController Корневой контроллер навигации для переходов между графами приложения.
+ * @param tokenManager Компонент хранения и чтения токена авторизации.
+ */
 @Composable
 fun MainContainer(
         application: Application,
@@ -355,6 +378,7 @@ fun MainContainer(
         val sessionManager = remember { com.example.lol.authorization.SessionManager(context) }
 
         // Создание API репозиториев
+        // Создание API-репозиториев.
         val api = RetrofitInstance.api
         val productRepositoryApi = remember { ProductRepositoryApi(api) }
         val cartRepository = remember { CartRepository(api) }
@@ -362,12 +386,14 @@ fun MainContainer(
         val orderRepository = remember { OrderRepository(api) }
 
         // Создание use case-ов.
+        // Создание сценариев use case.
         val getProductsUseCase = remember { GetProductsUseCase(productRepositoryApi) }
         val searchProductsUseCase = remember { SearchProductsUseCase(productRepositoryApi) }
         val addToCartUseCase = remember { AddToCartUseCase(cartRepository) }
         val updateCartItemUseCase = remember { UpdateCartItemUseCase(cartRepository) }
 
         // Создание ViewModel с use case-ами из domain-слоя.
+        // Создание ViewModel со сценариями use case из доменного слоя.
         val catalogueViewModel: CatalogueViewModel =
                 viewModel(
                         factory =
@@ -420,6 +446,7 @@ fun MainContainer(
                                 }
                         } catch (e: Exception) {
                                 // Если маршрут недействителен, остаёмся на Main
+                                // Если маршрут недействителен, остаёмся на основном экране.
                         }
                 }
         }
@@ -439,6 +466,7 @@ fun MainContainer(
                 Box(modifier = Modifier.padding(innerPadding)) {
                         NavHost(navController = navController, startDestination = "Main") {
                                 // Main: fade+scale при переключении табов.
+                                // Основной экран: плавное появление и масштабирование при переключении вкладок.
                                 composable(
                                         route = "Main",
                                         enterTransition = {
@@ -465,6 +493,7 @@ fun MainContainer(
                                         )
                                 }
                                 // Catalogue: fade+scale при переключении табов.
+                                // Экран каталога: плавное появление и масштабирование при переключении вкладок.
                                 composable(
                                         route = "Catalogue",
                                         enterTransition = {
@@ -491,6 +520,7 @@ fun MainContainer(
                                         )
                                 }
                                 // Cart: вертикальные переходы в модальном стиле.
+                                // Экран корзины: вертикальные переходы в модальном стиле.
                                 composable(
                                         route = "Cart",
                                         enterTransition = {
@@ -526,6 +556,7 @@ fun MainContainer(
                                         )
                                 }
                                 // Profile: fade+scale при переключении табов.
+                                // Экран профиля: плавное появление и масштабирование при переключении вкладок.
                                 composable(
                                         route = "Profile",
                                         enterTransition = {
@@ -551,6 +582,7 @@ fun MainContainer(
                                         )
                                 }
                                 // MyOrders: горизонтальные переходы по иерархии.
+                                // Экран «Мои заказы»: горизонтальные переходы по иерархии.
                                 composable(
                                         route = "MyOrders",
                                         enterTransition = {
@@ -600,6 +632,7 @@ fun MainContainer(
                                         )
                                 }
                                 // OrderDetails: горизонтальные переходы по иерархии.
+                                // Экран деталей заказа: горизонтальные переходы по иерархии.
                                 composable(
                                         route = "OrderDetails/{orderId}",
                                         arguments =
@@ -659,6 +692,7 @@ fun MainContainer(
                                         )
                                 }
                                 // Projects: fade+scale при переключении табов.
+                                // Экран проектов: плавное появление и масштабирование при переключении вкладок.
                                 composable(
                                         route = "Projects",
                                         enterTransition = {
@@ -684,6 +718,7 @@ fun MainContainer(
                                         )
                                 }
                                 // CreateProject: вертикальные переходы в модальном стиле.
+                                // Экран создания проекта: вертикальные переходы в модальном стиле.
                                 composable(
                                         route = "CreateProject",
                                         enterTransition = {
@@ -718,6 +753,7 @@ fun MainContainer(
                                         )
                                 }
                                 // ProjectDetails: горизонтальные переходы по иерархии.
+                                // Экран деталей проекта: горизонтальные переходы по иерархии.
                                 composable(
                                         route = "ProjectDetails/{projectId}",
                                         arguments =
@@ -781,6 +817,11 @@ fun MainContainer(
         }
 }
 
+/**
+ * Отрисовывает панель интерфейса и синхронизирует активное состояние.
+ *
+ * @param navController Контроллер навигации для переходов между экранами и возврата по стеку.
+ */
 @Composable
 fun BottomNavigationBar(navController: NavController) {
         val items =
@@ -821,4 +862,5 @@ fun BottomNavigationBar(navController: NavController) {
         )
 }
 
+// Описывает неизменяемую структуру данных, используемую в приложении.
 data class BottomNavItem(val route: String, val title: String, val iconRes: Int)

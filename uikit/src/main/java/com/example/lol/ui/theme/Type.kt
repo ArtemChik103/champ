@@ -8,6 +8,7 @@ import androidx.compose.ui.unit.em
 import androidx.compose.ui.unit.sp
 
 // Пока используются системные шрифты как безопасный fallback.
+// Пока используются системные шрифты как безопасный резервный вариант.
 val Roboto = FontFamily.Default
 val RobotoFlex = FontFamily.Default
 val SFProDisplay = FontFamily.Default

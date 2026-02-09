@@ -24,6 +24,13 @@ import coil.compose.AsyncImage
 import com.example.lol.R
 import com.example.lol.ui.theme.*
 
+/**
+ * Отрисовывает экран и связывает пользовательские действия с состоянием UI.
+ *
+ * @param navController Контроллер навигации для переходов между экранами и возврата по стеку.
+ * @param viewModel ViewModel экрана с состоянием, событиями и бизнес-логикой.
+ * @param projectId Идентификатор проекта для поиска, удаления или показа деталей.
+ */
 @Composable
 fun ProjectDetailsScreen(
         navController: NavController,
@@ -187,6 +194,12 @@ fun ProjectDetailsScreen(
         }
 }
 
+/**
+ * Отрисовывает composable-компонент в соответствии с переданным состоянием.
+ *
+ * @param label Подпись поля или строки интерфейса.
+ * @param value Текущее значение поля или состояния компонента.
+ */
 @Composable
 fun InfoRow(label: String, value: String) {
         Row(

@@ -1,5 +1,6 @@
 package com.example.lol.data
 
+// Описывает неизменяемую структуру данных, используемую в приложении.
 data class Product(
         val id: Int,
         val title: String,

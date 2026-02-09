@@ -24,6 +24,15 @@ import com.example.lol.ui.theme.Title3Semibold
  * @param trailingIcon Опциональный контент в правой части заголовка.
  * @param modifier Модификатор контейнера.
  */
+/**
+ * Отрисовывает composable-компонент в соответствии с переданным состоянием.
+ *
+ * @param title Заголовок, который отображается в интерфейсе.
+ * @param showBackButton Флаг отображения кнопки возврата.
+ * @param onBackClick Колбэк обработки нажатия кнопки назад.
+ * @param trailingIcon Composable-слот для правого вспомогательного элемента.
+ * @param modifier Внешний `Modifier` для настройки размеров, отступов и поведения компонента.
+ */
 @Composable
 fun AppHeader(
         title: String? = null,

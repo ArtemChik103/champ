@@ -3,6 +3,7 @@ package com.example.lol.data.network.models
 import com.google.gson.annotations.SerializedName
 
 /** Запрос на обновление профиля пользователя. */
+// Описывает структуру данных запроса для отправки на сервер.
 data class RequestUser(
         @SerializedName("email") val email: String? = null,
         @SerializedName("emailVisibility") val emailVisibility: Boolean? = null,

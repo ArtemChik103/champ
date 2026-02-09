@@ -21,6 +21,13 @@ import androidx.navigation.NavController
 import com.example.lol.R
 import com.example.lol.ui.theme.*
 
+/**
+ * Отрисовывает экран и связывает пользовательские действия с состоянием UI.
+ *
+ * @param navController Контроллер навигации для переходов между экранами и возврата по стеку.
+ * @param viewModel ViewModel экрана с состоянием, событиями и бизнес-логикой.
+ * @param orderId Идентификатор заказа для выборки или удаления.
+ */
 @Composable
 fun OrderDetailsScreen(navController: NavController, viewModel: OrdersViewModel, orderId: String) {
         val orders by viewModel.orders.collectAsState()
@@ -28,6 +35,7 @@ fun OrderDetailsScreen(navController: NavController, viewModel: OrdersViewModel,
 
         Column(modifier = Modifier.fillMaxSize().background(Color.White)) {
                 // Header
+                // Заголовок
                 Box(
                         modifier =
                                 Modifier.fillMaxWidth()
@@ -106,6 +114,7 @@ fun OrderDetailsScreen(navController: NavController, viewModel: OrdersViewModel,
                                 verticalArrangement = Arrangement.spacedBy(16.dp)
                         ) {
                                 // Order Info Card
+                                // Карточка информации о заказе
                                 item {
                                         Box(
                                                 modifier =
@@ -169,6 +178,7 @@ fun OrderDetailsScreen(navController: NavController, viewModel: OrdersViewModel,
                                 }
 
                                 // Items Header
+                                // Заголовок списка товаров
                                 item {
                                         Text(
                                                 text = "Товары",
@@ -178,6 +188,7 @@ fun OrderDetailsScreen(navController: NavController, viewModel: OrdersViewModel,
                                 }
 
                                 // Order Items
+                                // Позиции заказа
                                 items(order.items) { item ->
                                         Box(
                                                 modifier =

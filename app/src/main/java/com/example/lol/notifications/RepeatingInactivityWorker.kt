@@ -9,8 +9,10 @@ import androidx.work.Worker
 import androidx.work.WorkerParameters
 import java.util.concurrent.TimeUnit
 
+// Выполняет фоновую задачу через WorkManager по заданному сценарию.
 class RepeatingInactivityWorker(context: Context, params: WorkerParameters) : Worker(context, params) {
 
+    // Выполняет фоновую задачу воркера и возвращает статус выполнения WorkManager.
     override fun doWork(): ListenableWorker.Result {
         InactivityNotificationHelper.showNotification(
             context = applicationContext,
@@ -23,6 +25,7 @@ class RepeatingInactivityWorker(context: Context, params: WorkerParameters) : Wo
         return ListenableWorker.Result.success()
     }
 
+    // Планирует запуск фоновой задачи по заданной политике выполнения.
     private fun scheduleNextTick() {
         val nextRequest =
             OneTimeWorkRequestBuilder<RepeatingInactivityWorker>()

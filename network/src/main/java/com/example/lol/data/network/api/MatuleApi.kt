@@ -11,12 +11,18 @@ import retrofit2.http.*
  *
  * Интерфейс описывает операции авторизации, профиля, каталога, проектов, корзины и заказов.
  */
+// Определяет контракт сетевого API и доступные endpoint-операции.
 interface MatuleApi {
 
         /**
          * Регистрирует нового пользователя.
          *
          * @param request Тело запроса на регистрацию.
+         */
+        /**
+         * Регистрирует сущность и сохраняет результат операции в текущем состоянии.
+         *
+         * @param request Модель запроса с данными для отправки на сервер.
          */
         @POST("collections/users/records")
         suspend fun register(@Body request: RequestRegister): Response<okhttp3.ResponseBody>
@@ -26,6 +32,11 @@ interface MatuleApi {
          *
          * @param request Тело запроса на авторизацию.
          */
+        /**
+         * Добавляет заголовок авторизации к запросу, если токен доступен в провайдере.
+         *
+         * @param request Модель запроса с данными для отправки на сервер.
+         */
         @POST("collections/users/auth-with-password")
         suspend fun auth(@Body request: RequestAuth): retrofit2.Response<okhttp3.ResponseBody>
 
@@ -33,6 +44,11 @@ interface MatuleApi {
          * Возвращает профиль пользователя по идентификатору.
          *
          * @param userId Идентификатор пользователя.
+         */
+        /**
+         * Возвращает актуальные данные из текущего источника состояния.
+         *
+         * @param userId Идентификатор пользователя, от имени которого выполняется операция.
          */
         @GET("collections/users/records/{id_user}")
         suspend fun getUser(@Path("id_user") userId: String): Response<User>
@@ -47,6 +63,17 @@ interface MatuleApi {
          * @param secondname Отчество.
          * @param datebirthday Дата рождения.
          * @param gender Пол.
+         */
+        /**
+         * Обновляет существующую сущность и возвращает результат операции.
+         *
+         * @param userId Идентификатор пользователя, от имени которого выполняется операция.
+         * @param email Email пользователя, используемый как идентификатор учетной записи.
+         * @param firstname Имя пользователя для сохранения или обновления профиля.
+         * @param lastname Фамилия пользователя для сохранения или обновления профиля.
+         * @param secondname Отчество пользователя для заполнения профиля.
+         * @param datebirthday Дата рождения в формате, ожидаемом сервером.
+         * @param gender Выбранный пол пользователя или проекта.
          */
         @Multipart
         @PATCH("collections/users/records/{id_user}")
@@ -70,6 +97,11 @@ interface MatuleApi {
          *
          * @param tokenId Идентификатор токена в коллекции `_authOrigins`.
          */
+        /**
+         * Завершает пользовательскую сессию и очищает данные авторизации.
+         *
+         * @param tokenId Идентификатор токена для операций удаления или поиска.
+         */
         @DELETE("collections/_authOrigins/records/{id_token}")
         suspend fun logout(@Path("id_token") tokenId: String): Response<Unit>
 
@@ -81,6 +113,11 @@ interface MatuleApi {
          *
          * @param filter Фильтр в формате "(title ?~ 'query')"
          */
+        /**
+         * Возвращает актуальные данные из текущего источника состояния.
+         *
+         * @param filter Параметр фильтрации для запроса к API.
+         */
         @GET("collections/products/records")
         suspend fun getProducts(@Query("filter") filter: String? = null): Response<ResponseProducts>
 
@@ -88,6 +125,11 @@ interface MatuleApi {
          * Возвращает детальную информацию о продукте.
          *
          * @param productId Идентификатор продукта.
+         */
+        /**
+         * Возвращает актуальные данные из текущего источника состояния.
+         *
+         * @param productId Идентификатор товара для поиска или изменения записи.
          */
         @GET("collections/products/records/{id_product}")
         suspend fun getProduct(@Path("id_product") productId: String): Response<ProductApi>
@@ -108,6 +150,19 @@ interface MatuleApi {
          * @param category Категория проекта.
          * @param image Необязательное изображение проекта.
          */
+        /**
+         * Создает новую сущность на основе переданных данных.
+         *
+         * @param title Заголовок, который отображается в интерфейсе.
+         * @param typeProject Тип проекта, отправляемый при создании записи.
+         * @param userId Идентификатор пользователя, от имени которого выполняется операция.
+         * @param dateStart Значение времени `dateStart` для вычислений или форматирования.
+         * @param dateEnd Значение времени `dateEnd` для вычислений или форматирования.
+         * @param gender Выбранный пол пользователя или проекта.
+         * @param descriptionSource Описание проекта, которое передается в API.
+         * @param category Категория, по которой выполняется фильтрация или сохранение.
+         * @param image Файл изображения, прикрепляемый к сетевому запросу.
+         */
         @Multipart
         @POST("collections/project/records")
         suspend fun createProject(
@@ -127,6 +182,11 @@ interface MatuleApi {
          *
          * @param request Тело запроса с данными корзины.
          */
+        /**
+         * Создает новую сущность на основе переданных данных.
+         *
+         * @param request Модель запроса с данными для отправки на сервер.
+         */
         @POST("collections/cart/records")
         suspend fun createCartItem(@Body request: RequestCart): Response<ResponseCart>
 
@@ -137,6 +197,14 @@ interface MatuleApi {
          * @param userId Идентификатор пользователя.
          * @param productId Идентификатор товара.
          * @param count Новое количество.
+         */
+        /**
+         * Обновляет существующую сущность и возвращает результат операции.
+         *
+         * @param cartItemId Идентификатор позиции корзины, которую нужно обновить.
+         * @param userId Идентификатор пользователя, от имени которого выполняется операция.
+         * @param productId Идентификатор товара для поиска или изменения записи.
+         * @param count Количество элементов для установки или изменения.
          */
         @Multipart
         @PATCH("collections/cart/records/{id_bucket}")
@@ -151,6 +219,11 @@ interface MatuleApi {
          * Создаёт заказ.
          *
          * @param request Тело запроса с параметрами заказа.
+         */
+        /**
+         * Создает новую сущность на основе переданных данных.
+         *
+         * @param request Модель запроса с данными для отправки на сервер.
          */
         @POST("collections/orders/records")
         suspend fun createOrder(@Body request: RequestOrder): Response<ResponseOrder>

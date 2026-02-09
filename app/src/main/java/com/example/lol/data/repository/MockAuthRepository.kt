@@ -6,6 +6,7 @@ import com.example.lol.data.network.models.ResponseRegister
 import com.example.lol.data.network.models.User
 import java.util.UUID
 
+// Инкапсулирует работу с источниками данных и обработку результатов операций.
 class MockAuthRepository : IAuthRepository {
 
         companion object {
@@ -26,6 +27,12 @@ class MockAuthRepository : IAuthRepository {
                 var gender: String = ""
         )
 
+        /**
+         * Регистрирует сущность и сохраняет результат операции в текущем состоянии.
+         *
+         * @param email Email пользователя, используемый как идентификатор учетной записи.
+         * @param password Пароль пользователя для проверки или сохранения.
+         */
         override suspend fun register(
                 email: String,
                 password: String
@@ -56,6 +63,12 @@ class MockAuthRepository : IAuthRepository {
                 )
         }
 
+        /**
+         * Выполняет вход пользователя и обновляет состояние авторизации.
+         *
+         * @param email Email пользователя, используемый как идентификатор учетной записи.
+         * @param password Пароль пользователя для проверки или сохранения.
+         */
         override suspend fun login(email: String, password: String): NetworkResult<ResponseAuth> {
                 val user = users[email]
                 if (user == null || user.password != password) {
@@ -85,6 +98,11 @@ class MockAuthRepository : IAuthRepository {
                 )
         }
 
+        /**
+         * Возвращает актуальные данные из текущего источника состояния.
+         *
+         * @param userId Идентификатор пользователя, от имени которого выполняется операция.
+         */
         override suspend fun getUser(userId: String): NetworkResult<User> {
                 val user = currentUser ?: users.values.find { it.id == userId }
 
@@ -110,6 +128,16 @@ class MockAuthRepository : IAuthRepository {
                 )
         }
 
+        /**
+         * Обновляет существующую сущность и возвращает результат операции.
+         *
+         * @param userId Идентификатор пользователя, от имени которого выполняется операция.
+         * @param firstname Имя пользователя для сохранения или обновления профиля.
+         * @param lastname Фамилия пользователя для сохранения или обновления профиля.
+         * @param secondname Отчество пользователя для заполнения профиля.
+         * @param datebirthday Дата рождения в формате, ожидаемом сервером.
+         * @param gender Выбранный пол пользователя или проекта.
+         */
         override suspend fun updateUser(
                 userId: String,
                 firstname: String?,
@@ -150,6 +178,7 @@ class MockAuthRepository : IAuthRepository {
                 )
         }
 
+        // Завершает пользовательскую сессию и очищает данные авторизации.
         override suspend fun logout(): NetworkResult<Unit> {
                 currentUser = null
                 return NetworkResult.Success(Unit)

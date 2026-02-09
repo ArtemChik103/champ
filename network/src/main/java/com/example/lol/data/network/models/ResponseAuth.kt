@@ -7,6 +7,7 @@ import com.google.gson.annotations.SerializedName
  * @param record Данные пользователя
  * @param token JWT токен для последующих запросов
  */
+// Описывает структуру ответа, получаемого от API.
 data class ResponseAuth(
         @SerializedName("record") val record: User,
         @SerializedName("token") val token: String

@@ -42,6 +42,12 @@ import com.example.lol.ui.theme.TextMedium
 import com.example.lol.ui.theme.Title1Bold
 import com.example.lol.ui.theme.Title3Semibold
 
+/**
+ * Отрисовывает экран и связывает пользовательские действия с состоянием UI.
+ *
+ * @param navController Контроллер навигации для переходов между экранами и возврата по стеку.
+ * @param rootNavController Корневой контроллер навигации для переходов между графами приложения.
+ */
 @Composable
 fun ProfileScreen(navController: NavController, rootNavController: NavController) {
         val context = androidx.compose.ui.platform.LocalContext.current
@@ -174,6 +180,16 @@ fun ProfileScreen(navController: NavController, rootNavController: NavController
         }
 }
 
+/**
+ * Отрисовывает элемент интерфейса и обрабатывает взаимодействие пользователя.
+ *
+ * @param iconRes Ресурс иконки для отображения в пункте интерфейса.
+ * @param title Заголовок, который отображается в интерфейсе.
+ * @param isSwitch Флаг отображения переключателя вместо обычного пункта.
+ * @param checked Текущее состояние переключателя.
+ * @param onCheckedChange Колбэк изменения состояния переключателя.
+ * @param onClick Колбэк, вызываемый при нажатии пользователя.
+ */
 @Composable
 fun ProfileMenuItem(
         iconRes: Int,

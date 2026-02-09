@@ -34,10 +34,18 @@ private val LightColorScheme = lightColorScheme(
     onSurface = TextBlack,
 )
 
+/**
+ * Отрисовывает composable-компонент в соответствии с переданным состоянием.
+ *
+ * @param darkTheme Флаг принудительного включения темной темы.
+ * @param dynamicColor Флаг использования динамической цветовой палитры.
+ * @param content Вложенный UI-контент, к которому применяется обертка.
+ */
 @Composable
 fun LolTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
     // Dynamic color is available on Android 12+
+    // Динамическая цветовая схема доступна на Android 12+.
     dynamicColor: Boolean = false,
     content: @Composable () -> Unit
 ) {

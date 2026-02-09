@@ -16,12 +16,14 @@ import retrofit2.converter.gson.GsonConverterFactory
 /**
  * Unit-тесты для ProjectRepository с использованием MockWebServer.
  */
+// Содержит набор тестов для проверки поведения соответствующего модуля.
 class ProjectRepositoryTest {
     
     private lateinit var mockWebServer: MockWebServer
     private lateinit var api: MatuleApi
     private lateinit var repository: ProjectRepository
     
+    // Подготавливает тестовое окружение и зависимости перед запуском тестов.
     @Before
     fun setup() {
         mockWebServer = MockWebServer()
@@ -36,14 +38,17 @@ class ProjectRepositoryTest {
         repository = ProjectRepository(api)
     }
     
+    // Освобождает ресурсы и очищает тестовое окружение после выполнения тестов.
     @After
     fun tearDown() {
         mockWebServer.shutdown()
     }
     
+    // Ожидаемый результат: успешный сценарий завершается корректным результатом.
     @Test
     fun `getProjects success returns project list`() = runTest {
         // Given
+        // Дано
         mockWebServer.enqueue(
             MockResponse()
                 .setResponseCode(200)
@@ -51,9 +56,11 @@ class ProjectRepositoryTest {
         )
         
         // When
+        // Когда
         val result = repository.getProjects()
         
         // Then
+        // Тогда
         assertTrue(result.isSuccess)
         val projects = result.getOrNull()
         assertNotNull(projects)
@@ -61,9 +68,11 @@ class ProjectRepositoryTest {
         assertEquals("Мой проект", projects?.first()?.title)
     }
     
+    // Ожидаемый результат: успешный сценарий завершается корректным результатом.
     @Test
     fun `createProject success returns created project`() = runTest {
         // Given
+        // Дано
         mockWebServer.enqueue(
             MockResponse()
                 .setResponseCode(200)
@@ -71,6 +80,7 @@ class ProjectRepositoryTest {
         )
         
         // When
+        // Когда
         val result = repository.createProject(
             title = "Новый проект",
             typeProject = "Новинки",
@@ -84,6 +94,7 @@ class ProjectRepositoryTest {
         )
         
         // Then
+        // Тогда
         assertTrue(result.isSuccess)
         val project = result.getOrNull()
         assertNotNull(project)
@@ -91,9 +102,11 @@ class ProjectRepositoryTest {
         assertEquals("Новый проект", project?.title)
     }
     
+    // Ожидаемый результат: ошибочный сценарий корректно возвращает состояние ошибки.
     @Test
     fun `getProjects failure returns error`() = runTest {
         // Given
+        // Дано
         mockWebServer.enqueue(
             MockResponse()
                 .setResponseCode(400)
@@ -101,9 +114,11 @@ class ProjectRepositoryTest {
         )
         
         // When
+        // Когда
         val result = repository.getProjects()
         
         // Then
+        // Тогда
         assertTrue(result.isError)
         assertNotNull(result.errorMessageOrNull())
     }

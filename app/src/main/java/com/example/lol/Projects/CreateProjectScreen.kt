@@ -36,6 +36,12 @@ import com.example.lol.ui.theme.Title3Semibold
 import java.text.SimpleDateFormat
 import java.util.*
 
+/**
+ * Отрисовывает экран и связывает пользовательские действия с состоянием UI.
+ *
+ * @param navController Контроллер навигации для переходов между экранами и возврата по стеку.
+ * @param viewModel ViewModel экрана с состоянием, событиями и бизнес-логикой.
+ */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CreateProjectScreen(navController: NavController, viewModel: ProjectsViewModel) {
@@ -67,6 +73,7 @@ fun CreateProjectScreen(navController: NavController, viewModel: ProjectsViewMod
             ) { bitmap ->
                 if (bitmap != null) {
                     // Камера возвращает Bitmap, поэтому храним его отдельно от URI из галереи.
+                    // Камера возвращает Bitmap, поэтому храним его отдельно от URI, полученного из галереи.
                     selectedImageBitmap = bitmap
                     selectedImageUri = null
                 }
@@ -323,6 +330,7 @@ fun CreateProjectScreen(navController: NavController, viewModel: ProjectsViewMod
                                     )
                             viewModel.addProject(newProject)
                             // Явная навигация на Projects с очисткой стека
+                            // Явная навигация на экран проектов с очисткой стека.
                             navController.navigate("Projects") {
                                 popUpTo("Projects") { inclusive = true }
                             }

@@ -39,12 +39,19 @@ import com.example.lol.ui.theme.CaptionSemibold
 import com.example.lol.ui.theme.Title2Semibold
 import com.example.lol.ui.theme.Title3Semibold
 
+/**
+ * Отрисовывает экран и связывает пользовательские действия с состоянием UI.
+ *
+ * @param navController Контроллер навигации для переходов между экранами и возврата по стеку.
+ * @param viewModel ViewModel экрана с состоянием, событиями и бизнес-логикой.
+ */
 @Composable
 fun ProjectsScreen(navController: NavController, viewModel: ProjectsViewModel) {
     val projects by viewModel.projects.collectAsState()
 
     Column(modifier = Modifier.fillMaxSize().background(Color.White)) {
         // Header Section
+        // Секция заголовка
         Box(
                 modifier =
                         Modifier.fillMaxWidth()
@@ -73,6 +80,7 @@ fun ProjectsScreen(navController: NavController, viewModel: ProjectsViewModel) {
 
         if (projects.isEmpty()) {
             // Empty state
+            // Пустое состояние
             Box(
                     modifier = Modifier.fillMaxSize().padding(20.dp),
                     contentAlignment = Alignment.Center
@@ -89,6 +97,7 @@ fun ProjectsScreen(navController: NavController, viewModel: ProjectsViewModel) {
             }
         } else {
             // Projects List
+            // Список проектов
             LazyColumn(
                     modifier = Modifier.weight(1f),
                     contentPadding = PaddingValues(horizontal = 20.dp, vertical = 24.dp),
@@ -107,6 +116,13 @@ fun ProjectsScreen(navController: NavController, viewModel: ProjectsViewModel) {
     }
 }
 
+/**
+ * Отрисовывает карточку интерфейса и пробрасывает действия пользователя наружу.
+ *
+ * @param title Заголовок, который отображается в интерфейсе.
+ * @param date Значение времени `date` для вычислений или форматирования.
+ * @param onClick Колбэк, вызываемый при нажатии пользователя.
+ */
 @Composable
 fun ProjectCard(title: String, date: String, onClick: () -> Unit) {
     Card(

@@ -8,6 +8,7 @@ import com.google.gson.annotations.SerializedName
  * @param password Пароль пользователя
  * @param passwordConfirm Подтверждение пароля
  */
+// Описывает структуру данных запроса для отправки на сервер.
 data class RequestRegister(
         @SerializedName("email") val email: String,
         @SerializedName("password") val password: String,

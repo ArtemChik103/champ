@@ -30,6 +30,7 @@ import kotlinx.coroutines.launch
  * @param items Список товаров в заказе
  * @param serverIds Список ID записей на сервере (для каждого товара)
  */
+// Описывает неизменяемую структуру данных, используемую в приложении.
 data class Order(
         val id: String,
         val date: String,
@@ -40,6 +41,7 @@ data class Order(
 )
 
 /** Состояние операций с заказами. */
+// Определяет поведение и состояние компонента в рамках текущего модуля.
 sealed class OrderState {
     object Idle : OrderState()
     object Loading : OrderState()
@@ -55,6 +57,7 @@ sealed class OrderState {
  * @param orderRepository Репозиторий для работы с API заказов (опционально)
  * @param tokenManager Менеджер токенов для получения userId (опционально)
  */
+// Хранит состояние экрана и координирует действия пользователя.
 class OrdersViewModel(
         application: Application,
         private val orderRepository: IOrderRepository? = null,
@@ -75,6 +78,7 @@ class OrdersViewModel(
     }
 
     /** Загрузка заказов из локального кэша. */
+    // Загружает данные, обрабатывает результат и обновляет состояние.
     private fun loadOrders() {
         val json = prefs.getString("orders_list", null)
         if (json != null) {
@@ -89,6 +93,12 @@ class OrdersViewModel(
      *
      * @param items Список товаров корзины
      * @param totalPrice Общая стоимость заказа
+     */
+    /**
+     * Добавляет сущность в целевую коллекцию или состояние.
+     *
+     * @param items Набор элементов, участвующих в текущей операции.
+     * @param totalPrice Итоговая стоимость заказа для сохранения в истории.
      */
     fun addOrder(items: List<CartItem>, totalPrice: Double) {
         val dateFormat = SimpleDateFormat("dd.MM.yyyy", Locale.getDefault())
@@ -122,6 +132,12 @@ class OrdersViewModel(
     }
 
     /** Синхронизация заказа с сервером. Создаёт запись для каждого товара в корзине. */
+    /**
+     * Синхронизирует локально созданный заказ с сервером и обновляет запись по результату.
+     *
+     * @param localOrderId Локальный идентификатор заказа для удаления или поиска.
+     * @param items Набор элементов, участвующих в текущей операции.
+     */
     private fun syncOrderWithServer(localOrderId: String, items: List<CartItem>) {
         val userId = tokenManager?.getUserId() ?: return
         val repo = orderRepository ?: return
@@ -155,6 +171,7 @@ class OrdersViewModel(
             }
 
             // Обновляем заказ с серверными ID
+            // Обновляем заказ с серверными идентификаторами.
             if (serverIds.isNotEmpty()) {
                 _orders.value =
                         _orders.value.map { order ->
@@ -183,6 +200,11 @@ class OrdersViewModel(
      * Удаление заказа из локального кэша.
      * @param orderId ID заказа для удаления
      */
+    /**
+     * Удаляет сущность из коллекции и синхронизирует состояние.
+     *
+     * @param orderId Идентификатор заказа для выборки или удаления.
+     */
     fun removeOrder(orderId: String) {
         val updatedList = _orders.value.filter { it.id != orderId }
         _orders.value = updatedList
@@ -190,12 +212,18 @@ class OrdersViewModel(
     }
 
     /** Сохранение заказов в локальный кэш. */
+    /**
+     * Сохраняет переданные данные в целевое хранилище.
+     *
+     * @param orders Список заказов для обработки в состоянии экрана.
+     */
     private fun saveOrders(orders: List<Order>) {
         val json = gson.toJson(orders)
         prefs.edit().putString("orders_list", json).apply()
     }
 
     /** Сброс состояния. */
+    // Сбрасывает состояние к исходным значениям по умолчанию.
     fun resetState() {
         _orderState.value = OrderState.Idle
     }
@@ -208,11 +236,17 @@ class OrdersViewModel(
  * @param orderRepository Репозиторий заказов (опционально)
  * @param tokenManager Менеджер токенов (опционально)
  */
+// Создает экземпляры компонентов с необходимыми зависимостями.
 class OrdersViewModelFactory(
         private val application: Application,
         private val orderRepository: IOrderRepository? = null,
         private val tokenManager: TokenManager? = null
 ) : ViewModelProvider.Factory {
+    /**
+     * Создает новую сущность на основе переданных данных.
+     *
+     * @param modelClass Класс ViewModel, для которого создается экземпляр.
+     */
     @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         return OrdersViewModel(application, orderRepository, tokenManager) as T

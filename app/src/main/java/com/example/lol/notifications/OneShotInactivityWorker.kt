@@ -6,8 +6,10 @@ import androidx.work.Worker
 import androidx.work.WorkerParameters
 import com.example.lol.authorization.SessionManager
 
+// Выполняет фоновую задачу через WorkManager по заданному сценарию.
 class OneShotInactivityWorker(context: Context, params: WorkerParameters) : Worker(context, params) {
 
+    // Выполняет фоновую задачу воркера и возвращает статус выполнения WorkManager.
     override fun doWork(): ListenableWorker.Result {
         val sessionManager = SessionManager(applicationContext)
         if (sessionManager.isOneShotInactivityNotificationSent()) {

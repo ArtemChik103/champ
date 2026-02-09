@@ -3,6 +3,7 @@ package com.example.lol.data.network.models
 import com.google.gson.annotations.SerializedName
 
 /** Модель данных пользователя с сервера. */
+// Описывает сетевую модель данных для сериализации и десериализации.
 data class User(
         @SerializedName("id") val id: String,
         @SerializedName("collectionId") val collectionId: String,

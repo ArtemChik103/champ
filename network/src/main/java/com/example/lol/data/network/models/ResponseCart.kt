@@ -3,6 +3,7 @@ package com.example.lol.data.network.models
 import com.google.gson.annotations.SerializedName
 
 /** Ответ сервера на операции с корзиной. */
+// Описывает структуру ответа, получаемого от API.
 data class ResponseCart(
         @SerializedName("id") val id: String,
         @SerializedName("collectionId") val collectionId: String,

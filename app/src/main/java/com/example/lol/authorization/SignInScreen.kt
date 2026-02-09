@@ -60,6 +60,11 @@ import com.example.lol.ui.theme.Title1ExtraBold
 import com.example.lol.ui.theme.Title3Medium
 import com.example.lol.ui.theme.Title3Semibold
 
+/**
+ * Отрисовывает экран и связывает пользовательские действия с состоянием UI.
+ *
+ * @param navController Контроллер навигации для переходов между экранами и возврата по стеку.
+ */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SignInScreen(navController: NavController) {

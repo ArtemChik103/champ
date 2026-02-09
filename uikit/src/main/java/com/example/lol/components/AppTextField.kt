@@ -45,6 +45,23 @@ import com.example.lol.ui.theme.Roboto
  * @param errorMessage Text to display when in error state
  * @param testTagPrefix Prefix for UI-test tags
  */
+/**
+ * Отрисовывает composable-компонент в соответствии с переданным состоянием.
+ *
+ * @param value Текущее значение поля или состояния компонента.
+ * @param onValueChange Колбэк изменения значения поля ввода.
+ * @param label Подпись поля или строки интерфейса.
+ * @param placeholder Текст-подсказка для пустого состояния поля.
+ * @param modifier Внешний `Modifier` для настройки размеров, отступов и поведения компонента.
+ * @param visualTransformation Правило визуального преобразования вводимого текста.
+ * @param keyboardOptions Параметры экранной клавиатуры и режима ввода для текстового поля.
+ * @param trailingIcon Composable-слот для правого вспомогательного элемента.
+ * @param leadingIcon Composable-слот для левого вспомогательного элемента.
+ * @param singleLine Флаг ограничения ввода одной строкой.
+ * @param isError Флаг состояния ошибки для отображения в UI.
+ * @param errorMessage Текст ошибки валидации для вывода пользователю.
+ * @param testTagPrefix Префикс тестовых тегов для внутренних элементов компонента.
+ */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AppTextField(

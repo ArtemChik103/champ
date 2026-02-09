@@ -50,6 +50,13 @@ import com.example.lol.ui.theme.Title3Medium
 import com.example.lol.ui.theme.Title3Semibold
 import kotlinx.coroutines.launch
 
+/**
+ * Отрисовывает экран и связывает пользовательские действия с состоянием UI.
+ *
+ * @param navController Контроллер навигации для переходов между экранами и возврата по стеку.
+ * @param viewModel ViewModel экрана с состоянием, событиями и бизнес-логикой.
+ * @param ordersViewModel ViewModel заказов для создания, чтения и синхронизации списка заказов.
+ */
 @Composable
 fun CartScreen(
         navController: NavController,
@@ -216,6 +223,14 @@ fun CartScreen(
         }
 }
 
+/**
+ * Отрисовывает composable-компонент в соответствии с переданным состоянием.
+ *
+ * @param item Элемент данных, который обрабатывается в текущем методе.
+ * @param onRemove Колбэк удаления элемента из списка.
+ * @param onIncrease Колбэк увеличения количества элемента.
+ * @param onDecrease Колбэк уменьшения количества элемента.
+ */
 @Composable
 fun CartItemView(
         item: CartItem,

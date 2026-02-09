@@ -5,8 +5,10 @@ import com.example.lol.data.network.api.MatuleApi
 import com.example.lol.data.network.models.*
 
 /** Реализация репозитория для работы с продуктами через API. */
+// Определяет поведение и состояние компонента в рамках текущего модуля.
 class ProductRepositoryApi(private val api: MatuleApi) : IProductRepositoryApi {
 
+    // Возвращает актуальные данные из текущего источника состояния.
     override suspend fun getProducts(): NetworkResult<List<ProductItem>> {
         return try {
             val response = api.getProducts()
@@ -22,6 +24,11 @@ class ProductRepositoryApi(private val api: MatuleApi) : IProductRepositoryApi {
         }
     }
 
+    /**
+     * Возвращает актуальные данные из текущего источника состояния.
+     *
+     * @param productId Идентификатор товара для поиска или изменения записи.
+     */
     override suspend fun getProductById(productId: String): NetworkResult<ProductApi> {
         return try {
             val response = api.getProduct(productId)
@@ -37,9 +44,15 @@ class ProductRepositoryApi(private val api: MatuleApi) : IProductRepositoryApi {
         }
     }
 
+    /**
+     * Выполняет поиск по заданному запросу и возвращает отфильтрованный результат.
+     *
+     * @param query Поисковый запрос для фильтрации списка.
+     */
     override suspend fun searchProducts(query: String): NetworkResult<List<ProductItem>> {
         return try {
             // Формируем фильтр согласно API: "(title ?~ 'query')"
+            // Формируем фильтр согласно API: "(title ?~ 'query')".
             val filter = "(title ?~ '$query')"
             val response = api.getProducts(filter)
 
@@ -54,6 +67,7 @@ class ProductRepositoryApi(private val api: MatuleApi) : IProductRepositoryApi {
         }
     }
 
+    // Возвращает актуальные данные из текущего источника состояния.
     override suspend fun getNews(): NetworkResult<List<News>> {
         return try {
             val response = api.getNews()
@@ -69,6 +83,11 @@ class ProductRepositoryApi(private val api: MatuleApi) : IProductRepositoryApi {
         }
     }
 
+    /**
+     * Разбирает входные данные и формирует нормализованный результат.
+     *
+     * @param errorBody Сырые данные ошибки от сервера для извлечения сообщения.
+     */
     private fun parseErrorMessage(errorBody: String?): String {
         if (errorBody == null) return "Неизвестная ошибка"
 

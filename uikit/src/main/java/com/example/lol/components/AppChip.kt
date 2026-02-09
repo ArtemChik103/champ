@@ -18,6 +18,15 @@ import com.example.lol.ui.theme.ChipInactiveBg
 import com.example.lol.ui.theme.TextGray
 import com.example.lol.ui.theme.TextMedium
 
+/**
+ * Отрисовывает composable-компонент в соответствии с переданным состоянием.
+ *
+ * @param text Текстовое содержимое элемента интерфейса.
+ * @param isSelected Флаг выбранного состояния элемента интерфейса.
+ * @param onClick Колбэк, вызываемый при нажатии пользователя.
+ * @param modifier Внешний `Modifier` для настройки размеров, отступов и поведения компонента.
+ * @param testTag Тестовый тег для поиска компонента в UI-тестах.
+ */
 @Composable
 fun AppChip(
     text: String,

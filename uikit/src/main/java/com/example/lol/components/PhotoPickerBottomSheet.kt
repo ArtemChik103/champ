@@ -24,6 +24,13 @@ import com.example.lol.ui.theme.Title3Semibold
  * @param onCameraClick Обработчик выбора камеры.
  * @param onGalleryClick Обработчик выбора галереи.
  */
+/**
+ * Отрисовывает нижний лист и обрабатывает действия внутри модального окна.
+ *
+ * @param onDismiss Колбэк закрытия модального компонента.
+ * @param onCameraClick Колбэк выбора камеры в качестве источника изображения.
+ * @param onGalleryClick Колбэк выбора галереи в качестве источника изображения.
+ */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun PhotoPickerBottomSheet(
@@ -73,6 +80,13 @@ fun PhotoPickerBottomSheet(
  * @param text Отображаемый текст пункта.
  * @param icon Эмодзи-иконка пункта.
  * @param onClick Обработчик нажатия на пункт.
+ */
+/**
+ * Отрисовывает элемент интерфейса и обрабатывает взаимодействие пользователя.
+ *
+ * @param text Текстовое содержимое элемента интерфейса.
+ * @param icon Иконка или эмодзи, отображаемая рядом с текстом.
+ * @param onClick Колбэк, вызываемый при нажатии пользователя.
  */
 @Composable
 fun PhotoOption(text: String, icon: String, onClick: () -> Unit) {

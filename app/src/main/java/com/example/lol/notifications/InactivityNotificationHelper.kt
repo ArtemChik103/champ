@@ -10,8 +10,17 @@ import androidx.core.app.NotificationCompat
 import com.example.lol.MainActivity
 import com.example.lol.R
 
+// Содержит вспомогательные операции для работы с уведомлениями и системными API.
 object InactivityNotificationHelper {
 
+    /**
+     * Создает и отображает системное уведомление с заданным заголовком и текстом.
+     *
+     * @param context Контекст Android для доступа к системным сервисам и ресурсам.
+     * @param notificationId Идентификатор уведомления для показа или обновления.
+     * @param title Заголовок, который отображается в интерфейсе.
+     * @param message Текст сообщения, отображаемый пользователю.
+     */
     fun showNotification(
         context: Context,
         notificationId: Int,
@@ -47,6 +56,11 @@ object InactivityNotificationHelper {
         notificationManager.notify(notificationId, notification)
     }
 
+    /**
+     * Создает канал уведомлений на Android O+ перед показом уведомления.
+     *
+     * @param notificationManager Системный менеджер уведомлений для каналов и показа.
+     */
     private fun ensureChannel(notificationManager: NotificationManager) {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) return
 

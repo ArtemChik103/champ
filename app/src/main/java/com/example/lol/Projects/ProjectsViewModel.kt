@@ -18,6 +18,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
 /** Состояние загрузки проектов. */
+// Определяет поведение и состояние компонента в рамках текущего модуля.
 sealed class ProjectsState {
     object Idle : ProjectsState()
     object Loading : ProjectsState()
@@ -29,6 +30,7 @@ sealed class ProjectsState {
  * ViewModel для управления проектами. Использует IProjectRepository для сетевых запросов с fallback
  * на SharedPreferences.
  */
+// Хранит состояние экрана и координирует действия пользователя.
 class ProjectsViewModel(
         application: Application,
         private val projectRepository: IProjectRepository? = null,
@@ -50,6 +52,7 @@ class ProjectsViewModel(
     }
 
     /** Загрузка проектов: сначала API, затем fallback на локальное хранилище. */
+    // Загружает данные, обрабатывает результат и обновляет состояние.
     fun loadProjects() {
         viewModelScope.launch {
             _projectsState.value = ProjectsState.Loading
@@ -59,6 +62,7 @@ class ProjectsViewModel(
                 when (val result = repo.getProjects()) {
                     is NetworkResult.Success -> {
                         // Конвертируем ProjectApi в локальные Project
+                        // Конвертируем ProjectApi в локальные объекты Project.
                         val apiProjects = result.data.map { it.toLocalProject() }
                         _projects.value = apiProjects.sortedByDescending { it.createdAt }
                         // Сохраняем в кэш
@@ -67,6 +71,7 @@ class ProjectsViewModel(
                     }
                     is NetworkResult.Error -> {
                         // Fallback на локальное хранилище
+                        // Резервный переход на локальное хранилище.
                         loadProjectsFromCache()
                         _projectsState.value = ProjectsState.Error(result.message)
                     }
@@ -81,6 +86,7 @@ class ProjectsViewModel(
     }
 
     /** Загрузка проектов из SharedPreferences (кэш/offline). */
+    // Загружает данные, обрабатывает результат и обновляет состояние.
     private fun loadProjectsFromCache() {
         val json = sharedPrefs.getString("projects", null)
         if (json != null) {
@@ -91,12 +97,19 @@ class ProjectsViewModel(
     }
 
     /** Сохранение проектов в SharedPreferences. */
+    // Сохраняет переданные данные в целевое хранилище.
     private fun saveProjectsToCache() {
         val json = gson.toJson(_projects.value)
         sharedPrefs.edit().putString("projects", json).apply()
     }
 
     /** Добавление нового проекта. Синхронизирует с API если доступен. */
+    /**
+     * Добавляет сущность в целевую коллекцию или состояние.
+     *
+     * @param project Данные проекта для добавления, обновления или отображения.
+     * @param imageFile Локальный файл изображения для отправки при создании проекта.
+     */
     fun addProject(project: Project, imageFile: File? = null) {
         viewModelScope.launch {
             _projectsState.value = ProjectsState.Loading
@@ -108,6 +121,7 @@ class ProjectsViewModel(
             saveProjectsToCache()
 
             // Синхронизация с API
+            // Синхронизация с API.
             val repo = projectRepository
             val userId = tokenManager?.getUserId()
 
@@ -151,17 +165,32 @@ class ProjectsViewModel(
     }
 
     /** Удаление проекта по ID. */
+    /**
+     * Удаляет сущность из коллекции и синхронизирует состояние.
+     *
+     * @param projectId Идентификатор проекта для поиска, удаления или показа деталей.
+     */
     fun removeProject(projectId: String) {
         _projects.value = _projects.value.filter { it.id != projectId }
         saveProjectsToCache()
     }
 
     /** Получение проекта по ID. */
+    /**
+     * Возвращает актуальные данные из текущего источника состояния.
+     *
+     * @param projectId Идентификатор проекта для поиска, удаления или показа деталей.
+     */
     fun getProjectById(projectId: String): Project? {
         return _projects.value.find { it.id == projectId }
     }
 
     /** Получение относительного времени для отображения. */
+    /**
+     * Возвращает актуальные данные из текущего источника состояния.
+     *
+     * @param createdAt Временная метка создания для расчета относительного времени.
+     */
     fun getRelativeTime(createdAt: Long): String {
         val now = System.currentTimeMillis()
         val diff = now - createdAt
@@ -182,6 +211,7 @@ class ProjectsViewModel(
     }
 
     /** Получение уникальных категорий из products.json asset. */
+    // Возвращает актуальные данные из текущего источника состояния.
     fun getCategories(): List<String> {
         return try {
             val json =
@@ -199,6 +229,7 @@ class ProjectsViewModel(
     }
 
     /** Сброс состояния ошибки. */
+    // Сбрасывает состояние к исходным значениям по умолчанию.
     fun resetState() {
         _projectsState.value = ProjectsState.Idle
     }
@@ -223,6 +254,11 @@ class ProjectsViewModel(
     }
 
     /** Парсинг даты из строки API. */
+    /**
+     * Разбирает входные данные и формирует нормализованный результат.
+     *
+     * @param dateString Строка даты для парсинга и последующего форматирования.
+     */
     private fun parseDate(dateString: String): Long {
         return try {
             java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss", java.util.Locale.getDefault())
@@ -236,11 +272,17 @@ class ProjectsViewModel(
 }
 
 /** Factory для создания ProjectsViewModel с зависимостями. */
+// Создает экземпляры компонентов с необходимыми зависимостями.
 class ProjectsViewModelFactory(
         private val application: Application,
         private val projectRepository: IProjectRepository? = null,
         private val tokenManager: TokenManager? = null
 ) : ViewModelProvider.Factory {
+    /**
+     * Создает новую сущность на основе переданных данных.
+     *
+     * @param modelClass Класс ViewModel, для которого создается экземпляр.
+     */
     @Suppress("UNCHECKED_CAST")
     override fun <T : androidx.lifecycle.ViewModel> create(modelClass: Class<T>): T {
         return ProjectsViewModel(application, projectRepository, tokenManager) as T

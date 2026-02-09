@@ -7,21 +7,26 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.test.assertIsNotSelected
 import androidx.compose.ui.test.assertIsSelected
+import androidx.compose.ui.test.assertCountEquals
 import androidx.compose.ui.test.assertTextContains
 import androidx.compose.ui.test.junit4.createComposeRule
+import androidx.compose.ui.test.onAllNodesWithText
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
+import com.example.lol.data.Product
 import com.example.lol.ui.theme.RedError
 import org.junit.Assert.assertEquals
 import org.junit.Rule
 import org.junit.Test
 
+// Содержит набор тестов для проверки поведения соответствующего модуля.
 class UiKitStateTest {
 
     @get:Rule
     val composeTestRule = createComposeRule()
 
+    // Ожидаемый результат: ошибочный сценарий корректно возвращает состояние ошибки.
     @Test
     fun inputErrorState_exposesErrorColorsAndMessage() {
         composeTestRule.setContent {
@@ -47,6 +52,7 @@ class UiKitStateTest {
         assertEquals(RedError.toArgb().toLong(), errorConfig[UiKitTextColorKey])
     }
 
+    // Ожидаемый результат: поведение в тестовом сценарии соответствует ожидаемому результату.
     @Test
     fun selectWithoutIcon_clickOpensBottomSheetWithEmojiOptions() {
         composeTestRule.setContent {
@@ -69,6 +75,7 @@ class UiKitStateTest {
         composeTestRule.onNodeWithText("😀 Опция 1").assertTextContains("😀")
     }
 
+    // Ожидаемый результат: состояние корректно переключается после пользовательского действия.
     @Test
     fun chip_togglesBetweenSelectedAndNotSelected() {
         composeTestRule.setContent {
@@ -87,6 +94,7 @@ class UiKitStateTest {
         composeTestRule.onNodeWithTag("chip_toggle").assertIsSelected()
     }
 
+    // Ожидаемый результат: после действия состояние обновляется ожидаемым образом.
     @Test
     fun selectField_selectingEmojiOptionUpdatesValue() {
         composeTestRule.setContent {
@@ -107,6 +115,7 @@ class UiKitStateTest {
         composeTestRule.onNodeWithText("🧪 Тест").assertTextContains("Тест")
     }
 
+    // Ожидаемый результат: поведение в тестовом сценарии соответствует ожидаемому результату.
     @Test
     fun tabBar_keepsSingleFocusedItem() {
         composeTestRule.setContent {
@@ -135,5 +144,55 @@ class UiKitStateTest {
         composeTestRule.onNodeWithTag("tab_profile").assertIsSelected()
         composeTestRule.onNodeWithTag("tab_main").assertIsNotSelected()
         composeTestRule.onNodeWithTag("tab_catalog").assertIsNotSelected()
+    }
+
+    // Ожидаемый результат: фактический результат совпадает с ожидаемым значением.
+    @Test
+    fun productCard_addAndDeleteStates_triggerCorrectActions() {
+        var addClicks = 0
+        var removeClicks = 0
+
+        val product =
+            Product(
+                id = 1,
+                title = "Nike Air Max 270",
+                description = "Great sneakers",
+                price = 12990,
+                category = "Sneakers",
+                imageUrl = "https://example.com/image.png"
+            )
+
+        composeTestRule.setContent {
+            var isInCart by mutableStateOf(false)
+
+            ProductCard(
+                product = product,
+                onClick = {},
+                onAddToCart = {
+                    addClicks += 1
+                    isInCart = true
+                },
+                onRemoveFromCart = {
+                    removeClicks += 1
+                    isInCart = false
+                },
+                isInCart = isInCart
+            )
+        }
+
+        composeTestRule.onAllNodesWithText("Добавить").assertCountEquals(1)
+        composeTestRule.onAllNodesWithText("Убрать").assertCountEquals(0)
+        composeTestRule.onNodeWithText("Добавить").performClick()
+
+        assertEquals(1, addClicks)
+        assertEquals(0, removeClicks)
+
+        composeTestRule.onAllNodesWithText("Убрать").assertCountEquals(1)
+        composeTestRule.onAllNodesWithText("Добавить").assertCountEquals(0)
+        composeTestRule.onNodeWithText("Убрать").performClick()
+
+        assertEquals(1, addClicks)
+        assertEquals(1, removeClicks)
+        composeTestRule.onAllNodesWithText("Добавить").assertCountEquals(1)
     }
 }

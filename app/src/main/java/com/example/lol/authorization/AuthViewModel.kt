@@ -16,6 +16,7 @@ import kotlinx.coroutines.launch
  * ViewModel для авторизации и регистрации пользователей. Использует UseCases для бизнес-логики и
  * SessionManager для локального кэша.
  */
+// Хранит состояние экрана и координирует действия пользователя.
 class AuthViewModel(
         private val loginUseCase: LoginUseCase,
         private val registerUseCase: RegisterUseCase,
@@ -31,6 +32,11 @@ class AuthViewModel(
     val isLoading: StateFlow<Boolean> = _isLoading
 
     /** Валидация email по паттерну name@domenname.ru (только строчные буквы и цифры). */
+    /**
+     * Проверяет условие и возвращает `true`, если оно выполняется.
+     *
+     * @param email Email пользователя, используемый как идентификатор учетной записи.
+     */
     fun isValidEmail(email: String): Boolean {
         return email.matches(Regex("^[a-z0-9]+@[a-z0-9]+\\.[a-z]+$"))
     }
@@ -42,6 +48,11 @@ class AuthViewModel(
      * - Цифры
      * - Спецсимволы
      */
+    /**
+     * Проверяет условие и возвращает `true`, если оно выполняется.
+     *
+     * @param password Пароль пользователя для проверки или сохранения.
+     */
     fun isValidPassword(password: String): Boolean {
         val hasLength = password.length >= 8
         val hasCase = password.any { it.isLowerCase() } && password.any { it.isUpperCase() }
@@ -51,6 +62,11 @@ class AuthViewModel(
     }
 
     /** Проверка наличия пользователя в локальном кэше. */
+    /**
+     * Проверяет наличие пользователя с указанным email в локальном списке аккаунтов.
+     *
+     * @param email Email пользователя, используемый как идентификатор учетной записи.
+     */
     fun checkUserExists(email: String): Boolean {
         return sessionManager.isUserExists(email)
     }
@@ -58,6 +74,12 @@ class AuthViewModel(
     /**
      * Вход пользователя через API. При успехе токен сохраняется в TokenManager автоматически (через
      * Repository, вызываемый UseCase).
+     */
+    /**
+     * Выполняет вход пользователя и обновляет состояние авторизации.
+     *
+     * @param email Email пользователя, используемый как идентификатор учетной записи.
+     * @param password Пароль пользователя для проверки или сохранения.
      */
     fun signIn(email: String, password: String) {
         viewModelScope.launch {
@@ -71,6 +93,7 @@ class AuthViewModel(
                     sessionManager.setLoggedIn(true)
 
                     // Сохраняем в SessionManager если пользователь новый
+                    // Сохраняем в SessionManager, если пользователь новый.
                     if (!sessionManager.isUserExists(email)) {
                         val name = result.data.record.firstname.ifBlank { "User" }
                         sessionManager.registerUser(email, name)
@@ -90,6 +113,13 @@ class AuthViewModel(
     }
 
     /** Регистрация нового пользователя через API. */
+    /**
+     * Запускает регистрацию через выбранный репозиторий и обновляет состояние авторизации.
+     *
+     * @param email Email пользователя, используемый как идентификатор учетной записи.
+     * @param name Имя пользователя или название сущности.
+     * @param password Пароль пользователя для проверки или сохранения.
+     */
     fun signUp(email: String, name: String, password: String) {
         viewModelScope.launch {
             _authState.value = AuthState.Loading
@@ -119,6 +149,12 @@ class AuthViewModel(
      * Регистрация без API (для обратной совместимости). Используется когда нужна только локальная
      * регистрация.
      */
+    /**
+     * Регистрирует пользователя локально и переводит состояние в успешное.
+     *
+     * @param email Email пользователя, используемый как идентификатор учетной записи.
+     * @param name Имя пользователя или название сущности.
+     */
     fun signUpLocal(email: String, name: String) {
         viewModelScope.launch {
             _authState.value = AuthState.Loading
@@ -136,6 +172,7 @@ class AuthViewModel(
     }
 
     /** Выход из системы. */
+    // Завершает пользовательскую сессию и очищает данные авторизации.
     fun logout() {
         viewModelScope.launch {
             _isLoading.value = true
@@ -150,12 +187,14 @@ class AuthViewModel(
     }
 
     /** Сброс состояния авторизации. */
+    // Сбрасывает состояние к исходным значениям по умолчанию.
     fun resetState() {
         _authState.value = AuthState.Idle
     }
 }
 
 /** Factory для создания AuthViewModel с зависимостями. */
+// Создает экземпляры компонентов с необходимыми зависимостями.
 class AuthViewModelFactory(
         private val loginUseCase: LoginUseCase,
         private val registerUseCase: RegisterUseCase,
@@ -163,6 +202,11 @@ class AuthViewModelFactory(
         private val tokenManager: TokenManager,
         private val sessionManager: SessionManager
 ) : ViewModelProvider.Factory {
+    /**
+     * Создает новую сущность на основе переданных данных.
+     *
+     * @param modelClass Класс ViewModel, для которого создается экземпляр.
+     */
     @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         return AuthViewModel(
@@ -177,6 +221,7 @@ class AuthViewModelFactory(
 }
 
 /** Состояния авторизации. */
+// Определяет поведение и состояние компонента в рамках текущего модуля.
 sealed class AuthState {
     object Idle : AuthState()
     object Loading : AuthState()

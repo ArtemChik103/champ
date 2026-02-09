@@ -10,8 +10,10 @@ import okhttp3.RequestBody.Companion.asRequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
 
 /** Реализация репозитория для работы с проектами. */
+// Инкапсулирует работу с источниками данных и обработку результатов операций.
 class ProjectRepository(private val api: MatuleApi) : IProjectRepository {
 
+    // Возвращает актуальные данные из текущего источника состояния.
     override suspend fun getProjects(): NetworkResult<List<ProjectApi>> {
         return try {
             val response = api.getProjects()
@@ -27,6 +29,19 @@ class ProjectRepository(private val api: MatuleApi) : IProjectRepository {
         }
     }
 
+    /**
+     * Создает новую сущность на основе переданных данных.
+     *
+     * @param title Заголовок, который отображается в интерфейсе.
+     * @param typeProject Тип проекта, отправляемый при создании записи.
+     * @param userId Идентификатор пользователя, от имени которого выполняется операция.
+     * @param dateStart Значение времени `dateStart` для вычислений или форматирования.
+     * @param dateEnd Значение времени `dateEnd` для вычислений или форматирования.
+     * @param gender Выбранный пол пользователя или проекта.
+     * @param descriptionSource Описание проекта, которое передается в API.
+     * @param category Категория, по которой выполняется фильтрация или сохранение.
+     * @param image Файл изображения, прикрепляемый к сетевому запросу.
+     */
     override suspend fun createProject(
             title: String,
             typeProject: String,
@@ -73,6 +88,11 @@ class ProjectRepository(private val api: MatuleApi) : IProjectRepository {
         }
     }
 
+    /**
+     * Разбирает входные данные и формирует нормализованный результат.
+     *
+     * @param errorBody Сырые данные ошибки от сервера для извлечения сообщения.
+     */
     private fun parseErrorMessage(errorBody: String?): String {
         if (errorBody == null) return "Неизвестная ошибка"
 

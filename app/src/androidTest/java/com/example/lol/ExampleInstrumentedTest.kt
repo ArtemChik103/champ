@@ -13,11 +13,14 @@ import org.junit.Assert.*
  *
  * See [testing documentation](http://d.android.com/tools/testing).
  */
+// Содержит набор тестов для проверки поведения соответствующего модуля.
 @RunWith(AndroidJUnit4::class)
 class ExampleInstrumentedTest {
+    // Ожидаемый результат: поведение в тестовом сценарии соответствует ожидаемому результату.
     @Test
     fun useAppContext() {
         // Context of the app under test.
+        // Контекст тестируемого приложения.
         val appContext = InstrumentationRegistry.getInstrumentation().targetContext
         assertEquals("com.example.lol", appContext.packageName)
     }

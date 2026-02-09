@@ -51,6 +51,13 @@ import com.example.lol.ui.theme.TextMedium
 import com.example.lol.ui.theme.Title2ExtraBold
 import com.example.lol.ui.theme.Title3Semibold
 
+/**
+ * Отрисовывает экран и связывает пользовательские действия с состоянием UI.
+ *
+ * @param navController Контроллер навигации для переходов между экранами и возврата по стеку.
+ * @param viewModel ViewModel экрана с состоянием, событиями и бизнес-логикой.
+ * @param cartViewModel ViewModel корзины для синхронизации количества и состава товаров.
+ */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MainScreen(
@@ -196,6 +203,13 @@ fun MainScreen(
     }
 }
 
+/**
+ * Отрисовывает карточку интерфейса и пробрасывает действия пользователя наружу.
+ *
+ * @param index Позиция элемента в списке или карусели.
+ * @param product Модель товара, данные которой используются для отображения и действий.
+ * @param onClick Колбэк, вызываемый при нажатии пользователя.
+ */
 @Composable
 fun BannerCard(index: Int, product: Product?, onClick: () -> Unit) {
     val imageRes =

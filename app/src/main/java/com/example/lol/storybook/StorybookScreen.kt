@@ -21,6 +21,7 @@ import com.example.lol.components.*
 import com.example.lol.data.Product
 import com.example.lol.ui.theme.*
 
+// Отрисовывает экран и связывает пользовательские действия с состоянием UI.
 @Composable
 fun StorybookScreen() {
     LazyColumn(
@@ -30,12 +31,14 @@ fun StorybookScreen() {
         item { Text("Storybook", style = Title1ExtraBold) }
 
         // --- Colors ---
+        // --- Цвета ---
         item {
             SectionTitle("Colors")
             ColorPalette()
         }
 
         // --- Typography ---
+        // --- Типографика ---
         item {
             SectionTitle("Typography")
             Text("Title1ExtraBold", style = Title1ExtraBold)
@@ -49,6 +52,7 @@ fun StorybookScreen() {
         }
 
         // --- Buttons ---
+        // --- Кнопки ---
         item {
             SectionTitle("Buttons")
             Button(onClick = {}, modifier = Modifier.fillMaxWidth()) { Text("Primary Button") }
@@ -63,6 +67,7 @@ fun StorybookScreen() {
         }
 
         // --- Text Fields ---
+        // --- Текстовые поля ---
         item {
             SectionTitle("Text Fields")
             var text by remember { mutableStateOf("") }
@@ -83,6 +88,7 @@ fun StorybookScreen() {
         }
 
         // --- Select Field ---
+        // --- Поле выбора ---
         item {
             SectionTitle("Select Field")
             var selectedOption by remember { mutableStateOf("") }
@@ -109,6 +115,7 @@ fun StorybookScreen() {
         }
 
         // --- Chips ---
+        // --- Чипы ---
         item {
             SectionTitle("Chips ON/OFF")
             var chipState by remember { mutableStateOf(true) }
@@ -128,12 +135,14 @@ fun StorybookScreen() {
         }
 
         // --- Icons ---
+        // --- Иконки ---
         item {
             SectionTitle("Icons")
             IconGrid()
         }
 
         // --- Search Bar ---
+        // --- Поисковая строка ---
         item {
             SectionTitle("Search Bar")
             var searchQuery by remember { mutableStateOf("") }
@@ -145,6 +154,7 @@ fun StorybookScreen() {
         }
 
         // --- App Header ---
+        // --- Шапка приложения ---
         item {
             SectionTitle("App Header")
             Text("Title only:", style = CaptionRegular)
@@ -176,6 +186,7 @@ fun StorybookScreen() {
         }
 
         // --- Bottom Sheet ---
+        // --- Нижний лист ---
         item {
             SectionTitle("Bottom Sheet")
             var showGenderSheet by remember { mutableStateOf(false) }
@@ -207,6 +218,7 @@ fun StorybookScreen() {
         }
 
         // --- Product Card ---
+        // --- Карточка товара ---
         item {
             SectionTitle("Product Card")
             val sampleProduct =
@@ -242,6 +254,7 @@ fun StorybookScreen() {
         }
 
         // --- Error Notification ---
+        // --- Уведомление об ошибке ---
         item {
             SectionTitle("Error Notification")
             var errorMessage by remember { mutableStateOf<String?>(null) }
@@ -252,26 +265,36 @@ fun StorybookScreen() {
 
             // Note: ErrorNotification uses absolute positioning/overlay,
             // so it might appear at the top of the screen, not inline.
+            // Примечание: компонент ErrorNotification использует абсолютное позиционирование/оверлей,
+            // поэтому уведомление может появляться в верхней части экрана, а не внутри строки.
             ErrorNotification(message = errorMessage, onDismiss = { errorMessage = null })
         }
 
         // --- TabBar ---
+        // --- Таб-бар ---
         item {
             SectionTitle("TabBar (Preview)")
             StorybookBottomBar()
         }
 
         // Add some bottom padding
+        // Добавляем небольшой отступ снизу.
         item { Spacer(modifier = Modifier.height(48.dp)) }
     }
 }
 
+/**
+ * Отрисовывает composable-компонент в соответствии с переданным состоянием.
+ *
+ * @param title Заголовок, который отображается в интерфейсе.
+ */
 @Composable
 fun SectionTitle(title: String) {
     Text(text = title, style = Title2Bold, modifier = Modifier.padding(bottom = 8.dp, top = 8.dp))
     HorizontalDivider(color = InputStroke)
 }
 
+// Отрисовывает composable-компонент в соответствии с переданным состоянием.
 @Composable
 fun ColorPalette() {
     val colors =
@@ -304,6 +327,13 @@ fun ColorPalette() {
     }
 }
 
+/**
+ * Отрисовывает элемент интерфейса и обрабатывает взаимодействие пользователя.
+ *
+ * @param name Имя пользователя или название сущности.
+ * @param color Цветовое значение для стилизации визуального элемента интерфейса.
+ * @param modifier Внешний `Modifier` для настройки размеров, отступов и поведения компонента.
+ */
 @Composable
 fun ColorItem(name: String, color: Color, modifier: Modifier = Modifier) {
     Row(
@@ -324,6 +354,7 @@ fun ColorItem(name: String, color: Color, modifier: Modifier = Modifier) {
     }
 }
 
+// Отрисовывает composable-компонент в соответствии с переданным состоянием.
 @Composable
 fun IconGrid() {
     val icons =
@@ -343,6 +374,9 @@ fun IconGrid() {
     // without fixed height
     // Using FlowRow-like layout with Columns
 
+    // Упрощённый вариант сетки: компонент LazyVerticalGrid сложно корректно вложить в LazyColumn.
+    // без фиксированной высоты.
+    // Используем раскладку в стиле FlowRow через компоненты Column.
     Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(16.dp)) {
         icons.take(5).forEach { iconId -> IconItem(iconId) }
     }
@@ -352,6 +386,11 @@ fun IconGrid() {
     }
 }
 
+/**
+ * Отрисовывает элемент интерфейса и обрабатывает взаимодействие пользователя.
+ *
+ * @param iconId Идентификатор `icon` для выполнения операции.
+ */
 @Composable
 fun IconItem(iconId: Int) {
     Box(
@@ -367,6 +406,7 @@ fun IconItem(iconId: Int) {
     }
 }
 
+// Отрисовывает панель интерфейса и синхронизирует активное состояние.
 @Composable
 fun StorybookBottomBar() {
     val items =

@@ -5,8 +5,16 @@ import com.example.lol.data.network.api.MatuleApi
 import com.example.lol.data.network.models.*
 
 /** Реализация репозитория для работы с заказами. */
+// Инкапсулирует работу с источниками данных и обработку результатов операций.
 class OrderRepository(private val api: MatuleApi) : IOrderRepository {
 
+    /**
+     * Создает новую сущность на основе переданных данных.
+     *
+     * @param userId Идентификатор пользователя, от имени которого выполняется операция.
+     * @param productId Идентификатор товара для поиска или изменения записи.
+     * @param count Количество элементов для установки или изменения.
+     */
     override suspend fun createOrder(
             userId: String,
             productId: String,
@@ -27,6 +35,11 @@ class OrderRepository(private val api: MatuleApi) : IOrderRepository {
         }
     }
 
+    /**
+     * Разбирает входные данные и формирует нормализованный результат.
+     *
+     * @param errorBody Сырые данные ошибки от сервера для извлечения сообщения.
+     */
     private fun parseErrorMessage(errorBody: String?): String {
         if (errorBody == null) return "Неизвестная ошибка"
 

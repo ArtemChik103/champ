@@ -8,9 +8,16 @@ import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.RequestBody.Companion.toRequestBody
 
 /** Реализация репозитория авторизации. Выполняет сетевые запросы через MatuleApi. */
+// Инкапсулирует работу с источниками данных и обработку результатов операций.
 class AuthRepository(private val api: MatuleApi, private val tokenManager: ITokenManager) :
         IAuthRepository {
 
+    /**
+     * Регистрирует сущность и сохраняет результат операции в текущем состоянии.
+     *
+     * @param email Email пользователя, используемый как идентификатор учетной записи.
+     * @param password Пароль пользователя для проверки или сохранения.
+     */
     override suspend fun register(
             email: String,
             password: String
@@ -45,6 +52,12 @@ class AuthRepository(private val api: MatuleApi, private val tokenManager: IToke
         }
     }
 
+    /**
+     * Выполняет вход пользователя и обновляет состояние авторизации.
+     *
+     * @param email Email пользователя, используемый как идентификатор учетной записи.
+     * @param password Пароль пользователя для проверки или сохранения.
+     */
     override suspend fun login(email: String, password: String): NetworkResult<ResponseAuth> {
         return try {
             val request = RequestAuth(identity = email, password = password)
@@ -71,6 +84,8 @@ class AuthRepository(private val api: MatuleApi, private val tokenManager: IToke
 
                 // Сохраняем токен и ID пользователя, предварительно очистив его от недопустимых
                 // символов
+                // Сохраняем токен и идентификатор пользователя, предварительно очистив его от недопустимых
+                // символов
                 val cleanToken = authResponse.token.replace("\n", "").replace("\r", "").trim()
                 tokenManager.saveToken(cleanToken)
                 tokenManager.saveUserId(authResponse.record.id)
@@ -85,6 +100,11 @@ class AuthRepository(private val api: MatuleApi, private val tokenManager: IToke
         }
     }
 
+    /**
+     * Возвращает актуальные данные из текущего источника состояния.
+     *
+     * @param userId Идентификатор пользователя, от имени которого выполняется операция.
+     */
     override suspend fun getUser(userId: String): NetworkResult<User> {
         return try {
             val response = api.getUser(userId)
@@ -100,6 +120,16 @@ class AuthRepository(private val api: MatuleApi, private val tokenManager: IToke
         }
     }
 
+    /**
+     * Обновляет существующую сущность и возвращает результат операции.
+     *
+     * @param userId Идентификатор пользователя, от имени которого выполняется операция.
+     * @param firstname Имя пользователя для сохранения или обновления профиля.
+     * @param lastname Фамилия пользователя для сохранения или обновления профиля.
+     * @param secondname Отчество пользователя для заполнения профиля.
+     * @param datebirthday Дата рождения в формате, ожидаемом сервером.
+     * @param gender Выбранный пол пользователя или проекта.
+     */
     override suspend fun updateUser(
             userId: String,
             firstname: String?,
@@ -132,6 +162,7 @@ class AuthRepository(private val api: MatuleApi, private val tokenManager: IToke
         }
     }
 
+    // Завершает пользовательскую сессию и очищает данные авторизации.
     override suspend fun logout(): NetworkResult<Unit> {
         return try {
             // Получаем список токенов авторизации
@@ -170,11 +201,17 @@ class AuthRepository(private val api: MatuleApi, private val tokenManager: IToke
     }
 
     /** Парсит сообщение об ошибке из JSON ответа. */
+    /**
+     * Разбирает входные данные и формирует нормализованный результат.
+     *
+     * @param errorBody Сырые данные ошибки от сервера для извлечения сообщения.
+     */
     private fun parseErrorMessage(errorBody: String?): String {
         if (errorBody == null) return "Неизвестная ошибка"
 
         return try {
             // Пытаемся распарсить как Error400
+            // Пытаемся распарсить ответ как ошибку Error400.
             val gson = com.google.gson.Gson()
             val error = gson.fromJson(errorBody, Error400::class.java)
             error.message

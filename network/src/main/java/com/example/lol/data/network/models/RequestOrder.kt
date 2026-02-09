@@ -3,6 +3,7 @@ package com.example.lol.data.network.models
 import com.google.gson.annotations.SerializedName
 
 /** Запрос на создание заказа. */
+// Описывает структуру данных запроса для отправки на сервер.
 data class RequestOrder(
         @SerializedName("user_id") val userId: String,
         @SerializedName("product_id") val productId: String,

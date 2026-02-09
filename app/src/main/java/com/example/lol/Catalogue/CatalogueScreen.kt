@@ -52,6 +52,13 @@ import com.example.lol.ui.theme.AccentBlue
 import com.example.lol.ui.theme.HeadlineMedium
 import com.example.lol.ui.theme.TextMedium
 
+/**
+ * Отрисовывает экран и связывает пользовательские действия с состоянием UI.
+ *
+ * @param navController Контроллер навигации для переходов между экранами и возврата по стеку.
+ * @param viewModel ViewModel экрана с состоянием, событиями и бизнес-логикой.
+ * @param cartViewModel ViewModel корзины для синхронизации количества и состава товаров.
+ */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CatalogueScreen(
@@ -67,8 +74,10 @@ fun CatalogueScreen(
 
     Column(modifier = Modifier.fillMaxSize().background(Color.White)) {
         // Search & Header
+        // Поиск и заголовок
         Column(modifier = Modifier.fillMaxWidth().padding(20.dp)) {
             // Header with Search and Cart icon
+            // Заголовок с поиском и иконкой корзины
             Row(
                     modifier = Modifier.fillMaxWidth(),
                     verticalAlignment = Alignment.CenterVertically,
@@ -92,6 +101,7 @@ fun CatalogueScreen(
                 )
 
                 // Profile icon
+                // Иконка профиля
                 Image(
                         painter = painterResource(id = R.drawable.user_icon_catalogue),
                         contentDescription = "Профиль",
@@ -113,6 +123,7 @@ fun CatalogueScreen(
             val currentCategory by viewModel.selectedCategory.collectAsState()
 
             // Categories Chips
+            // Чипы категорий
             LazyRow(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
                 val categories =
                         listOf("Все", "Популярные", "Новинки", "Мужское", "Женское", "Аксессуары")

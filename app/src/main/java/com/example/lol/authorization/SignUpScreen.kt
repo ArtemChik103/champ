@@ -38,6 +38,11 @@ import com.example.lol.ui.theme.CaptionRegular
 import com.example.lol.ui.theme.Title1Semibold
 import com.example.lol.ui.theme.Title3Semibold
 
+/**
+ * Отрисовывает экран и связывает пользовательские действия с состоянием UI.
+ *
+ * @param navController Контроллер навигации для переходов между экранами и возврата по стеку.
+ */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SignUpScreen(navController: NavController) {

@@ -22,6 +22,12 @@ import com.example.lol.ui.theme.Title3Semibold
  * @param onDismiss Колбэк закрытия BottomSheet.
  * @param onGenderSelected Колбэк выбора значения пола.
  */
+/**
+ * Отрисовывает нижний лист и обрабатывает действия внутри модального окна.
+ *
+ * @param onDismiss Колбэк закрытия модального компонента.
+ * @param onGenderSelected Колбэк для события «gender selected».
+ */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun GenderSelectionSheet(
@@ -70,6 +76,13 @@ fun GenderSelectionSheet(
  * @param text Отображаемое название варианта.
  * @param emoji Эмодзи для визуального акцента.
  * @param onClick Обработчик выбора варианта.
+ */
+/**
+ * Отрисовывает элемент интерфейса и обрабатывает взаимодействие пользователя.
+ *
+ * @param text Текстовое содержимое элемента интерфейса.
+ * @param emoji Эмодзи-символ, отображаемый рядом с текстовым вариантом.
+ * @param onClick Колбэк, вызываемый при нажатии пользователя.
  */
 @Composable
 fun GenderOption(text: String, emoji: String, onClick: () -> Unit) {

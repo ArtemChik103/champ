@@ -18,12 +18,22 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.lol.ui.theme.AccentBlue
 
+// Описывает неизменяемую структуру данных, используемую в приложении.
 data class AppTabBarItem(
     val route: String,
     val title: String,
     @DrawableRes val iconRes: Int? = null
 )
 
+/**
+ * Отрисовывает панель интерфейса и синхронизирует активное состояние.
+ *
+ * @param items Набор элементов, участвующих в текущей операции.
+ * @param selectedRoute Маршрут активного элемента навигации.
+ * @param onItemSelected Колбэк выбора элемента в навигации или списке.
+ * @param modifier Внешний `Modifier` для настройки размеров, отступов и поведения компонента.
+ * @param testTagPrefix Префикс тестовых тегов для внутренних элементов компонента.
+ */
 @Composable
 fun AppTabBar(
     items: List<AppTabBarItem>,

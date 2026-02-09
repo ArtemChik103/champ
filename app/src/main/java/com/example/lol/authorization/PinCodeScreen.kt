@@ -40,6 +40,11 @@ import com.example.lol.ui.theme.Title1Semibold
 
 private val PinPressColor = Color(0xFF2074F2)
 
+/**
+ * Отрисовывает экран и связывает пользовательские действия с состоянием UI.
+ *
+ * @param navController Контроллер навигации для переходов между экранами и возврата по стеку.
+ */
 @Composable
 fun PinCodeScreen(navController: NavController) {
     val context = androidx.compose.ui.platform.LocalContext.current
@@ -53,6 +58,7 @@ fun PinCodeScreen(navController: NavController) {
         Spacer(modifier = Modifier.height(144.dp))
 
         // Title
+        // Заголовок
         Text(
                 text = "Введите код",
                 style = Title1Semibold,
@@ -63,6 +69,7 @@ fun PinCodeScreen(navController: NavController) {
         Spacer(modifier = Modifier.height(16.dp))
 
         // Description
+        // Описание
         Text(
                 text = "Введите 4-значный код для входа",
                 style = TextRegular,
@@ -73,6 +80,7 @@ fun PinCodeScreen(navController: NavController) {
         Spacer(modifier = Modifier.height(56.dp))
 
         // Progress indicators (4 dots)
+        // Индикаторы прогресса (4 точки)
         Row(
                 horizontalArrangement = Arrangement.spacedBy(12.dp),
                 verticalAlignment = Alignment.CenterVertically
@@ -95,12 +103,14 @@ fun PinCodeScreen(navController: NavController) {
         Spacer(modifier = Modifier.height(76.dp))
 
         // Numeric keyboard
+        // Цифровая клавиатура
         Column(
                 modifier = Modifier.width(288.dp),
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.spacedBy(24.dp)
         ) {
             // Rows 1-3
+            // Ряды 1-3
             listOf(listOf("1", "2", "3"), listOf("4", "5", "6"), listOf("7", "8", "9")).forEach {
                     row ->
                 Row(
@@ -139,12 +149,14 @@ fun PinCodeScreen(navController: NavController) {
             }
 
             // Last row: empty, 0, delete
+            // Последняя строка: пусто, 0, удалить
             Row(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.spacedBy(24.dp),
                     verticalAlignment = Alignment.CenterVertically
             ) {
                 // Empty space - replaced with transparent box for spacing
+                // Пустое место заменено прозрачным контейнером для сохранения отступов.
                 Box(modifier = Modifier.size(80.dp))
 
                 // 0
@@ -176,6 +188,7 @@ fun PinCodeScreen(navController: NavController) {
                 )
 
                 // Delete button
+                // Кнопка удаления
                 Box(
                         modifier =
                                 Modifier.size(80.dp)
@@ -208,6 +221,13 @@ fun PinCodeScreen(navController: NavController) {
     }
 }
 
+/**
+ * Отрисовывает composable-компонент в соответствии с переданным состоянием.
+ *
+ * @param text Текстовое содержимое элемента интерфейса.
+ * @param onClick Колбэк, вызываемый при нажатии пользователя.
+ * @param isHighlighted Флаг визуальной подсветки кнопки или элемента.
+ */
 @Composable
 fun PinKeyButton(text: String, onClick: () -> Unit, isHighlighted: Boolean = false) {
     val interactionSource = remember { MutableInteractionSource() }

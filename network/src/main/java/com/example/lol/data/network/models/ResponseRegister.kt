@@ -3,6 +3,7 @@ package com.example.lol.data.network.models
 import com.google.gson.annotations.SerializedName
 
 /** Ответ сервера на регистрацию пользователя. */
+// Описывает структуру ответа, получаемого от API.
 data class ResponseRegister(
         @SerializedName("id") val id: String,
         @SerializedName("collectionId") val collectionId: String,

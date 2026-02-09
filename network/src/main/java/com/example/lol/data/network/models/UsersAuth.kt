@@ -3,6 +3,7 @@ package com.example.lol.data.network.models
 import com.google.gson.annotations.SerializedName
 
 /** Элемент авторизации пользователя для получения токена. */
+// Описывает сетевую модель данных для сериализации и десериализации.
 data class UserAuth(
         @SerializedName("id") val id: String,
         @SerializedName("collectionId") val collectionId: String,
@@ -15,6 +16,7 @@ data class UserAuth(
 )
 
 /** Ответ сервера со списком токенов авторизации. */
+// Описывает сетевую модель данных для сериализации и десериализации.
 data class UsersAuth(
         @SerializedName("page") val page: Int,
         @SerializedName("perPage") val perPage: Int,

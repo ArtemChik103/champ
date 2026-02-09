@@ -22,12 +22,19 @@ import androidx.navigation.NavController
 import com.example.lol.R
 import com.example.lol.ui.theme.*
 
+/**
+ * Отрисовывает экран и связывает пользовательские действия с состоянием UI.
+ *
+ * @param navController Контроллер навигации для переходов между экранами и возврата по стеку.
+ * @param viewModel ViewModel экрана с состоянием, событиями и бизнес-логикой.
+ */
 @Composable
 fun MyOrdersScreen(navController: NavController, viewModel: OrdersViewModel) {
         val orders by viewModel.orders.collectAsState()
 
         Column(modifier = Modifier.fillMaxSize().background(Color.White)) {
                 // Header
+                // Заголовок
                 Box(
                         modifier =
                                 Modifier.fillMaxWidth()
@@ -101,6 +108,12 @@ fun MyOrdersScreen(navController: NavController, viewModel: OrdersViewModel) {
         }
 }
 
+/**
+ * Отрисовывает карточку интерфейса и пробрасывает действия пользователя наружу.
+ *
+ * @param order Данные заказа для отображения или перехода к деталям.
+ * @param onClick Колбэк, вызываемый при нажатии пользователя.
+ */
 @Composable
 fun OrderCard(order: Order, onClick: () -> Unit) {
         Box(

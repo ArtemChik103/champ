@@ -8,6 +8,14 @@ import androidx.compose.ui.res.painterResource
 import com.example.lol.uikit.R
 
 /** Reusable search bar component that wraps AppTextField with a search icon. */
+/**
+ * Отрисовывает панель интерфейса и синхронизирует активное состояние.
+ *
+ * @param value Текущее значение поля или состояния компонента.
+ * @param onValueChange Колбэк изменения значения поля ввода.
+ * @param placeholder Текст-подсказка для пустого состояния поля.
+ * @param modifier Внешний `Modifier` для настройки размеров, отступов и поведения компонента.
+ */
 @Composable
 fun SearchBar(
         value: String,

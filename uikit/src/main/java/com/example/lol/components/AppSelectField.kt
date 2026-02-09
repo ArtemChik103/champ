@@ -51,6 +51,20 @@ import com.example.lol.ui.theme.Title3Semibold
  * @param testTagPrefix Префикс тестовых тегов.
  * @param modifier Модификатор контейнера.
  */
+/**
+ * Отрисовывает composable-компонент в соответствии с переданным состоянием.
+ *
+ * @param value Текущее значение поля или состояния компонента.
+ * @param label Подпись поля или строки интерфейса.
+ * @param placeholder Текст-подсказка для пустого состояния поля.
+ * @param options Список доступных вариантов выбора.
+ * @param onOptionSelected Колбэк выбора значения из списка.
+ * @param showChevron Флаг отображения иконки раскрытия списка.
+ * @param isError Флаг состояния ошибки для отображения в UI.
+ * @param errorMessage Текст ошибки валидации для вывода пользователю.
+ * @param testTagPrefix Префикс тестовых тегов для внутренних элементов компонента.
+ * @param modifier Внешний `Modifier` для настройки размеров, отступов и поведения компонента.
+ */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AppSelectField(

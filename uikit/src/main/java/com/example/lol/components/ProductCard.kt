@@ -32,6 +32,16 @@ import com.example.lol.ui.theme.AccentBlue
  * @param isInCart Признак, что товар уже добавлен в корзину.
  * @param modifier Модификатор карточки.
  */
+/**
+ * Отрисовывает карточку интерфейса и пробрасывает действия пользователя наружу.
+ *
+ * @param product Модель товара, данные которой используются для отображения и действий.
+ * @param onClick Колбэк, вызываемый при нажатии пользователя.
+ * @param onAddToCart Колбэк добавления товара в корзину.
+ * @param onRemoveFromCart Колбэк удаления товара из корзины.
+ * @param isInCart Флаг наличия товара в корзине.
+ * @param modifier Внешний `Modifier` для настройки размеров, отступов и поведения компонента.
+ */
 @Composable
 fun ProductCard(
         product: Product,

@@ -3,6 +3,7 @@ package com.example.lol.data.network.models
 import com.google.gson.annotations.SerializedName
 
 /** Модель проекта с сервера. */
+// Описывает сетевую модель данных для сериализации и десериализации.
 data class ProjectApi(
         @SerializedName("id") val id: String,
         @SerializedName("collectionId") val collectionId: String,

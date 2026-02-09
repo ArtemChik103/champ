@@ -3,10 +3,12 @@ package com.example.lol.testdata
 import com.example.lol.data.network.models.*
 
 /** Тестовые данные и JSON ответы для unit-тестов. */
+// Содержит тестовые JSON-ответы для модульных и интеграционных сценариев.
 object TestJsonResponses {
 
     // ==================== AUTH ====================
 
+    // ==================== АВТОРИЗАЦИЯ ====================
     val successLoginJson =
             """
         {
@@ -66,6 +68,7 @@ object TestJsonResponses {
 
     // ==================== PRODUCTS ====================
 
+    // ==================== ТОВАРЫ ====================
     val productsListJson =
             """
         {
@@ -111,6 +114,7 @@ object TestJsonResponses {
 
     // ==================== CART ====================
 
+    // ==================== КОРЗИНА ====================
     val cartItemJson =
             """
         {
@@ -127,6 +131,7 @@ object TestJsonResponses {
 
     // ==================== PROJECTS ====================
 
+    // ==================== ПРОЕКТЫ ====================
     val projectsListJson =
             """
         {
@@ -175,6 +180,7 @@ object TestJsonResponses {
 
     // ==================== ORDER ====================
 
+    // ==================== ЗАКАЗЫ ====================
     val orderJson =
             """
         {
@@ -191,6 +197,7 @@ object TestJsonResponses {
 
     // ==================== NEWS ====================
 
+    // ==================== НОВОСТИ ====================
     val newsListJson =
             """
         {
@@ -213,6 +220,13 @@ object TestJsonResponses {
 
     // ==================== TEST DATA OBJECTS ====================
 
+    /**
+     * Создает новую сущность на основе переданных данных.
+     *
+     * @param id Уникальный идентификатор сущности для целевой операции.
+     * @param firstname Имя пользователя для сохранения или обновления профиля.
+     * @param lastname Фамилия пользователя для сохранения или обновления профиля.
+     */
     fun createTestUser(
             id: String = "user123",
             firstname: String = "Иван",
@@ -233,6 +247,13 @@ object TestJsonResponses {
                     gender = "Мужской"
             )
 
+    /**
+     * Создает новую сущность на основе переданных данных.
+     *
+     * @param id Уникальный идентификатор сущности для целевой операции.
+     * @param title Заголовок, который отображается в интерфейсе.
+     * @param price Цена товара или заказа, используемая в расчете.
+     */
     fun createTestProductItem(id: String = "prod1", title: String = "Футболка", price: Int = 1500) =
             ProductItem(
                     id = id,
@@ -242,6 +263,13 @@ object TestJsonResponses {
                     type = "Новинки"
             )
 
+    /**
+     * Создает новую сущность на основе переданных данных.
+     *
+     * @param id Уникальный идентификатор сущности для целевой операции.
+     * @param title Заголовок, который отображается в интерфейсе.
+     * @param price Цена товара или заказа, используемая в расчете.
+     */
     fun createTestProductApi(id: String = "prod1", title: String = "Футболка", price: Int = 1500) =
             ProductApi(
                     id = id,
@@ -257,6 +285,12 @@ object TestJsonResponses {
                     approximateCost = "$price ₽"
             )
 
+    /**
+     * Создает новую сущность на основе переданных данных.
+     *
+     * @param id Уникальный идентификатор сущности для целевой операции.
+     * @param title Заголовок, который отображается в интерфейсе.
+     */
     fun createTestProjectApi(id: String = "proj1", title: String = "Мой проект") =
             ProjectApi(
                     id = id,
@@ -274,6 +308,13 @@ object TestJsonResponses {
                     userId = "user123"
             )
 
+    /**
+     * Создает новую сущность на основе переданных данных.
+     *
+     * @param id Уникальный идентификатор сущности для целевой операции.
+     * @param productId Идентификатор товара для поиска или изменения записи.
+     * @param count Количество элементов для установки или изменения.
+     */
     fun createTestResponseCart(id: String = "cart1", productId: String = "prod1", count: Int = 1) =
             ResponseCart(
                     id = id,
@@ -286,6 +327,13 @@ object TestJsonResponses {
                     count = count
             )
 
+    /**
+     * Создает новую сущность на основе переданных данных.
+     *
+     * @param id Уникальный идентификатор сущности для целевой операции.
+     * @param productId Идентификатор товара для поиска или изменения записи.
+     * @param count Количество элементов для установки или изменения.
+     */
     fun createTestResponseOrder(
             id: String = "order1",
             productId: String = "prod1",
@@ -302,8 +350,10 @@ object TestJsonResponses {
                     count = count
             )
 
+    // Создает новую сущность на основе переданных данных.
     fun createTestResponseAuth() = ResponseAuth(record = createTestUser(), token = "test_token_123")
 
+    // Создает новую сущность на основе переданных данных.
     fun createTestResponseRegister() =
             ResponseRegister(
                     id = "user456",

@@ -14,6 +14,11 @@ import androidx.navigation.NavController
 import com.example.lol.R
 import kotlinx.coroutines.delay
 
+/**
+ * Отрисовывает экран и связывает пользовательские действия с состоянием UI.
+ *
+ * @param navController Контроллер навигации для переходов между экранами и возврата по стеку.
+ */
 @Composable
 fun SplashScreen(navController: NavController) {
     val context = LocalContext.current

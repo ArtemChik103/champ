@@ -13,6 +13,7 @@ import retrofit2.converter.gson.GsonConverterFactory
  * Singleton для создания и предоставления экземпляра Retrofit. Настраивает OkHttp клиент с
  * логированием и Bearer токеном.
  */
+// Содержит общие константы и функции, используемые в модуле.
 object RetrofitInstance {
 
     private const val BASE_URL = "https://api.matule.ru/api/"
@@ -25,6 +26,11 @@ object RetrofitInstance {
     /**
      * Устанавливает провайдер токена для авторизации запросов.
      * @param provider Функция возвращающая текущий токен
+     */
+    /**
+     * Обновляет значение в локальном состоянии или постоянном хранилище.
+     *
+     * @param provider Функция-провайдер текущего токена для добавления в заголовки.
      */
     fun setTokenProvider(provider: () -> String?) {
         tokenProvider = provider
@@ -60,14 +66,27 @@ object RetrofitInstance {
         val trustAllCerts =
                 arrayOf<javax.net.ssl.TrustManager>(
                         object : javax.net.ssl.X509TrustManager {
+                            /**
+                             * Проверяет доверие к клиентскому сертификату в кастомной SSL-конфигурации.
+                             *
+                             * @param chain Цепочка сетевых interceptor-вызовов для продолжения запроса.
+                             * @param authType Тип сертификата, передаваемый SSL-подсистемой.
+                             */
                             override fun checkClientTrusted(
                                     chain: Array<java.security.cert.X509Certificate>,
                                     authType: String
                             ) {}
+                            /**
+                             * Проверяет доверие к серверному сертификату в кастомной SSL-конфигурации.
+                             *
+                             * @param chain Цепочка сетевых interceptor-вызовов для продолжения запроса.
+                             * @param authType Тип сертификата, передаваемый SSL-подсистемой.
+                             */
                             override fun checkServerTrusted(
                                     chain: Array<java.security.cert.X509Certificate>,
                                     authType: String
                             ) {}
+                            // Возвращает актуальные данные из текущего источника состояния.
                             override fun getAcceptedIssuers():
                                     Array<java.security.cert.X509Certificate> = arrayOf()
                         }
@@ -106,6 +125,11 @@ object RetrofitInstance {
     /**
      * Создаёт экземпляр Retrofit с кастомным базовым URL. Используется для тестирования с
      * MockWebServer.
+     */
+    /**
+     * Создает новую сущность на основе переданных данных.
+     *
+     * @param baseUrl Базовый URL API для инициализации сетевого клиента.
      */
     fun createWithBaseUrl(baseUrl: String): MatuleApi {
         return Retrofit.Builder()

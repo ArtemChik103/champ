@@ -6,9 +6,11 @@ import com.example.lol.data.repository.IProductRepository
 import org.json.JSONArray
 import java.io.IOException
 
+// Инкапсулирует работу с источниками данных и обработку результатов операций.
 class ProductRepository(private val context: Context) : IProductRepository {
     private val cache = ProductCache(context)
 
+    // Возвращает актуальные данные из текущего источника состояния.
     override fun getProducts(): List<Product> {
         val cached = cache.getProducts()
 
@@ -42,10 +44,20 @@ class ProductRepository(private val context: Context) : IProductRepository {
         return products
     }
 
+    /**
+     * Возвращает актуальные данные из текущего источника состояния.
+     *
+     * @param id Уникальный идентификатор сущности для целевой операции.
+     */
     override fun getProductById(id: Int): Product? {
         return getProducts().find { it.id == id }
     }
     
+    /**
+     * Выполняет поиск по заданному запросу и возвращает отфильтрованный результат.
+     *
+     * @param query Поисковый запрос для фильтрации списка.
+     */
     override fun searchProducts(query: String): List<Product> {
         return getProducts().filter { 
             it.title.contains(query, ignoreCase = true) || it.description.contains(query, ignoreCase = true) 

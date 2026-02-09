@@ -27,6 +27,12 @@ import kotlinx.coroutines.delay
  * @param message Текст ошибки. Если `null`, уведомление не показывается.
  * @param onDismiss Вызывается при ручном или автоматическом закрытии.
  */
+/**
+ * Отрисовывает composable-компонент в соответствии с переданным состоянием.
+ *
+ * @param message Текст сообщения, отображаемый пользователю.
+ * @param onDismiss Колбэк закрытия модального компонента.
+ */
 @Composable
 fun ErrorNotification(message: String?, onDismiss: () -> Unit) {
         var isVisible by remember(message) { mutableStateOf(message != null) }

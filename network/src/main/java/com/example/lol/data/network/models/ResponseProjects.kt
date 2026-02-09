@@ -3,6 +3,7 @@ package com.example.lol.data.network.models
 import com.google.gson.annotations.SerializedName
 
 /** Ответ сервера со списком проектов (пагинация). */
+// Описывает структуру ответа, получаемого от API.
 data class ResponseProjects(
         @SerializedName("page") val page: Int,
         @SerializedName("perPage") val perPage: Int,

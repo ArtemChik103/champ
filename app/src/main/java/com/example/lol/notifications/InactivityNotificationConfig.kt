@@ -1,5 +1,6 @@
 package com.example.lol.notifications
 
+// Содержит конфигурационные константы для соответствующего сценария.
 object InactivityNotificationConfig {
     const val CHANNEL_ID = "inactivity_channel"
     const val CHANNEL_NAME = "Inactivity Notifications"

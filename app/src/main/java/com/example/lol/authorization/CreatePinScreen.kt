@@ -24,6 +24,11 @@ import com.example.lol.ui.theme.TextBlack
 import com.example.lol.ui.theme.TextRegular
 import com.example.lol.ui.theme.Title1Semibold
 
+/**
+ * Отрисовывает экран и связывает пользовательские действия с состоянием UI.
+ *
+ * @param navController Контроллер навигации для переходов между экранами и возврата по стеку.
+ */
 @Composable
 fun CreatePinScreen(navController: NavController) {
     val context = androidx.compose.ui.platform.LocalContext.current
@@ -40,6 +45,7 @@ fun CreatePinScreen(navController: NavController) {
         Spacer(modifier = Modifier.height(71.dp))
 
         // Title
+        // Заголовок
         Text(
                 text = "Создайте пин-код",
                 style = Title1Semibold,
@@ -50,6 +56,7 @@ fun CreatePinScreen(navController: NavController) {
         Spacer(modifier = Modifier.height(16.dp))
 
         // Description
+        // Описание
         Text(
                 text = "Для быстрого входа в приложение",
                 style = TextRegular,
@@ -60,6 +67,7 @@ fun CreatePinScreen(navController: NavController) {
         Spacer(modifier = Modifier.height(56.dp))
 
         // Dots (4)
+        // Индикаторы (4 точки)
         Row(
                 horizontalArrangement = Arrangement.spacedBy(12.dp),
                 verticalAlignment = Alignment.CenterVertically
@@ -82,6 +90,7 @@ fun CreatePinScreen(navController: NavController) {
         Spacer(modifier = Modifier.height(60.dp))
 
         // Keyboard
+        // Клавиатура
         Column(
                 modifier = Modifier.width(288.dp),
                 horizontalAlignment = Alignment.CenterHorizontally,

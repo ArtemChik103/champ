@@ -56,6 +56,11 @@ import com.example.lol.ui.theme.Title1Semibold
 import com.example.lol.ui.theme.Title3Semibold
 import kotlinx.coroutines.launch
 
+/**
+ * Отрисовывает экран и связывает пользовательские действия с состоянием UI.
+ *
+ * @param navController Контроллер навигации для переходов между экранами и возврата по стеку.
+ */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CreatePasswordScreen(navController: NavController) {
@@ -270,6 +275,8 @@ fun CreatePasswordScreen(navController: NavController) {
 
                                         // Пытаемся сохранить учетные данные в Credential Manager.
                                         // Ошибка сохранения не должна блокировать регистрацию.
+                                        // Пытаемся сохранить учётные данные в Credential Manager.
+                                        // Ошибка сохранения не должна блокировать регистрацию.
                                         scope.launch {
                                                 credentialHelper.saveCredentials(
                                                         context = context,
@@ -303,6 +310,12 @@ fun CreatePasswordScreen(navController: NavController) {
         ErrorNotification(message = errorMessage, onDismiss = { errorMessage = null })
 }
 
+/**
+ * Отрисовывает элемент интерфейса и обрабатывает взаимодействие пользователя.
+ *
+ * @param text Текстовое содержимое элемента интерфейса.
+ * @param isMet Флаг выполнения проверяемого условия.
+ */
 @Composable
 fun RequirementItem(text: String, isMet: Boolean) {
         Row(verticalAlignment = Alignment.CenterVertically) {

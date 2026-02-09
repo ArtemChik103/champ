@@ -25,6 +25,13 @@ import com.example.lol.ui.theme.AccentBlue
  * @param onAddToCart Обработчик добавления товара в корзину.
  * @param onClose Обработчик закрытия BottomSheet.
  */
+/**
+ * Отрисовывает composable-компонент в соответствии с переданным состоянием.
+ *
+ * @param product Модель товара, данные которой используются для отображения и действий.
+ * @param onAddToCart Колбэк добавления товара в корзину.
+ * @param onClose Колбэк закрытия текущего экрана или листа.
+ */
 @Composable
 fun ProductDetailsContent(product: Product, onAddToCart: () -> Unit, onClose: () -> Unit) {
         Column(

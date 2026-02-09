@@ -7,8 +7,16 @@ import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.RequestBody.Companion.toRequestBody
 
 /** Реализация репозитория для работы с корзиной. */
+// Инкапсулирует работу с источниками данных и обработку результатов операций.
 class CartRepository(private val api: MatuleApi) : ICartRepository {
 
+    /**
+     * Добавляет сущность в целевую коллекцию или состояние.
+     *
+     * @param userId Идентификатор пользователя, от имени которого выполняется операция.
+     * @param productId Идентификатор товара для поиска или изменения записи.
+     * @param count Количество элементов для установки или изменения.
+     */
     override suspend fun addToCart(
             userId: String,
             productId: String,
@@ -29,6 +37,14 @@ class CartRepository(private val api: MatuleApi) : ICartRepository {
         }
     }
 
+    /**
+     * Обновляет существующую сущность и возвращает результат операции.
+     *
+     * @param cartItemId Идентификатор позиции корзины, которую нужно обновить.
+     * @param userId Идентификатор пользователя, от имени которого выполняется операция.
+     * @param productId Идентификатор товара для поиска или изменения записи.
+     * @param count Количество элементов для установки или изменения.
+     */
     override suspend fun updateCartItem(
             cartItemId: String,
             userId: String,
@@ -55,6 +71,11 @@ class CartRepository(private val api: MatuleApi) : ICartRepository {
         }
     }
 
+    /**
+     * Разбирает входные данные и формирует нормализованный результат.
+     *
+     * @param errorBody Сырые данные ошибки от сервера для извлечения сообщения.
+     */
     private fun parseErrorMessage(errorBody: String?): String {
         if (errorBody == null) return "Неизвестная ошибка"
 

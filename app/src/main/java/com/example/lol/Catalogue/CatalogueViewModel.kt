@@ -17,6 +17,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
 /** Состояние загрузки каталога. */
+// Определяет поведение и состояние компонента в рамках текущего модуля.
 sealed class CatalogueState {
     object Idle : CatalogueState()
     object Loading : CatalogueState()
@@ -25,6 +26,7 @@ sealed class CatalogueState {
 }
 
 /** ViewModel для управления каталогом продуктов. Использует UseCases для сетевых запросов. */
+// Хранит состояние экрана и координирует действия пользователя.
 class CatalogueViewModel(
         application: Application,
         private val getProductsUseCase: GetProductsUseCase? = null,
@@ -32,9 +34,11 @@ class CatalogueViewModel(
 ) : AndroidViewModel(application) {
 
     // Локальный репозиторий для fallback (JSON assets)
+    // Локальный репозиторий для резервного режима (JSON-ресурсы).
     private val localRepository = ProductRepository(application)
 
     // Кэш для offline-режима
+    // Кэш для офлайн-режима.
     private val productCache = ProductCache(application)
 
     private val _products = MutableStateFlow<List<Product>>(emptyList())
@@ -58,6 +62,7 @@ class CatalogueViewModel(
     }
 
     /** Загрузка продуктов: сначала API, затем fallback на локальные данные. */
+    // Загружает данные, обрабатывает результат и обновляет состояние.
     fun loadProducts() {
         viewModelScope.launch {
             _catalogueState.value = CatalogueState.Loading
@@ -71,11 +76,13 @@ class CatalogueViewModel(
                         _products.value = products
                         _allProducts.value = products
                         // Кэшируем для offline
+                        // Кэшируем для офлайн-режима.
                         cacheProducts(products)
                         _catalogueState.value = CatalogueState.Success
                     }
                     is NetworkResult.Error -> {
                         // Fallback на локальные данные
+                        // Резервный переход на локальные данные.
                         loadLocalProducts()
                         _catalogueState.value = CatalogueState.Error(result.message)
                     }
@@ -83,6 +90,7 @@ class CatalogueViewModel(
                 }
             } else {
                 // Нет API репозитория (UseCase) - используем локальные данные
+                // Нет API-репозитория (UseCase) — используем локальные данные.
                 loadLocalProducts()
                 _catalogueState.value = CatalogueState.Success
             }
@@ -90,6 +98,7 @@ class CatalogueViewModel(
     }
 
     /** Загрузка продуктов из локального JSON. */
+    // Загружает данные, обрабатывает результат и обновляет состояние.
     private fun loadLocalProducts() {
         val productsList = localRepository.getProducts()
         _products.value = productsList
@@ -97,17 +106,32 @@ class CatalogueViewModel(
     }
 
     /** Кэширование продуктов для offline-режима. */
+    /**
+     * Сохраняет загруженный список товаров в локальный кэш для повторного использования.
+     *
+     * @param products Список товаров для сохранения или отображения.
+     */
     private fun cacheProducts(products: List<Product>) {
         productCache.saveProducts(products)
     }
 
     /** Установка категории для фильтрации. */
+    /**
+     * Обновляет значение в локальном состоянии или постоянном хранилище.
+     *
+     * @param category Категория, по которой выполняется фильтрация или сохранение.
+     */
     fun setCategory(category: String) {
         _selectedCategory.value = category
         applyFilters()
     }
 
     /** Поиск продуктов. При наличии API репозитория выполняет поиск через API. */
+    /**
+     * Применяет фильтрацию к данным и обновляет отображаемый результат.
+     *
+     * @param query Поисковый запрос для фильтрации списка.
+     */
     fun filterProducts(query: String) {
         currentSearchQuery = query
 
@@ -119,6 +143,11 @@ class CatalogueViewModel(
     }
 
     /** Поиск через API. */
+    /**
+     * Выполняет поиск по заданному запросу и возвращает отфильтрованный результат.
+     *
+     * @param query Поисковый запрос для фильтрации списка.
+     */
     private fun searchViaApi(query: String) {
         viewModelScope.launch {
             _catalogueState.value = CatalogueState.Loading
@@ -141,6 +170,7 @@ class CatalogueViewModel(
                 }
                 is NetworkResult.Error -> {
                     // Fallback на локальную фильтрацию
+                    // Резервный переход на локальную фильтрацию.
                     applyFilters()
                     _catalogueState.value = CatalogueState.Error(result.message)
                 }
@@ -150,6 +180,7 @@ class CatalogueViewModel(
     }
 
     /** Применение фильтров (категория + поиск) локально. */
+    // Применяет изменения к текущему состоянию и синхронизирует отображение.
     private fun applyFilters() {
         val allProducts =
                 if (apiProducts.isNotEmpty()) {
@@ -179,6 +210,7 @@ class CatalogueViewModel(
     }
 
     /** Получение списка доступных категорий. */
+    // Возвращает актуальные данные из текущего источника состояния.
     fun getCategories(): List<String> {
         val categories = _allProducts.value.map { it.category }.distinct().toMutableList()
         categories.add(0, "Все")
@@ -186,6 +218,7 @@ class CatalogueViewModel(
     }
 
     /** Сброс состояния ошибки. */
+    // Сбрасывает состояние к исходным значениям по умолчанию.
     fun resetState() {
         _catalogueState.value = CatalogueState.Idle
     }
@@ -204,11 +237,17 @@ class CatalogueViewModel(
 }
 
 /** Factory для создания CatalogueViewModel с зависимостями. */
+// Создает экземпляры компонентов с необходимыми зависимостями.
 class CatalogueViewModelFactory(
         private val application: Application,
         private val getProductsUseCase: GetProductsUseCase? = null,
         private val searchProductsUseCase: SearchProductsUseCase? = null
 ) : ViewModelProvider.Factory {
+    /**
+     * Создает новую сущность на основе переданных данных.
+     *
+     * @param modelClass Класс ViewModel, для которого создается экземпляр.
+     */
     @Suppress("UNCHECKED_CAST")
     override fun <T : androidx.lifecycle.ViewModel> create(modelClass: Class<T>): T {
         return CatalogueViewModel(application, getProductsUseCase, searchProductsUseCase) as T

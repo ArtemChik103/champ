@@ -5,6 +5,7 @@ import java.util.UUID
 /**
  * Data class representing a project.
  */
+// Описывает неизменяемую структуру данных, используемую в приложении.
 data class Project(
     val id: String = UUID.randomUUID().toString(),
     val name: String,
