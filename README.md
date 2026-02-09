@@ -9,6 +9,12 @@ Matule — Android-приложение на Kotlin + Jetpack Compose.
 - `:network` — API/DTO/network-репозитории (`data/network/*`, `data/repository/*`, кроме `MockAuthRepository`).
 - `:benchmark` — макробенчмарки.
 
+## Требования окружения
+
+- Gradle JVM: `JDK 17..21` (рекомендуется `JDK 21`).
+- Проверено в этом проекте: `JDK 21` (Android Studio `jbr`).
+- На `JDK 24` возможна ошибка при создании `AndroidUnitTest`-задач: `Type T not present`.
+
 ## Runtime Auth
 
 Текущий runtime закреплён на `MockAuth`:
@@ -101,6 +107,24 @@ Network-auth остаётся доступным как вторичный пу�
 # macOS/Linux
 ./gradlew :uikit:compileDebugAndroidTestKotlin
 
-# Unit-тесты: в текущем окружении могут падать на этапе создания AndroidUnitTest-задач
-# (ошибка Gradle/AGP: "Type T not present").
+# Unit-тесты network
+# Windows (PowerShell)
+.\gradlew.bat :network:testDebugUnitTest
+
+# macOS/Linux
+./gradlew :network:testDebugUnitTest
+```
+
+## Troubleshooting
+
+Симптом: `Type T not present` при запуске unit-тестов.
+
+Причина: Gradle запущен на неподдерживаемой JVM (например, `JDK 24`).
+
+Быстрый фикс для PowerShell (текущая сессия):
+
+```powershell
+$env:JAVA_HOME="C:\Program Files\Android\Android Studio\jbr"
+$env:Path="$env:JAVA_HOME\bin;$env:Path"
+.\gradlew.bat :network:testDebugUnitTest
 ```
