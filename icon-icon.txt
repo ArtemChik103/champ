@@ -1,0 +1,1643 @@
+This file is extracted from repomix-clean-with-tests.md.
+It contains only Sprint-1 relevant files and code (UIKit + Storybook + required UIKit state tests).
+
+# Directory Structure
+```
+app/src/main/java/com/example/lol/storybook/StorybookActivity.kt
+app/src/main/java/com/example/lol/storybook/StorybookScreen.kt
+uikit/build.gradle.kts
+uikit/src/androidTest/java/com/example/lol/components/UiKitStateTest.kt
+uikit/src/main/AndroidManifest.xml
+uikit/src/main/java/com/example/lol/components/AppChip.kt
+uikit/src/main/java/com/example/lol/components/AppHeader.kt
+uikit/src/main/java/com/example/lol/components/AppSelectField.kt
+uikit/src/main/java/com/example/lol/components/AppTabBar.kt
+uikit/src/main/java/com/example/lol/components/AppTextField.kt
+uikit/src/main/java/com/example/lol/components/ProductCard.kt
+uikit/src/main/java/com/example/lol/components/SearchBar.kt
+uikit/src/main/java/com/example/lol/components/UiKitSemantics.kt
+uikit/src/main/java/com/example/lol/data/Product.kt
+uikit/src/main/java/com/example/lol/ui/theme/Color.kt
+uikit/src/main/java/com/example/lol/ui/theme/Theme.kt
+uikit/src/main/java/com/example/lol/ui/theme/Type.kt
+```
+
+# Files
+
+## File: app/src/main/java/com/example/lol/storybook/StorybookActivity.kt
+```kotlin
+package com.example.lol.storybook
+
+import android.os.Bundle
+import androidx.activity.ComponentActivity
+import androidx.activity.compose.setContent
+import com.example.lol.ui.theme.LolTheme
+
+class StorybookActivity : ComponentActivity() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContent { LolTheme { StorybookScreen() } }
+    }
+}
+```
+
+## File: app/src/main/java/com/example/lol/storybook/StorybookScreen.kt
+```kotlin
+package com.example.lol.storybook
+
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import com.example.lol.R
+import com.example.lol.components.*
+import com.example.lol.data.Product
+import com.example.lol.ui.theme.*
+
+@Composable
+fun StorybookScreen() {
+    LazyColumn(
+            modifier = Modifier.fillMaxSize().background(Color.White).padding(16.dp),
+            verticalArrangement = Arrangement.spacedBy(24.dp)
+    ) {
+        item { Text("Storybook", style = Title1ExtraBold) }
+
+        // --- Colors ---
+        item {
+            SectionTitle("Colors")
+            ColorPalette()
+        }
+
+        // --- Typography ---
+        item {
+            SectionTitle("Typography")
+            Text("Title1ExtraBold", style = Title1ExtraBold)
+            Text("Title1Semibold", style = Title1Semibold)
+            Text("Title2Bold", style = Title2Bold)
+            Text("Title3Semibold", style = Title3Semibold)
+            Text("HeadlineMedium", style = HeadlineMedium)
+            Text("TextMedium", style = TextMedium)
+            Text("TextRegular", style = TextRegular)
+            Text("CaptionRegular", style = CaptionRegular)
+        }
+
+        // --- Buttons ---
+        item {
+            SectionTitle("Buttons")
+            Button(onClick = {}, modifier = Modifier.fillMaxWidth()) { Text("Primary Button") }
+            Spacer(modifier = Modifier.height(8.dp))
+            Button(onClick = {}, modifier = Modifier.fillMaxWidth(), enabled = false) {
+                Text("Disabled Button")
+            }
+            Spacer(modifier = Modifier.height(8.dp))
+            OutlinedButton(onClick = {}, modifier = Modifier.fillMaxWidth()) {
+                Text("Outlined Button")
+            }
+        }
+
+        // --- Text Fields ---
+        item {
+            SectionTitle("Text Fields")
+            var text by remember { mutableStateOf("") }
+            AppTextField(
+                    value = text,
+                    onValueChange = { text = it },
+                    label = "Label",
+                    placeholder = "Placeholder"
+            )
+            Spacer(modifier = Modifier.height(8.dp))
+            AppTextField(
+                    value = "Error Value",
+                    onValueChange = {},
+                    label = "Error State",
+                    isError = true,
+                    errorMessage = "This is an error"
+            )
+        }
+
+        // --- Select Field ---
+        item {
+            SectionTitle("Select Field")
+            var selectedOption by remember { mutableStateOf("") }
+            var selectedWithoutIcon by remember { mutableStateOf("") }
+
+            AppSelectField(
+                    value = selectedOption,
+                    label = "Выберите пол",
+                    placeholder = "Пол",
+                    options = listOf("👨 Мужской", "👩 Женский"),
+                    onOptionSelected = { selectedOption = it }
+            )
+
+            Spacer(modifier = Modifier.height(8.dp))
+
+            AppSelectField(
+                    value = selectedWithoutIcon,
+                    label = "Select без иконки",
+                    placeholder = "Выберите опцию",
+                    options = listOf("🔥 Горячее", "✨ Новое", "✅ Подтверждено"),
+                    onOptionSelected = { selectedWithoutIcon = it },
+                    showChevron = false
+            )
+        }
+
+        // --- Chips ---
+        item {
+            SectionTitle("Chips ON/OFF")
+            var chipState by remember { mutableStateOf(true) }
+
+            Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
+                AppChip(
+                        text = "Активный",
+                        isSelected = chipState,
+                        onClick = { chipState = !chipState }
+                )
+                AppChip(
+                        text = "Неактивный",
+                        isSelected = !chipState,
+                        onClick = { chipState = !chipState }
+                )
+            }
+        }
+
+        // --- Icons ---
+        item {
+            SectionTitle("Icons")
+            IconGrid()
+        }
+
+        // --- Search Bar ---
+        item {
+            SectionTitle("Search Bar")
+            var searchQuery by remember { mutableStateOf("") }
+            SearchBar(
+                    value = searchQuery,
+                    onValueChange = { searchQuery = it },
+                    placeholder = "Искать в каталоге"
+            )
+        }
+
+        // --- App Header ---
+        item {
+            SectionTitle("App Header")
+            Text("Title only:", style = CaptionRegular)
+            AppHeader(title = "Каталог")
+
+            Spacer(modifier = Modifier.height(8.dp))
+            Text("Back button and Title:", style = CaptionRegular)
+            AppHeader(title = "Профиль", showBackButton = true)
+
+            Spacer(modifier = Modifier.height(8.dp))
+            Text("With Trailing Icon (Profile):", style = CaptionRegular)
+            AppHeader(
+                    title = "Главная",
+                    trailingIcon = {
+                        Box(
+                                modifier =
+                                        Modifier.size(32.dp).background(Color.Black, CircleShape),
+                                contentAlignment = Alignment.Center
+                        ) {
+                            Icon(
+                                    painter = painterResource(id = R.drawable.polzovatel_3),
+                                    contentDescription = null,
+                                    tint = Color.White,
+                                    modifier = Modifier.size(20.dp)
+                            )
+                        }
+                    }
+            )
+        }
+
+        // --- Product Card ---
+        item {
+            SectionTitle("Product Card")
+            val sampleProduct =
+                    Product(
+                            id = 1,
+                            title = "Nike Air Max 270",
+                            description = "Great sneakers",
+                            price = 12990,
+                            category = "Sneakers",
+                            imageUrl = "https://example.com/image.png"
+                    )
+
+            Text("Not in Cart:", style = CaptionRegular)
+            Spacer(modifier = Modifier.height(4.dp))
+            ProductCard(
+                    product = sampleProduct,
+                    onClick = {},
+                    onAddToCart = {},
+                    onRemoveFromCart = {},
+                    isInCart = false
+            )
+
+            Spacer(modifier = Modifier.height(16.dp))
+            Text("In Cart:", style = CaptionRegular)
+            Spacer(modifier = Modifier.height(4.dp))
+            ProductCard(
+                    product = sampleProduct,
+                    onClick = {},
+                    onAddToCart = {},
+                    onRemoveFromCart = {},
+                    isInCart = true
+            )
+        }
+
+        // --- TabBar ---
+        item {
+            SectionTitle("TabBar (Preview)")
+            StorybookBottomBar()
+        }
+
+        // Add some bottom padding
+        item { Spacer(modifier = Modifier.height(48.dp)) }
+    }
+}
+
+@Composable
+fun SectionTitle(title: String) {
+    Text(text = title, style = Title2Bold, modifier = Modifier.padding(bottom = 8.dp, top = 8.dp))
+    HorizontalDivider(color = InputStroke)
+}
+
+@Composable
+fun ColorPalette() {
+    val colors =
+            listOf(
+                    "AccentColor" to AccentColor,
+                    "AccentBlue" to AccentBlue,
+                    "AccentBlueInactive" to AccentBlueInactive,
+                    "TextBlack" to TextBlack,
+                    "TextGray" to TextGray,
+                    "TextHint" to TextHint,
+                    "InputBg" to InputBg,
+                    "InputStroke" to InputStroke,
+                    "RedError" to RedError,
+                    "ChipInactiveBg" to ChipInactiveBg
+            )
+
+    Column {
+        colors.chunked(2).forEach { rowColors ->
+            Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
+                rowColors.forEach { (name, color) -> ColorItem(name, color, Modifier.weight(1f)) }
+                if (rowColors.size == 1) {
+                    Spacer(modifier = Modifier.weight(1f))
+                }
+            }
+            Spacer(modifier = Modifier.height(8.dp))
+        }
+    }
+}
+
+@Composable
+fun ColorItem(name: String, color: Color, modifier: Modifier = Modifier) {
+    Row(
+            modifier =
+                    modifier.background(Color.White, RoundedCornerShape(8.dp))
+                            .border(1.dp, InputStroke, RoundedCornerShape(8.dp))
+                            .padding(8.dp),
+            verticalAlignment = Alignment.CenterVertically
+    ) {
+        Box(
+                modifier =
+                        Modifier.size(40.dp)
+                                .background(color, RoundedCornerShape(8.dp))
+                                .border(1.dp, Color.LightGray, RoundedCornerShape(8.dp))
+        )
+        Spacer(modifier = Modifier.width(8.dp))
+        Text(text = name, style = CaptionRegular, fontSize = 12.sp)
+    }
+}
+
+@Composable
+fun IconGrid() {
+    val icons =
+            listOf(
+                    R.drawable.icon_search,
+                    R.drawable.icon_close,
+                    R.drawable.icon_plus,
+                    R.drawable.icon_minus,
+                    R.drawable.icon_check,
+                    R.drawable.icon_filter,
+                    R.drawable.icon_shopping_cart,
+                    R.drawable.icon_chevron_down,
+                    R.drawable.icon_chevron_left
+            )
+
+    // Simple Grid workaround since LazyVerticalGrid cannot be nested inside LazyColumn easily
+    // without fixed height
+    // Using FlowRow-like layout with Columns
+
+    Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(16.dp)) {
+        icons.take(5).forEach { iconId -> IconItem(iconId) }
+    }
+    Spacer(modifier = Modifier.height(16.dp))
+    Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(16.dp)) {
+        icons.drop(5).forEach { iconId -> IconItem(iconId) }
+    }
+}
+
+@Composable
+fun IconItem(iconId: Int) {
+    Box(
+            modifier = Modifier.size(48.dp).background(InputBg, RoundedCornerShape(8.dp)),
+            contentAlignment = Alignment.Center
+    ) {
+        Icon(
+                painter = painterResource(id = iconId),
+                contentDescription = null,
+                tint = Color.Black,
+                modifier = Modifier.size(24.dp)
+        )
+    }
+}
+
+@Composable
+fun StorybookBottomBar() {
+    val items =
+            listOf(
+                    AppTabBarItem("Main", "Главная", R.drawable.analizy),
+                    AppTabBarItem("Catalogue", "Каталог", R.drawable.rezultaty),
+                    AppTabBarItem("Projects", "Проекты", R.drawable.podderzhka),
+                    AppTabBarItem("Profile", "Профиль", R.drawable.polzovatel)
+            )
+    var selectedRoute by remember { mutableStateOf("Main") }
+
+    AppTabBar(
+            items = items,
+            selectedRoute = selectedRoute,
+            onItemSelected = { selectedRoute = it },
+            modifier =
+                    Modifier.height(88.dp)
+                            .border(1.dp, Color(0xFFF4F4F4))
+    )
+}
+```
+
+## File: uikit/build.gradle.kts
+```kts
+import org.gradle.api.JavaVersion
+
+plugins {
+    alias(libs.plugins.android.library)
+    alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.kotlin.compose)
+}
+
+android {
+    namespace = "com.example.lol.uikit"
+    compileSdk = 36
+
+    defaultConfig {
+        minSdk = 24
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
+    }
+
+    kotlinOptions {
+        jvmTarget = "11"
+    }
+
+    buildFeatures {
+        compose = true
+    }
+}
+
+dependencies {
+    implementation(libs.androidx.core.ktx)
+    implementation(libs.androidx.lifecycle.runtime.ktx.v2100)
+    implementation(platform(libs.androidx.compose.bom.v20251200))
+    implementation(libs.androidx.compose.ui)
+    implementation(libs.androidx.compose.ui.graphics)
+    implementation(libs.androidx.ui.tooling.preview)
+    implementation(libs.androidx.material3)
+
+    testImplementation(libs.junit)
+
+    androidTestImplementation(libs.androidx.junit)
+    androidTestImplementation(libs.androidx.espresso.core)
+    androidTestImplementation(platform(libs.androidx.compose.bom.v20251200))
+    androidTestImplementation(libs.androidx.ui.test.junit4)
+    androidTestImplementation(libs.androidx.activity.compose.v1121)
+
+    debugImplementation(libs.androidx.ui.tooling)
+    debugImplementation(libs.androidx.ui.test.manifest)
+}
+```
+
+## File: uikit/src/androidTest/java/com/example/lol/components/UiKitStateTest.kt
+```kotlin
+package com.example.lol.components
+
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.toArgb
+import androidx.compose.ui.test.assertIsNotSelected
+import androidx.compose.ui.test.assertIsSelected
+import androidx.compose.ui.test.assertCountEquals
+import androidx.compose.ui.test.assertTextContains
+import androidx.compose.ui.test.junit4.createComposeRule
+import androidx.compose.ui.test.onAllNodesWithText
+import androidx.compose.ui.test.onNodeWithTag
+import androidx.compose.ui.test.onNodeWithText
+import androidx.compose.ui.test.performClick
+import com.example.lol.data.Product
+import com.example.lol.ui.theme.RedError
+import org.junit.Assert.assertEquals
+import org.junit.Rule
+import org.junit.Test
+
+class UiKitStateTest {
+
+    @get:Rule
+    val composeTestRule = createComposeRule()
+
+    @Test
+    fun inputErrorState_exposesErrorColorsAndMessage() {
+        composeTestRule.setContent {
+            AppTextField(
+                value = "",
+                onValueChange = {},
+                label = "Email",
+                placeholder = "name@mail.com",
+                isError = true,
+                errorMessage = "Поле обязательно",
+                testTagPrefix = "input_error"
+            )
+        }
+
+        composeTestRule.onNodeWithTag("input_error_error").assertTextContains("Поле обязательно")
+
+        val containerConfig =
+            composeTestRule.onNodeWithTag("input_error_container").fetchSemanticsNode().config
+        val errorConfig = composeTestRule.onNodeWithTag("input_error_error").fetchSemanticsNode().config
+
+        assertEquals(Color(0xFFFFF5F5).toArgb().toLong(), containerConfig[UiKitBackgroundColorKey])
+        assertEquals(RedError.toArgb().toLong(), containerConfig[UiKitBorderColorKey])
+        assertEquals(RedError.toArgb().toLong(), errorConfig[UiKitTextColorKey])
+    }
+
+    @Test
+    fun selectWithoutIcon_clickOpensBottomSheetWithEmojiOptions() {
+        composeTestRule.setContent {
+            var selectedValue by mutableStateOf("")
+
+            AppSelectField(
+                value = selectedValue,
+                label = "Выбор",
+                placeholder = "Выберите",
+                options = listOf("😀 Опция 1", "🚀 Опция 2"),
+                showChevron = false,
+                testTagPrefix = "select_no_icon",
+                onOptionSelected = { selectedValue = it }
+            )
+        }
+
+        composeTestRule.onNodeWithTag("select_no_icon_trigger").performClick()
+
+        composeTestRule.onNodeWithTag("select_no_icon_sheet").assertTextContains("Выбор")
+        composeTestRule.onNodeWithText("😀 Опция 1").assertTextContains("😀")
+    }
+
+    @Test
+    fun chip_togglesBetweenSelectedAndNotSelected() {
+        composeTestRule.setContent {
+            var selected by mutableStateOf(false)
+
+            AppChip(
+                text = "Новинки",
+                isSelected = selected,
+                onClick = { selected = !selected },
+                testTag = "chip_toggle"
+            )
+        }
+
+        composeTestRule.onNodeWithTag("chip_toggle").assertIsNotSelected()
+        composeTestRule.onNodeWithTag("chip_toggle").performClick()
+        composeTestRule.onNodeWithTag("chip_toggle").assertIsSelected()
+    }
+
+    @Test
+    fun tabBar_keepsSingleFocusedItem() {
+        composeTestRule.setContent {
+            var selectedRoute by mutableStateOf("main")
+            val items =
+                listOf(
+                    AppTabBarItem(route = "main", title = "Main"),
+                    AppTabBarItem(route = "catalog", title = "Catalog"),
+                    AppTabBarItem(route = "profile", title = "Profile")
+                )
+
+            AppTabBar(
+                items = items,
+                selectedRoute = selectedRoute,
+                testTagPrefix = "tab",
+                onItemSelected = { selectedRoute = it }
+            )
+        }
+
+        composeTestRule.onNodeWithTag("tab_main").assertIsSelected()
+        composeTestRule.onNodeWithTag("tab_catalog").assertIsNotSelected()
+        composeTestRule.onNodeWithTag("tab_profile").assertIsNotSelected()
+
+        composeTestRule.onNodeWithTag("tab_profile").performClick()
+
+        composeTestRule.onNodeWithTag("tab_profile").assertIsSelected()
+        composeTestRule.onNodeWithTag("tab_main").assertIsNotSelected()
+        composeTestRule.onNodeWithTag("tab_catalog").assertIsNotSelected()
+    }
+
+    @Test
+    fun productCard_addAndDeleteStates_triggerCorrectActions() {
+        var addClicks = 0
+        var removeClicks = 0
+
+        val product =
+            Product(
+                id = 1,
+                title = "Nike Air Max 270",
+                description = "Great sneakers",
+                price = 12990,
+                category = "Sneakers",
+                imageUrl = "https://example.com/image.png"
+            )
+
+        composeTestRule.setContent {
+            var isInCart by mutableStateOf(false)
+
+            ProductCard(
+                product = product,
+                onClick = {},
+                onAddToCart = {
+                    addClicks += 1
+                    isInCart = true
+                },
+                onRemoveFromCart = {
+                    removeClicks += 1
+                    isInCart = false
+                },
+                isInCart = isInCart
+            )
+        }
+
+        composeTestRule.onAllNodesWithText("Добавить").assertCountEquals(1)
+        composeTestRule.onAllNodesWithText("Убрать").assertCountEquals(0)
+        composeTestRule.onNodeWithText("Добавить").performClick()
+
+        assertEquals(1, addClicks)
+        assertEquals(0, removeClicks)
+
+        composeTestRule.onAllNodesWithText("Убрать").assertCountEquals(1)
+        composeTestRule.onAllNodesWithText("Добавить").assertCountEquals(0)
+        composeTestRule.onNodeWithText("Убрать").performClick()
+
+        assertEquals(1, addClicks)
+        assertEquals(1, removeClicks)
+        composeTestRule.onAllNodesWithText("Добавить").assertCountEquals(1)
+    }
+}
+```
+
+## File: uikit/src/main/AndroidManifest.xml
+```xml
+<manifest />
+```
+
+## File: uikit/src/main/java/com/example/lol/components/AppChip.kt
+```kotlin
+package com.example.lol.components
+
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.semantics.selected
+import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.unit.dp
+import com.example.lol.ui.theme.AccentBlue
+import com.example.lol.ui.theme.ChipInactiveBg
+import com.example.lol.ui.theme.TextGray
+import com.example.lol.ui.theme.TextMedium
+
+@Composable
+fun AppChip(
+    text: String,
+    isSelected: Boolean,
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier,
+    testTag: String = "app_chip"
+) {
+    Box(
+        modifier =
+            modifier
+                .background(
+                    color = if (isSelected) AccentBlue else ChipInactiveBg,
+                    shape = RoundedCornerShape(10.dp)
+                )
+                .clickable(onClick = onClick)
+                .padding(horizontal = 20.dp, vertical = 14.dp)
+                .testTag(testTag)
+                .semantics {
+                    selected = isSelected
+                },
+        contentAlignment = Alignment.Center
+    ) {
+        Text(
+            text = text,
+            color = if (isSelected) androidx.compose.ui.graphics.Color.White else TextGray,
+            style = TextMedium
+        )
+    }
+}
+```
+
+## File: uikit/src/main/java/com/example/lol/components/AppHeader.kt
+```kotlin
+package com.example.lol.components
+
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material3.Icon
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.unit.dp
+import com.example.lol.uikit.R
+import com.example.lol.ui.theme.Title3Semibold
+
+/**
+ * Универсальный заголовок экрана с опциональной кнопкой назад и правым слотом.
+ *
+ * @param title Текст в центре заголовка.
+ * @param showBackButton Показывать ли кнопку назад слева.
+ * @param onBackClick Обработчик нажатия на кнопку назад.
+ * @param trailingIcon Опциональный контент в правой части заголовка.
+ * @param modifier Модификатор контейнера.
+ */
+@Composable
+fun AppHeader(
+        title: String? = null,
+        showBackButton: Boolean = false,
+        onBackClick: () -> Unit = {},
+        trailingIcon: @Composable (() -> Unit)? = null,
+        modifier: Modifier = Modifier
+) {
+    Row(
+            modifier = modifier.fillMaxWidth().height(56.dp).padding(horizontal = 20.dp),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceBetween
+    ) {
+        Box(modifier = Modifier.size(44.dp), contentAlignment = Alignment.CenterStart) {
+            if (showBackButton) {
+                Box(
+                        modifier =
+                                Modifier.size(44.dp)
+                                        .background(Color(0xFFF5F5F9), CircleShape)
+                                        .clickable(onClick = onBackClick),
+                        contentAlignment = Alignment.Center
+                ) {
+                    Icon(
+                            painter = painterResource(id = R.drawable.icon_chevron_left),
+                            contentDescription = "Back",
+                            tint = Color.Black,
+                            modifier = Modifier.size(24.dp)
+                    )
+                }
+            }
+        }
+
+        if (title != null) {
+            Text(text = title, style = Title3Semibold, color = Color.Black)
+        }
+
+        Box(modifier = Modifier.size(44.dp), contentAlignment = Alignment.CenterEnd) {
+            if (trailingIcon != null) {
+                trailingIcon()
+            }
+        }
+    }
+}
+```
+
+## File: uikit/src/main/java/com/example/lol/components/AppSelectField.kt
+```kotlin
+package com.example.lol.components
+
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.ModalBottomSheet
+import androidx.compose.material3.Text
+import androidx.compose.material3.rememberModalBottomSheetState
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.unit.dp
+import com.example.lol.uikit.R
+import com.example.lol.ui.theme.CaptionRegular
+import com.example.lol.ui.theme.InputBg
+import com.example.lol.ui.theme.InputStroke
+import com.example.lol.ui.theme.RedError
+import com.example.lol.ui.theme.TextGray
+import com.example.lol.ui.theme.TextRegular
+import com.example.lol.ui.theme.Title3Semibold
+
+/**
+ * Поле выбора значения из списка через ModalBottomSheet.
+ *
+ * @param value Текущее выбранное значение.
+ * @param label Подпись над полем.
+ * @param placeholder Текст-заполнитель, когда значение не выбрано.
+ * @param options Список доступных вариантов.
+ * @param onOptionSelected Колбэк выбора варианта.
+ * @param showChevron Показывать ли иконку стрелки в поле.
+ * @param isError Признак ошибки поля.
+ * @param errorMessage Сообщение ошибки под полем.
+ * @param testTagPrefix Префикс тестовых тегов.
+ * @param modifier Модификатор контейнера.
+ */
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun AppSelectField(
+        value: String,
+        label: String? = null,
+        placeholder: String = "",
+        options: List<String>,
+        onOptionSelected: (String) -> Unit,
+        showChevron: Boolean = true,
+        isError: Boolean = false,
+        errorMessage: String? = null,
+        testTagPrefix: String = "app_select_field",
+        modifier: Modifier = Modifier
+) {
+    var isSheetVisible by remember { mutableStateOf(false) }
+    val sheetState = rememberModalBottomSheetState()
+    val borderColor = if (isError) RedError else InputStroke
+    val backgroundColor = if (isError) Color(0xFFFFF5F5) else InputBg
+
+    Column(modifier = modifier) {
+        if (label != null) {
+            Text(text = label, style = CaptionRegular, color = TextGray)
+            Spacer(modifier = Modifier.height(8.dp))
+        }
+
+        Box(
+                modifier =
+                        Modifier.fillMaxWidth()
+                                .height(48.dp)
+                                .background(backgroundColor, RoundedCornerShape(10.dp))
+                                .border(1.dp, borderColor, RoundedCornerShape(10.dp))
+                                .clickable { isSheetVisible = true }
+                                .padding(horizontal = 16.dp)
+                                .testTag("${testTagPrefix}_trigger"),
+                contentAlignment = Alignment.CenterStart
+        ) {
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                Text(
+                        text = if (value.isEmpty()) placeholder else value,
+                        color = if (value.isEmpty()) Color(0xFFBFC7D1) else Color.Black,
+                        style = TextRegular,
+                        modifier = Modifier.weight(1f)
+                )
+                if (showChevron) {
+                    Icon(
+                            painter = painterResource(id = R.drawable.icon_chevron_down),
+                            contentDescription = "Open options",
+                            tint = Color(0xFFBFC7D1),
+                            modifier = Modifier.size(20.dp)
+                    )
+                }
+            }
+        }
+
+        if (isError && !errorMessage.isNullOrBlank()) {
+            Spacer(modifier = Modifier.height(4.dp))
+            Text(text = errorMessage, style = CaptionRegular, color = RedError)
+        }
+    }
+
+    if (isSheetVisible) {
+        ModalBottomSheet(
+                onDismissRequest = { isSheetVisible = false },
+                sheetState = sheetState,
+                containerColor = Color.White,
+                modifier = Modifier.testTag("${testTagPrefix}_sheet")
+        ) {
+            Column(modifier = Modifier.fillMaxWidth().padding(horizontal = 20.dp, vertical = 12.dp)) {
+                if (!label.isNullOrBlank()) {
+                    Text(
+                            text = label,
+                            style = Title3Semibold,
+                            color = Color.Black,
+                            modifier = Modifier.padding(bottom = 16.dp)
+                    )
+                }
+
+                options.forEachIndexed { index, option ->
+                    Row(
+                            modifier =
+                                    Modifier.fillMaxWidth()
+                                            .clickable {
+                                                onOptionSelected(option)
+                                                isSheetVisible = false
+                                            }
+                                            .padding(vertical = 14.dp)
+                                            .testTag("${testTagPrefix}_option_$index"),
+                            verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Text(text = option, style = TextRegular, color = Color.Black)
+                    }
+                }
+            }
+        }
+    }
+}
+```
+
+## File: uikit/src/main/java/com/example/lol/components/AppTabBar.kt
+```kotlin
+package com.example.lol.components
+
+import androidx.annotation.DrawableRes
+import androidx.compose.foundation.layout.size
+import androidx.compose.material3.Icon
+import androidx.compose.material3.NavigationBar
+import androidx.compose.material3.NavigationBarItem
+import androidx.compose.material3.NavigationBarItemDefaults
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import com.example.lol.ui.theme.AccentBlue
+
+data class AppTabBarItem(
+    val route: String,
+    val title: String,
+    @DrawableRes val iconRes: Int? = null
+)
+
+@Composable
+fun AppTabBar(
+    items: List<AppTabBarItem>,
+    selectedRoute: String,
+    onItemSelected: (String) -> Unit,
+    modifier: Modifier = Modifier,
+    testTagPrefix: String = "app_tab_bar"
+) {
+    NavigationBar(
+        modifier = modifier,
+        containerColor = Color.White,
+        contentColor = AccentBlue,
+        tonalElevation = 0.dp
+    ) {
+        items.forEach { item ->
+            NavigationBarItem(
+                modifier = Modifier.testTag("${testTagPrefix}_${item.route}"),
+                icon = {
+                    if (item.iconRes != null) {
+                        Icon(
+                            painter = painterResource(id = item.iconRes),
+                            contentDescription = item.title,
+                            modifier = Modifier.size(24.dp)
+                        )
+                    }
+                },
+                label = {
+                    Text(
+                        item.title,
+                        fontSize = 12.sp,
+                        fontFamily = FontFamily.Default,
+                        fontWeight = FontWeight.Normal
+                    )
+                },
+                selected = selectedRoute == item.route,
+                colors =
+                    NavigationBarItemDefaults.colors(
+                        selectedIconColor = AccentBlue,
+                        selectedTextColor = AccentBlue,
+                        indicatorColor = Color.Transparent,
+                        unselectedIconColor = Color(0xFFB8C1CC),
+                        unselectedTextColor = Color(0xFFB8C1CC)
+                    ),
+                onClick = { onItemSelected(item.route) }
+            )
+        }
+    }
+}
+```
+
+## File: uikit/src/main/java/com/example/lol/components/AppTextField.kt
+```kotlin
+package com.example.lol.components
+
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.BasicTextField
+import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.SolidColor
+import androidx.compose.ui.graphics.toArgb
+import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.input.VisualTransformation
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import com.example.lol.ui.theme.InputBg
+import com.example.lol.ui.theme.InputStroke
+import com.example.lol.ui.theme.TextGray
+import com.example.lol.ui.theme.TextRegular
+import com.example.lol.ui.theme.CaptionRegular
+import com.example.lol.ui.theme.Roboto
+
+/**
+ * Custom text field component for the app with consistent styling.
+ * 
+ * @param value Current text value
+ * @param onValueChange Callback when text changes
+ * @param label Optional label above the field
+ * @param placeholder Placeholder text when empty
+ * @param modifier Modifier for styling
+ * @param visualTransformation Transformation for password etc.
+ * @param keyboardOptions Keyboard configuration
+ * @param trailingIcon Icon at the end
+ * @param leadingIcon Icon at the start
+ * @param singleLine Whether to restrict to single line
+ * @param isError Whether to show error state
+ * @param errorMessage Text to display when in error state
+ * @param testTagPrefix Prefix for UI-test tags
+ */
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun AppTextField(
+    value: String,
+    onValueChange: (String) -> Unit,
+    label: String? = null,
+    placeholder: String = "",
+    modifier: Modifier = Modifier,
+    visualTransformation: VisualTransformation = VisualTransformation.None,
+    keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
+    trailingIcon: @Composable (() -> Unit)? = null,
+    leadingIcon: @Composable (() -> Unit)? = null,
+    singleLine: Boolean = true,
+    isError: Boolean = false,
+    errorMessage: String? = null,
+    testTagPrefix: String = "app_text_field"
+) {
+    val backgroundColor = if (isError) Color(0xFFFFF5F5) else InputBg
+    val borderColor = if (isError) com.example.lol.ui.theme.RedError else InputStroke
+    val errorColor = com.example.lol.ui.theme.RedError
+
+    Column(modifier = modifier) {
+        if (label != null) {
+            Text(
+                text = label,
+                style = CaptionRegular,
+                color = TextGray
+            )
+            Spacer(modifier = Modifier.height(8.dp))
+        }
+        BasicTextField(
+            value = value,
+            onValueChange = onValueChange,
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(48.dp)
+                .background(backgroundColor, RoundedCornerShape(10.dp))
+                .border(1.dp, borderColor, RoundedCornerShape(10.dp))
+                .testTag("${testTagPrefix}_container")
+                .semantics {
+                    uiKitBackgroundColor = backgroundColor.toArgb().toLong()
+                    uiKitBorderColor = borderColor.toArgb().toLong()
+                },
+            textStyle = TextRegular.copy(
+                color = Color.Black
+            ),
+            visualTransformation = visualTransformation,
+            keyboardOptions = keyboardOptions,
+            singleLine = singleLine,
+            cursorBrush = SolidColor(Color.Black),
+            decorationBox = { innerTextField ->
+                Row(
+                    modifier = Modifier.padding(horizontal = 16.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    if (leadingIcon != null) {
+                        leadingIcon()
+                        Spacer(modifier = Modifier.width(12.dp))
+                    }
+                    Box(modifier = Modifier.weight(1f)) {
+                        if (value.isEmpty()) {
+                            Text(
+                                text = placeholder,
+                                color = Color(0xFFBFC7D1),
+                                style = TextRegular
+                            )
+                        }
+                        innerTextField()
+                    }
+                    if (trailingIcon != null) {
+                        Spacer(modifier = Modifier.width(12.dp))
+                        trailingIcon()
+                    }
+                }
+            }
+        )
+        if (isError && errorMessage != null) {
+            Spacer(modifier = Modifier.height(4.dp))
+            Text(
+                text = errorMessage,
+                style = CaptionRegular,
+                color = errorColor,
+                modifier = Modifier
+                    .testTag("${testTagPrefix}_error")
+                    .semantics { uiKitTextColor = errorColor.toArgb().toLong() },
+                fontSize = 12.sp
+            )
+        }
+    }
+}
+```
+
+## File: uikit/src/main/java/com/example/lol/components/ProductCard.kt
+```kotlin
+package com.example.lol.components
+
+import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import com.example.lol.data.Product
+import com.example.lol.ui.theme.AccentBlue
+
+/**
+ * Карточка товара в списках каталога и главной.
+ *
+ * @param product Данные товара для отображения.
+ * @param onClick Обработчик открытия подробной информации.
+ * @param onAddToCart Обработчик добавления товара в корзину.
+ * @param onRemoveFromCart Обработчик удаления товара из корзины.
+ * @param isInCart Признак, что товар уже добавлен в корзину.
+ * @param modifier Модификатор карточки.
+ */
+@Composable
+fun ProductCard(
+        product: Product,
+        onClick: () -> Unit,
+        onAddToCart: () -> Unit,
+        onRemoveFromCart: () -> Unit,
+        isInCart: Boolean,
+        modifier: Modifier = Modifier
+) {
+        Card(
+                modifier =
+                        modifier.fillMaxWidth()
+                                .height(136.dp)
+                                .clickable(onClick = onClick)
+                                .shadow(
+                                        elevation = 20.dp,
+                                        shape = RoundedCornerShape(12.dp),
+                                        spotColor = Color(0x99E4E8F5)
+                                ),
+                shape = RoundedCornerShape(12.dp),
+                colors = CardDefaults.cardColors(containerColor = Color.White),
+                border = androidx.compose.foundation.BorderStroke(1.dp, Color(0xFFF4F4F4)),
+                elevation = CardDefaults.cardElevation(defaultElevation = 0.dp)
+        ) {
+                Box(modifier = Modifier.fillMaxSize().padding(16.dp)) {
+                        Column(modifier = Modifier.fillMaxWidth(0.65f)) {
+                                Text(
+                                        text = product.title,
+                                        fontSize = 16.sp,
+                                        fontWeight = FontWeight.Bold,
+                                        color = Color.Black,
+                                        fontFamily = FontFamily.Default,
+                                        maxLines = 2,
+                                        overflow = TextOverflow.Ellipsis,
+                                        lineHeight = 20.sp
+                                )
+
+                                Spacer(modifier = Modifier.height(4.dp))
+
+                                Text(
+                                        text = product.category,
+                                        fontSize = 14.sp,
+                                        fontWeight = FontWeight.Normal,
+                                        color = Color(0xFF939396),
+                                        fontFamily = FontFamily.Default
+                                )
+
+                                Spacer(modifier = Modifier.weight(1f))
+                        }
+
+                        Row(
+                                modifier = Modifier.fillMaxWidth().align(Alignment.BottomCenter),
+                                horizontalArrangement = Arrangement.SpaceBetween,
+                                verticalAlignment = Alignment.Bottom
+                        ) {
+                                Text(
+                                        text = "${product.price} ₽",
+                                        fontSize = 17.sp,
+                                        fontWeight = FontWeight.Bold,
+                                        color = Color.Black,
+                                        fontFamily = FontFamily.Default
+                                )
+
+                                if (isInCart) {
+                                        Button(
+                                                onClick = onRemoveFromCart,
+                                                colors =
+                                                        ButtonDefaults.buttonColors(
+                                                                containerColor = Color.White,
+                                                                contentColor = AccentBlue
+                                                        ),
+                                                shape = RoundedCornerShape(10.dp),
+                                                contentPadding = PaddingValues(horizontal = 20.dp),
+                                                modifier =
+                                                        Modifier.height(40.dp)
+                                                                .border(
+                                                                        1.dp,
+                                                                        AccentBlue,
+                                                                        RoundedCornerShape(10.dp)
+                                                                )
+                                        ) {
+                                                Text(
+                                                        text = "Убрать",
+                                                        color = AccentBlue,
+                                                        fontSize = 14.sp,
+                                                        fontWeight = FontWeight.SemiBold
+                                                )
+                                        }
+                                } else {
+                                        Button(
+                                                onClick = onAddToCart,
+                                                colors =
+                                                        ButtonDefaults.buttonColors(
+                                                                containerColor = AccentBlue
+                                                        ),
+                                                shape = RoundedCornerShape(10.dp),
+                                                contentPadding = PaddingValues(horizontal = 20.dp),
+                                                modifier = Modifier.height(40.dp)
+                                        ) {
+                                                Text(
+                                                        text = "Добавить",
+                                                        color = Color.White,
+                                                        fontSize = 14.sp,
+                                                        fontWeight = FontWeight.SemiBold
+                                                )
+                                        }
+                                }
+                        }
+                }
+        }
+}
+```
+
+## File: uikit/src/main/java/com/example/lol/components/SearchBar.kt
+```kotlin
+package com.example.lol.components
+
+import androidx.compose.material3.Icon
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
+import com.example.lol.uikit.R
+
+/** Reusable search bar component that wraps AppTextField with a search icon. */
+@Composable
+fun SearchBar(
+        value: String,
+        onValueChange: (String) -> Unit,
+        placeholder: String = "Поиск",
+        modifier: Modifier = Modifier
+) {
+    AppTextField(
+            value = value,
+            onValueChange = onValueChange,
+            placeholder = placeholder,
+            modifier = modifier,
+            leadingIcon = {
+                Icon(
+                        painter = painterResource(id = R.drawable.icon_search),
+                        contentDescription = "Search",
+                        tint = Color(0xFF939396)
+                )
+            }
+    )
+}
+```
+
+## File: uikit/src/main/java/com/example/lol/components/UiKitSemantics.kt
+```kotlin
+package com.example.lol.components
+
+import androidx.compose.ui.semantics.SemanticsPropertyKey
+import androidx.compose.ui.semantics.SemanticsPropertyReceiver
+
+val UiKitBackgroundColorKey = SemanticsPropertyKey<Long>("uikit_background_color")
+var SemanticsPropertyReceiver.uiKitBackgroundColor by UiKitBackgroundColorKey
+
+val UiKitBorderColorKey = SemanticsPropertyKey<Long>("uikit_border_color")
+var SemanticsPropertyReceiver.uiKitBorderColor by UiKitBorderColorKey
+
+val UiKitTextColorKey = SemanticsPropertyKey<Long>("uikit_text_color")
+var SemanticsPropertyReceiver.uiKitTextColor by UiKitTextColorKey
+```
+
+## File: uikit/src/main/java/com/example/lol/data/Product.kt
+```kotlin
+package com.example.lol.data
+
+data class Product(
+        val id: Int,
+        val title: String,
+        val description: String,
+        val price: Int,
+        val category: String,
+        val imageUrl: String
+)
+```
+
+## File: uikit/src/main/java/com/example/lol/ui/theme/Color.kt
+```kotlin
+package com.example.lol.ui.theme
+
+import androidx.compose.ui.graphics.Color
+
+val Purple80 = Color(0xFFD0BCFF)
+val PurpleGrey80 = Color(0xFFCCC2DC)
+val Pink80 = Color(0xFFEFB8C8)
+
+val Purple40 = Color(0xFF6650a4)
+val PurpleGrey40 = Color(0xFF625b71)
+val Pink40 = Color(0xFF7D5260)
+
+val AccentColor = Color(0xFF48B2E7)
+val AccentBlue = Color(0xFF1A6FEE)
+val AccentBlueInactive = Color(0xFFC9D4FB)
+val TextBlack = Color(0xFF000000)
+val TextGray = Color(0xFF7E7E9A)
+val TextHint = Color(0xFFBFC7D1)
+val InputBg = Color(0xFFF5F5F9)
+val InputStroke = Color(0xFFEBEBEB)
+val BackgroundWhite = Color(0xFFFFFFFF)
+val RedError = Color(0xFFF44336)
+
+val BlockColor = Color(0xFFFFFFFF)
+val CardShadowColor = Color(0x99E4E8F5)
+val ChipInactiveBg = Color(0xFFF5F5F9)
+```
+
+## File: uikit/src/main/java/com/example/lol/ui/theme/Theme.kt
+```kotlin
+package com.example.lol.ui.theme
+
+import android.app.Activity
+import android.os.Build
+import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.darkColorScheme
+import androidx.compose.material3.dynamicDarkColorScheme
+import androidx.compose.material3.dynamicLightColorScheme
+import androidx.compose.material3.lightColorScheme
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.SideEffect
+import androidx.compose.ui.graphics.toArgb
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalView
+import androidx.core.view.WindowCompat
+
+private val DarkColorScheme = darkColorScheme(
+    primary = AccentBlue,
+    secondary = PurpleGrey80,
+    tertiary = Pink80
+)
+
+private val LightColorScheme = lightColorScheme(
+    primary = AccentBlue,
+    secondary = PurpleGrey40,
+    tertiary = Pink40,
+    background = BackgroundWhite,
+    surface = BackgroundWhite,
+    onPrimary = BackgroundWhite,
+    onSecondary = BackgroundWhite,
+    onTertiary = BackgroundWhite,
+    onBackground = TextBlack,
+    onSurface = TextBlack,
+)
+
+@Composable
+fun LolTheme(
+    darkTheme: Boolean = isSystemInDarkTheme(),
+    // Dynamic color is available on Android 12+
+    dynamicColor: Boolean = false,
+    content: @Composable () -> Unit
+) {
+    val colorScheme = when {
+        dynamicColor && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S -> {
+            val context = LocalContext.current
+            if (darkTheme) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
+        }
+        darkTheme -> DarkColorScheme
+        else -> LightColorScheme
+    }
+    val view = LocalView.current
+    if (!view.isInEditMode) {
+        SideEffect {
+            val window = (view.context as Activity).window
+            WindowCompat.getInsetsController(window, view).isAppearanceLightStatusBars = !darkTheme
+        }
+    }
+
+    MaterialTheme(
+        colorScheme = colorScheme,
+        typography = Typography,
+        content = content
+    )
+}
+```
+
+## File: uikit/src/main/java/com/example/lol/ui/theme/Type.kt
+```kotlin
+package com.example.lol.ui.theme
+
+import androidx.compose.material3.Typography
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.em
+import androidx.compose.ui.unit.sp
+
+// Пока используются системные шрифты как безопасный fallback.
+val Roboto = FontFamily.Default
+val RobotoFlex = FontFamily.Default
+val SFProDisplay = FontFamily.Default
+
+val Title1Semibold =
+        TextStyle(
+                fontFamily = Roboto,
+                fontWeight = FontWeight.SemiBold,
+                fontSize = 24.sp,
+                lineHeight = 28.sp,
+                letterSpacing = 0.0033.em
+        )
+
+val Title1Bold =
+        TextStyle(
+                fontFamily = Roboto,
+                fontWeight = FontWeight.Bold,
+                fontSize = 24.sp,
+                lineHeight = 28.sp,
+                letterSpacing = 0.0033.em
+        )
+
+val Title1ExtraBold =
+        TextStyle(
+                fontFamily = Roboto,
+                fontWeight = FontWeight.ExtraBold,
+                fontSize = 24.sp,
+                lineHeight = 28.sp,
+                letterSpacing = 0.0033.em
+        )
+
+val Title2Regular =
+        TextStyle(
+                fontFamily = Roboto,
+                fontWeight = FontWeight.Normal,
+                fontSize = 20.sp,
+                lineHeight = 28.sp,
+                letterSpacing = 0.0038.em
+        )
+
+val Title2Semibold =
+        TextStyle(
+                fontFamily = Roboto,
+                fontWeight = FontWeight.SemiBold,
+                fontSize = 20.sp,
+                lineHeight = 28.sp,
+                letterSpacing = 0.0038.em
+        )
+
+val Title2ExtraBold =
+        TextStyle(
+                fontFamily = Roboto,
+                fontWeight = FontWeight.ExtraBold,
+                fontSize = 20.sp,
+                lineHeight = 28.sp,
+                letterSpacing = 0.0038.em
+        )
+
+val Title2Bold =
+        TextStyle(
+                fontFamily = Roboto,
+                fontWeight = FontWeight.Bold,
+                fontSize = 20.sp,
+                lineHeight = 28.sp,
+                letterSpacing = 0.0038.em
+        )
+
+val Title3Regular =
+        TextStyle(
+                fontFamily = Roboto,
+                fontWeight = FontWeight.Normal,
+                fontSize = 17.sp,
+                lineHeight = 24.sp
+        )
+
+val Title3Medium =
+        TextStyle(
+                fontFamily = Roboto,
+                fontWeight = FontWeight.Medium,
+                fontSize = 17.sp,
+                lineHeight = 24.sp
+        )
+
+val Title3Semibold =
+        TextStyle(
+                fontFamily = Roboto,
+                fontWeight = FontWeight.SemiBold,
+                fontSize = 17.sp,
+                lineHeight = 24.sp
+        )
+
+val HeadlineRegular =
+        TextStyle(
+                fontFamily = Roboto,
+                fontWeight = FontWeight.Normal,
+                fontSize = 16.sp,
+                lineHeight = 20.sp,
+                letterSpacing = (-0.0032).em
+        )
+
+val HeadlineMedium =
+        TextStyle(
+                fontFamily = Roboto,
+                fontWeight = FontWeight.Medium,
+                fontSize = 16.sp,
+                lineHeight = 20.sp,
+                letterSpacing = (-0.0032).em
+        )
+
+val TextRegular =
+        TextStyle(
+                fontFamily = Roboto,
+                fontWeight = FontWeight.Normal,
+                fontSize = 15.sp,
+                lineHeight = 20.sp
+        )
+
+val TextMedium =
+        TextStyle(
+                fontFamily = Roboto,
+                fontWeight = FontWeight.Medium,
+                fontSize = 15.sp,
+                lineHeight = 20.sp
+        )
+
+val CaptionRegular =
+        TextStyle(
+                fontFamily = Roboto,
+                fontWeight = FontWeight.Normal,
+                fontSize = 14.sp,
+                lineHeight = 20.sp
+        )
+
+val CaptionSemibold =
+        TextStyle(
+                fontFamily = Roboto,
+                fontWeight = FontWeight.SemiBold,
+                fontSize = 14.sp,
+                lineHeight = 20.sp
+        )
+
+val Caption2Regular =
+        TextStyle(
+                fontFamily = Roboto,
+                fontWeight = FontWeight.Normal,
+                fontSize = 12.sp,
+                lineHeight = 16.sp
+        )
+
+val Caption2Bold =
+        TextStyle(
+                fontFamily = Roboto,
+                fontWeight = FontWeight.Bold,
+                fontSize = 12.sp,
+                lineHeight = 16.sp
+        )
+
+val TypographyTitle =
+        TextStyle(
+                fontFamily = RobotoFlex,
+                fontWeight = FontWeight.ExtraBold,
+                fontSize = 32.sp,
+                lineHeight = 48.sp,
+                letterSpacing = 0.01.em
+        )
+
+val AccentStyle =
+        TextStyle(
+                fontFamily = RobotoFlex,
+                fontWeight = FontWeight.Normal,
+                fontSize = 14.sp,
+                lineHeight = 16.sp
+        )
+
+val Typography =
+        Typography(
+                displayLarge = TypographyTitle,
+                headlineLarge = Title1ExtraBold,
+                headlineMedium = Title1Semibold,
+                titleLarge = Title2Semibold,
+                titleMedium = Title3Semibold,
+                titleSmall = Title3Medium,
+                bodyLarge = HeadlineRegular,
+                bodyMedium = TextRegular,
+                bodySmall = CaptionRegular,
+                labelLarge = HeadlineMedium,
+                labelMedium = TextMedium,
+                labelSmall = Caption2Regular
+        )
+```
+
+

@@ -1,0 +1,4292 @@
+Sprint-2 extract (strict Sprint-1 + Sprint-2) from repomix-clean-with-tests.md
+
+# Directory Structure
+```
+gradle.properties
+network/build.gradle.kts
+network/src/main/AndroidManifest.xml
+network/src/main/java/com/example/lol/data/network/api/MatuleApi.kt
+network/src/main/java/com/example/lol/data/network/ITokenManager.kt
+network/src/main/java/com/example/lol/data/network/models/Error400.kt
+network/src/main/java/com/example/lol/data/network/models/News.kt
+network/src/main/java/com/example/lol/data/network/models/ProductApi.kt
+network/src/main/java/com/example/lol/data/network/models/ProductItem.kt
+network/src/main/java/com/example/lol/data/network/models/ProjectApi.kt
+network/src/main/java/com/example/lol/data/network/models/RequestAuth.kt
+network/src/main/java/com/example/lol/data/network/models/RequestCart.kt
+network/src/main/java/com/example/lol/data/network/models/RequestOrder.kt
+network/src/main/java/com/example/lol/data/network/models/RequestProject.kt
+network/src/main/java/com/example/lol/data/network/models/RequestRegister.kt
+network/src/main/java/com/example/lol/data/network/models/RequestUser.kt
+network/src/main/java/com/example/lol/data/network/models/ResponseAuth.kt
+network/src/main/java/com/example/lol/data/network/models/ResponseCart.kt
+network/src/main/java/com/example/lol/data/network/models/ResponseNews.kt
+network/src/main/java/com/example/lol/data/network/models/ResponseOrder.kt
+network/src/main/java/com/example/lol/data/network/models/ResponseProducts.kt
+network/src/main/java/com/example/lol/data/network/models/ResponseProjects.kt
+network/src/main/java/com/example/lol/data/network/models/ResponseRegister.kt
+network/src/main/java/com/example/lol/data/network/models/User.kt
+network/src/main/java/com/example/lol/data/network/models/UsersAuth.kt
+network/src/main/java/com/example/lol/data/network/NetworkResult.kt
+network/src/main/java/com/example/lol/data/network/RetrofitInstance.kt
+network/src/main/java/com/example/lol/data/network/TokenManager.kt
+network/src/main/java/com/example/lol/data/repository/AuthRepository.kt
+network/src/main/java/com/example/lol/data/repository/CartRepository.kt
+network/src/main/java/com/example/lol/data/repository/IAuthRepository.kt
+network/src/main/java/com/example/lol/data/repository/ICartRepository.kt
+network/src/main/java/com/example/lol/data/repository/IOrderRepository.kt
+network/src/main/java/com/example/lol/data/repository/IProductRepositoryApi.kt
+network/src/main/java/com/example/lol/data/repository/IProjectRepository.kt
+network/src/main/java/com/example/lol/data/repository/OrderRepository.kt
+network/src/main/java/com/example/lol/data/repository/ProductRepositoryApi.kt
+network/src/main/java/com/example/lol/data/repository/ProjectRepository.kt
+network/src/test/java/com/example/lol/data/repository/AuthRepositoryTest.kt
+network/src/test/java/com/example/lol/data/repository/CartRepositoryTest.kt
+network/src/test/java/com/example/lol/data/repository/OrderRepositoryTest.kt
+network/src/test/java/com/example/lol/data/repository/ProductRepositoryApiTest.kt
+network/src/test/java/com/example/lol/data/repository/ProjectRepositoryTest.kt
+network/src/test/java/com/example/lol/testdata/TestJsonResponses.kt
+uikit/build.gradle.kts
+uikit/src/androidTest/java/com/example/lol/components/UiKitStateTest.kt
+uikit/src/main/AndroidManifest.xml
+uikit/src/main/java/com/example/lol/components/AppChip.kt
+uikit/src/main/java/com/example/lol/components/AppHeader.kt
+uikit/src/main/java/com/example/lol/components/AppSelectField.kt
+uikit/src/main/java/com/example/lol/components/AppTabBar.kt
+uikit/src/main/java/com/example/lol/components/AppTextField.kt
+uikit/src/main/java/com/example/lol/components/GenderSelectionSheet.kt
+uikit/src/main/java/com/example/lol/components/ProductCard.kt
+uikit/src/main/java/com/example/lol/components/SearchBar.kt
+uikit/src/main/java/com/example/lol/components/UiKitSemantics.kt
+uikit/src/main/java/com/example/lol/data/Product.kt
+uikit/src/main/java/com/example/lol/ui/theme/Color.kt
+uikit/src/main/java/com/example/lol/ui/theme/Theme.kt
+uikit/src/main/java/com/example/lol/ui/theme/Type.kt
+build.gradle.kts
+gradle/libs.versions.toml
+settings.gradle.kts
+```
+
+## File: gradle.properties
+```
+# Project-wide Gradle settings.
+# IDE (e.g. Android Studio) users:
+# Gradle settings configured through the IDE *will override*
+# any settings specified in this file.
+# For more details on how to configure your build environment visit
+# http://www.gradle.org/docs/current/userguide/build_environment.html
+# Specifies the JVM arguments used for the daemon process.
+# The setting is particularly useful for tweaking memory settings.
+org.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8
+# When configured, Gradle will run in incubating parallel mode.
+# This option should only be used with decoupled projects. For more details, visit
+# https://developer.android.com/r/tools/gradle-multi-project-decoupled-projects
+# org.gradle.parallel=true
+# AndroidX package structure to make it clearer which packages are bundled with the
+# Android operating system, and which are packaged with your app's APK
+# https://developer.android.com/topic/libraries/support-library/androidx-rn
+android.useAndroidX=true
+# Kotlin code style for this project: "official" or "obsolete":
+kotlin.code.style=official
+# Enables namespacing of each library's R class so that its R class includes only the
+# resources declared in the library itself and none from the library's dependencies,
+# thereby reducing the size of the R class for that library
+android.nonTransitiveRClass=true
+```
+
+
+## File: network/build.gradle.kts
+```kotlin
+import org.gradle.api.JavaVersion
+
+plugins {
+    alias(libs.plugins.android.library)
+    alias(libs.plugins.kotlin.android)
+}
+
+android {
+    namespace = "com.example.lol.network"
+    compileSdk = 36
+
+    defaultConfig {
+        minSdk = 24
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
+    }
+
+    kotlinOptions {
+        jvmTarget = "11"
+    }
+}
+
+dependencies {
+    implementation(libs.androidx.core.ktx)
+    implementation("com.squareup.retrofit2:retrofit:2.9.0")
+    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
+    implementation("com.squareup.okhttp3:logging-interceptor:4.12.0")
+
+    testImplementation(libs.junit)
+    testImplementation("com.squareup.okhttp3:mockwebserver:4.12.0")
+    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.7.3")
+}
+```
+
+
+## File: network/src/main/AndroidManifest.xml
+```xml
+<manifest />
+```
+
+
+## File: network/src/main/java/com/example/lol/data/network/api/MatuleApi.kt
+```kotlin
+package com.example.lol.data.network.api
+
+import com.example.lol.data.network.models.*
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
+import retrofit2.Response
+import retrofit2.http.*
+
+/**
+ * Retrofit API для взаимодействия с backend Matule.
+ *
+ * Интерфейс описывает операции авторизации, профиля, каталога, проектов, корзины и заказов.
+ */
+interface MatuleApi {
+
+        /**
+         * Регистрирует нового пользователя.
+         *
+         * @param request Тело запроса на регистрацию.
+         */
+        @POST("collections/users/records")
+        suspend fun register(@Body request: RequestRegister): Response<okhttp3.ResponseBody>
+
+        /**
+         * Авторизует пользователя по email и паролю.
+         *
+         * @param request Тело запроса на авторизацию.
+         */
+        @POST("collections/users/auth-with-password")
+        suspend fun auth(@Body request: RequestAuth): retrofit2.Response<okhttp3.ResponseBody>
+
+        /**
+         * Возвращает профиль пользователя по идентификатору.
+         *
+         * @param userId Идентификатор пользователя.
+         */
+        @GET("collections/users/records/{id_user}")
+        suspend fun getUser(@Path("id_user") userId: String): Response<User>
+
+        /**
+         * Обновляет профиль пользователя.
+         *
+         * @param userId Идентификатор пользователя.
+         * @param email Новый email.
+         * @param firstname Имя.
+         * @param lastname Фамилия.
+         * @param secondname Отчество.
+         * @param datebirthday Дата рождения.
+         * @param gender Пол.
+         */
+        @Multipart
+        @PATCH("collections/users/records/{id_user}")
+        suspend fun updateUser(
+                @Path("id_user") userId: String,
+                @Part("email") email: RequestBody? = null,
+                @Part("firstname") firstname: RequestBody? = null,
+                @Part("lastname") lastname: RequestBody? = null,
+                @Part("secondname") secondname: RequestBody? = null,
+                @Part("datebirthday") datebirthday: RequestBody? = null,
+                @Part("gender") gender: RequestBody? = null
+        ): Response<User>
+
+        /**
+         * Возвращает активные токены авторизации пользователя.
+         */
+        @GET("collections/_authOrigins/records") suspend fun getUsersAuth(): Response<UsersAuth>
+
+        /**
+         * Удаляет токен авторизации (выход из системы).
+         *
+         * @param tokenId Идентификатор токена в коллекции `_authOrigins`.
+         */
+        @DELETE("collections/_authOrigins/records/{id_token}")
+        suspend fun logout(@Path("id_token") tokenId: String): Response<Unit>
+
+        /** Возвращает список новостей и акций. */
+        @GET("collections/news/records") suspend fun getNews(): Response<ResponseNews>
+
+        /**
+         * Возвращает список продуктов.
+         *
+         * @param filter Фильтр в формате "(title ?~ 'query')"
+         */
+        @GET("collections/products/records")
+        suspend fun getProducts(@Query("filter") filter: String? = null): Response<ResponseProducts>
+
+        /**
+         * Возвращает детальную информацию о продукте.
+         *
+         * @param productId Идентификатор продукта.
+         */
+        @GET("collections/products/records/{id_product}")
+        suspend fun getProduct(@Path("id_product") productId: String): Response<ProductApi>
+
+        /** Возвращает список проектов текущего пользователя. */
+        @GET("collections/project/records") suspend fun getProjects(): Response<ResponseProjects>
+
+        /**
+         * Создаёт новый проект.
+         *
+         * @param title Название проекта.
+         * @param typeProject Тип проекта.
+         * @param userId Идентификатор владельца проекта.
+         * @param dateStart Дата начала.
+         * @param dateEnd Дата окончания.
+         * @param gender Пол целевой аудитории/пол пользователя.
+         * @param descriptionSource Источник описания.
+         * @param category Категория проекта.
+         * @param image Необязательное изображение проекта.
+         */
+        @Multipart
+        @POST("collections/project/records")
+        suspend fun createProject(
+                @Part("title") title: RequestBody,
+                @Part("typeProject") typeProject: RequestBody,
+                @Part("user_id") userId: RequestBody,
+                @Part("dateStart") dateStart: RequestBody,
+                @Part("dateEnd") dateEnd: RequestBody,
+                @Part("gender") gender: RequestBody,
+                @Part("description_source") descriptionSource: RequestBody,
+                @Part("category") category: RequestBody,
+                @Part image: MultipartBody.Part? = null
+        ): Response<ProjectApi>
+
+        /**
+         * Добавляет товар в корзину.
+         *
+         * @param request Тело запроса с данными корзины.
+         */
+        @POST("collections/cart/records")
+        suspend fun createCartItem(@Body request: RequestCart): Response<ResponseCart>
+
+        /**
+         * Обновляет количество товара в корзине.
+         *
+         * @param cartItemId Идентификатор записи корзины.
+         * @param userId Идентификатор пользователя.
+         * @param productId Идентификатор товара.
+         * @param count Новое количество.
+         */
+        @Multipart
+        @PATCH("collections/cart/records/{id_bucket}")
+        suspend fun updateCartItem(
+                @Path("id_bucket") cartItemId: String,
+                @Part("user_id") userId: RequestBody,
+                @Part("product_id") productId: RequestBody,
+                @Part("count") count: RequestBody
+        ): Response<ResponseCart>
+
+        /**
+         * Создаёт заказ.
+         *
+         * @param request Тело запроса с параметрами заказа.
+         */
+        @POST("collections/orders/records")
+        suspend fun createOrder(@Body request: RequestOrder): Response<ResponseOrder>
+}
+```
+
+
+## File: network/src/main/java/com/example/lol/data/network/ITokenManager.kt
+```kotlin
+package com.example.lol.data.network
+
+/**
+ * Интерфейс для управления токенами авторизации. Позволяет абстрагировать хранение токенов для
+ * тестирования.
+ */
+interface ITokenManager {
+
+    /** Сохраняет токен авторизации. */
+    fun saveToken(token: String)
+
+    /** Получает сохранённый токен. */
+    fun getToken(): String?
+
+    /** Сохраняет ID пользователя. */
+    fun saveUserId(userId: String)
+
+    /** Получает сохранённый ID пользователя. */
+    fun getUserId(): String?
+
+    /** Проверяет наличие токена. */
+    fun hasToken(): Boolean
+
+    /** Очищает все данные авторизации. */
+    fun clearAuth()
+}
+```
+
+
+## File: network/src/main/java/com/example/lol/data/network/models/Error400.kt
+```kotlin
+package com.example.lol.data.network.models
+
+import com.google.gson.annotations.SerializedName
+
+/** Модель ошибки 400 от сервера. */
+data class Error400(
+        @SerializedName("status") val status: Int,
+        @SerializedName("message") val message: String,
+        @SerializedName("data") val data: Map<String, Any>? = null
+)
+```
+
+
+## File: network/src/main/java/com/example/lol/data/network/models/News.kt
+```kotlin
+package com.example.lol.data.network.models
+
+import com.google.gson.annotations.SerializedName
+
+/** Модель новости/акции. */
+data class News(
+        @SerializedName("id") val id: String,
+        @SerializedName("collectionId") val collectionId: String,
+        @SerializedName("collectionName") val collectionName: String,
+        @SerializedName("newsImage") val newsImage: String,
+        @SerializedName("created") val created: String,
+        @SerializedName("updated") val updated: String
+)
+```
+
+
+## File: network/src/main/java/com/example/lol/data/network/models/ProductApi.kt
+```kotlin
+package com.example.lol.data.network.models
+
+import com.google.gson.annotations.SerializedName
+
+/** Полная модель продукта с сервера (для детальной страницы). */
+data class ProductApi(
+        @SerializedName("id") val id: String,
+        @SerializedName("collectionId") val collectionId: String,
+        @SerializedName("collectionName") val collectionName: String,
+        @SerializedName("created") val created: String,
+        @SerializedName("updated") val updated: String,
+        @SerializedName("title") val title: String,
+        @SerializedName("description") val description: String,
+        @SerializedName("price") val price: Int,
+        @SerializedName("typeCloses") val typeCloses: String,
+        @SerializedName("type") val type: String,
+        @SerializedName("approximateCost") val approximateCost: String
+)
+```
+
+
+## File: network/src/main/java/com/example/lol/data/network/models/ProductItem.kt
+```kotlin
+package com.example.lol.data.network.models
+
+import com.google.gson.annotations.SerializedName
+
+/** Краткая модель продукта для списка (каталог). */
+data class ProductItem(
+        @SerializedName("id") val id: String,
+        @SerializedName("title") val title: String,
+        @SerializedName("price") val price: Int,
+        @SerializedName("typeCloses") val typeCloses: String,
+        @SerializedName("type") val type: String
+)
+```
+
+
+## File: network/src/main/java/com/example/lol/data/network/models/ProjectApi.kt
+```kotlin
+package com.example.lol.data.network.models
+
+import com.google.gson.annotations.SerializedName
+
+/** Модель проекта с сервера. */
+data class ProjectApi(
+        @SerializedName("id") val id: String,
+        @SerializedName("collectionId") val collectionId: String,
+        @SerializedName("collectionName") val collectionName: String,
+        @SerializedName("created") val created: String,
+        @SerializedName("updated") val updated: String,
+        @SerializedName("title") val title: String,
+        @SerializedName("dateStart") val dateStart: String,
+        @SerializedName("dateEnd") val dateEnd: String,
+        @SerializedName("gender") val gender: String,
+        @SerializedName("description_source") val descriptionSource: String,
+        @SerializedName("category") val category: String,
+        @SerializedName("image") val image: String,
+        @SerializedName("user_id") val userId: String
+)
+```
+
+
+## File: network/src/main/java/com/example/lol/data/network/models/RequestAuth.kt
+```kotlin
+package com.example.lol.data.network.models
+
+import com.google.gson.annotations.SerializedName
+
+/**
+ * Запрос на авторизацию пользователя.
+ * @param identity Email или идентификатор пользователя
+ * @param password Пароль пользователя
+ */
+data class RequestAuth(
+        @SerializedName("identity") val identity: String,
+        @SerializedName("password") val password: String
+)
+```
+
+
+## File: network/src/main/java/com/example/lol/data/network/models/RequestCart.kt
+```kotlin
+package com.example.lol.data.network.models
+
+import com.google.gson.annotations.SerializedName
+
+/** Запрос на добавление/обновление корзины. */
+data class RequestCart(
+        @SerializedName("user_id") val userId: String,
+        @SerializedName("product_id") val productId: String,
+        @SerializedName("count") val count: Int
+)
+```
+
+
+## File: network/src/main/java/com/example/lol/data/network/models/RequestOrder.kt
+```kotlin
+package com.example.lol.data.network.models
+
+import com.google.gson.annotations.SerializedName
+
+/** Запрос на создание заказа. */
+data class RequestOrder(
+        @SerializedName("user_id") val userId: String,
+        @SerializedName("product_id") val productId: String,
+        @SerializedName("count") val count: Int
+)
+```
+
+
+## File: network/src/main/java/com/example/lol/data/network/models/RequestProject.kt
+```kotlin
+package com.example.lol.data.network.models
+
+import com.google.gson.annotations.SerializedName
+
+/** Запрос на создание проекта. */
+data class RequestProject(
+        @SerializedName("title") val title: String,
+        @SerializedName("typeProject") val typeProject: String,
+        @SerializedName("user_id") val userId: String,
+        @SerializedName("dateStart") val dateStart: String,
+        @SerializedName("dateEnd") val dateEnd: String,
+        @SerializedName("gender") val gender: String,
+        @SerializedName("description_source") val descriptionSource: String,
+        @SerializedName("category") val category: String
+
+// Примечание: image отправляется отдельно как multipart
+)
+```
+
+
+## File: network/src/main/java/com/example/lol/data/network/models/RequestRegister.kt
+```kotlin
+package com.example.lol.data.network.models
+
+import com.google.gson.annotations.SerializedName
+
+/**
+ * Запрос на регистрацию нового пользователя.
+ * @param email Email пользователя
+ * @param password Пароль пользователя
+ * @param passwordConfirm Подтверждение пароля
+ */
+data class RequestRegister(
+        @SerializedName("email") val email: String,
+        @SerializedName("password") val password: String,
+        @SerializedName("passwordConfirm") val passwordConfirm: String
+)
+```
+
+
+## File: network/src/main/java/com/example/lol/data/network/models/RequestUser.kt
+```kotlin
+package com.example.lol.data.network.models
+
+import com.google.gson.annotations.SerializedName
+
+/** Запрос на обновление профиля пользователя. */
+data class RequestUser(
+        @SerializedName("email") val email: String? = null,
+        @SerializedName("emailVisibility") val emailVisibility: Boolean? = null,
+        @SerializedName("firstname") val firstname: String? = null,
+        @SerializedName("lastname") val lastname: String? = null,
+        @SerializedName("secondname") val secondname: String? = null,
+        @SerializedName("datebirthday") val datebirthday: String? = null,
+        @SerializedName("gender") val gender: String? = null
+)
+```
+
+
+## File: network/src/main/java/com/example/lol/data/network/models/ResponseAuth.kt
+```kotlin
+package com.example.lol.data.network.models
+
+import com.google.gson.annotations.SerializedName
+
+/**
+ * Ответ сервера на авторизацию.
+ * @param record Данные пользователя
+ * @param token JWT токен для последующих запросов
+ */
+data class ResponseAuth(
+        @SerializedName("record") val record: User,
+        @SerializedName("token") val token: String
+)
+```
+
+
+## File: network/src/main/java/com/example/lol/data/network/models/ResponseCart.kt
+```kotlin
+package com.example.lol.data.network.models
+
+import com.google.gson.annotations.SerializedName
+
+/** Ответ сервера на операции с корзиной. */
+data class ResponseCart(
+        @SerializedName("id") val id: String,
+        @SerializedName("collectionId") val collectionId: String,
+        @SerializedName("collectionName") val collectionName: String,
+        @SerializedName("created") val created: String,
+        @SerializedName("updated") val updated: String,
+        @SerializedName("user_id") val userId: String,
+        @SerializedName("product_id") val productId: String,
+        @SerializedName("count") val count: Int
+)
+```
+
+
+## File: network/src/main/java/com/example/lol/data/network/models/ResponseNews.kt
+```kotlin
+package com.example.lol.data.network.models
+
+import com.google.gson.annotations.SerializedName
+
+/** Ответ сервера со списком новостей/акций (пагинация). */
+data class ResponseNews(
+        @SerializedName("page") val page: Int,
+        @SerializedName("perPage") val perPage: Int,
+        @SerializedName("totalPages") val totalPages: Int,
+        @SerializedName("totalItems") val totalItems: Int,
+        @SerializedName("items") val items: List<News>
+)
+```
+
+
+## File: network/src/main/java/com/example/lol/data/network/models/ResponseOrder.kt
+```kotlin
+package com.example.lol.data.network.models
+
+import com.google.gson.annotations.SerializedName
+
+/** Ответ сервера на создание заказа. */
+data class ResponseOrder(
+        @SerializedName("id") val id: String,
+        @SerializedName("collectionId") val collectionId: String,
+        @SerializedName("collectionName") val collectionName: String,
+        @SerializedName("created") val created: String,
+        @SerializedName("updated") val updated: String,
+        @SerializedName("user_id") val userId: String,
+        @SerializedName("product_id") val productId: String,
+        @SerializedName("count") val count: Int
+)
+```
+
+
+## File: network/src/main/java/com/example/lol/data/network/models/ResponseProducts.kt
+```kotlin
+package com.example.lol.data.network.models
+
+import com.google.gson.annotations.SerializedName
+
+/** Ответ сервера со списком продуктов (пагинация). */
+data class ResponseProducts(
+        @SerializedName("page") val page: Int,
+        @SerializedName("perPage") val perPage: Int,
+        @SerializedName("totalPages") val totalPages: Int,
+        @SerializedName("totalItems") val totalItems: Int,
+        @SerializedName("items") val items: List<ProductItem>
+)
+```
+
+
+## File: network/src/main/java/com/example/lol/data/network/models/ResponseProjects.kt
+```kotlin
+package com.example.lol.data.network.models
+
+import com.google.gson.annotations.SerializedName
+
+/** Ответ сервера со списком проектов (пагинация). */
+data class ResponseProjects(
+        @SerializedName("page") val page: Int,
+        @SerializedName("perPage") val perPage: Int,
+        @SerializedName("totalPages") val totalPages: Int,
+        @SerializedName("totalItems") val totalItems: Int,
+        @SerializedName("items") val items: List<ProjectApi>
+)
+```
+
+
+## File: network/src/main/java/com/example/lol/data/network/models/ResponseRegister.kt
+```kotlin
+package com.example.lol.data.network.models
+
+import com.google.gson.annotations.SerializedName
+
+/** Ответ сервера на регистрацию пользователя. */
+data class ResponseRegister(
+        @SerializedName("id") val id: String,
+        @SerializedName("collectionId") val collectionId: String,
+        @SerializedName("collectionName") val collectionName: String,
+        @SerializedName("created") val created: String,
+        @SerializedName("updated") val updated: String,
+        @SerializedName("emailVisibility") val emailVisibility: Boolean,
+        @SerializedName("firstname") val firstname: String,
+        @SerializedName("lastname") val lastname: String,
+        @SerializedName("secondname") val secondname: String,
+        @SerializedName("verified") val verified: Boolean,
+        @SerializedName("datebirthday") val datebirthday: String,
+        @SerializedName("gender") val gender: String
+)
+```
+
+
+## File: network/src/main/java/com/example/lol/data/network/models/User.kt
+```kotlin
+package com.example.lol.data.network.models
+
+import com.google.gson.annotations.SerializedName
+
+/** Модель данных пользователя с сервера. */
+data class User(
+        @SerializedName("id") val id: String,
+        @SerializedName("collectionId") val collectionId: String,
+        @SerializedName("collectionName") val collectionName: String,
+        @SerializedName("created") val created: String,
+        @SerializedName("updated") val updated: String,
+        @SerializedName("emailVisibility") val emailVisibility: Boolean,
+        @SerializedName("firstname") val firstname: String,
+        @SerializedName("lastname") val lastname: String,
+        @SerializedName("secondname") val secondname: String,
+        @SerializedName("verified") val verified: Boolean,
+        @SerializedName("datebirthday") val datebirthday: String,
+        @SerializedName("gender") val gender: String
+)
+```
+
+
+## File: network/src/main/java/com/example/lol/data/network/models/UsersAuth.kt
+```kotlin
+package com.example.lol.data.network.models
+
+import com.google.gson.annotations.SerializedName
+
+/** Элемент авторизации пользователя для получения токена. */
+data class UserAuth(
+        @SerializedName("id") val id: String,
+        @SerializedName("collectionId") val collectionId: String,
+        @SerializedName("collectionName") val collectionName: String,
+        @SerializedName("created") val created: String,
+        @SerializedName("updated") val updated: String,
+        @SerializedName("collectionRef") val collectionRef: String,
+        @SerializedName("fingerprint") val fingerprint: String,
+        @SerializedName("recordRef") val recordRef: String
+)
+
+/** Ответ сервера со списком токенов авторизации. */
+data class UsersAuth(
+        @SerializedName("page") val page: Int,
+        @SerializedName("perPage") val perPage: Int,
+        @SerializedName("totalPages") val totalPages: Int,
+        @SerializedName("totalItems") val totalItems: Int,
+        @SerializedName("items") val items: List<UserAuth>
+)
+```
+
+
+## File: network/src/main/java/com/example/lol/data/network/NetworkResult.kt
+```kotlin
+package com.example.lol.data.network
+
+/**
+ * Sealed class для представления результата сетевого запроса. Обеспечивает типобезопасную обработку
+ * успеха, ошибки и состояния загрузки.
+ */
+sealed class NetworkResult<out T> {
+
+    /**
+     * Успешный результат с данными.
+     * @param data Данные полученные от сервера
+     */
+    data class Success<T>(val data: T) : NetworkResult<T>()
+
+    /**
+     * Ошибка выполнения запроса.
+     * @param message Сообщение об ошибке
+     * @param code HTTP код ошибки (опционально)
+     */
+    data class Error(val message: String, val code: Int? = null) : NetworkResult<Nothing>()
+
+    /** Состояние загрузки. */
+    object Loading : NetworkResult<Nothing>()
+
+    /** Проверяет успешность результата. */
+    val isSuccess: Boolean
+        get() = this is Success
+
+    /** Проверяет наличие ошибки. */
+    val isError: Boolean
+        get() = this is Error
+
+    /** Проверяет состояние загрузки. */
+    val isLoading: Boolean
+        get() = this is Loading
+
+    /** Получает данные или null если результат не Success. */
+    fun getOrNull(): T? = (this as? Success)?.data
+
+    /** Получает сообщение об ошибке или null. */
+    fun errorMessageOrNull(): String? = (this as? Error)?.message
+
+    /** Преобразует данные в случае успеха. */
+    inline fun <R> map(transform: (T) -> R): NetworkResult<R> {
+        return when (this) {
+            is Success -> Success(transform(data))
+            is Error -> this
+            is Loading -> this
+        }
+    }
+
+    /** Выполняет действие в случае успеха. */
+    inline fun onSuccess(action: (T) -> Unit): NetworkResult<T> {
+        if (this is Success) action(data)
+        return this
+    }
+
+    /** Выполняет действие в случае ошибки. */
+    inline fun onError(action: (String, Int?) -> Unit): NetworkResult<T> {
+        if (this is Error) action(message, code)
+        return this
+    }
+}
+```
+
+
+## File: network/src/main/java/com/example/lol/data/network/RetrofitInstance.kt
+```kotlin
+package com.example.lol.data.network
+
+import com.example.lol.data.network.api.MatuleApi
+import com.google.gson.GsonBuilder
+import java.util.concurrent.TimeUnit
+import okhttp3.Interceptor
+import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
+
+/**
+ * Singleton для создания и предоставления экземпляра Retrofit. Настраивает OkHttp клиент с
+ * логированием и Bearer токеном.
+ */
+object RetrofitInstance {
+
+    private const val BASE_URL = "https://api.matule.ru/api/"
+    private const val TIMEOUT_SECONDS = 30L
+
+    private val gson = GsonBuilder().setLenient().create()
+
+    private var tokenProvider: (() -> String?)? = null
+
+    /**
+     * Устанавливает провайдер токена для авторизации запросов.
+     * @param provider Функция возвращающая текущий токен
+     */
+    fun setTokenProvider(provider: () -> String?) {
+        tokenProvider = provider
+    }
+
+    /** Interceptor для добавления Bearer токена в заголовки запросов. */
+    private val authInterceptor = Interceptor { chain ->
+        val originalRequest = chain.request()
+        val token = tokenProvider?.invoke()
+
+        val request =
+                if (!token.isNullOrBlank()) {
+                    // Оставляем только печатные ASCII символы (0x20–0x7E)
+                    val cleanToken = token.filter { it.code in 0x20..0x7E }
+                    originalRequest
+                            .newBuilder()
+                            .header("Authorization", "Bearer $cleanToken")
+                            .build()
+                } else {
+                    originalRequest
+                }
+
+        chain.proceed(request)
+    }
+
+    /** Interceptor для логирования HTTP запросов и ответов. */
+    private val loggingInterceptor =
+            HttpLoggingInterceptor().apply { level = HttpLoggingInterceptor.Level.BODY }
+
+    /** Настроенный OkHttp клиент с обходом SSL для демо. */
+    private val okHttpClient: OkHttpClient by lazy {
+        // Обход SSL проверки для сервера с проблемным сертификатом
+        val trustAllCerts =
+                arrayOf<javax.net.ssl.TrustManager>(
+                        object : javax.net.ssl.X509TrustManager {
+                            override fun checkClientTrusted(
+                                    chain: Array<java.security.cert.X509Certificate>,
+                                    authType: String
+                            ) {}
+                            override fun checkServerTrusted(
+                                    chain: Array<java.security.cert.X509Certificate>,
+                                    authType: String
+                            ) {}
+                            override fun getAcceptedIssuers():
+                                    Array<java.security.cert.X509Certificate> = arrayOf()
+                        }
+                )
+
+        val sslContext = javax.net.ssl.SSLContext.getInstance("SSL")
+        sslContext.init(null, trustAllCerts, java.security.SecureRandom())
+        val sslSocketFactory = sslContext.socketFactory
+
+        OkHttpClient.Builder()
+                .sslSocketFactory(
+                        sslSocketFactory,
+                        trustAllCerts[0] as javax.net.ssl.X509TrustManager
+                )
+                .hostnameVerifier { _, _ -> true }
+                .addInterceptor(authInterceptor)
+                .addInterceptor(loggingInterceptor)
+                .connectTimeout(TIMEOUT_SECONDS, TimeUnit.SECONDS)
+                .readTimeout(TIMEOUT_SECONDS, TimeUnit.SECONDS)
+                .writeTimeout(TIMEOUT_SECONDS, TimeUnit.SECONDS)
+                .build()
+    }
+
+    /** Экземпляр Retrofit. */
+    private val retrofit: Retrofit by lazy {
+        Retrofit.Builder()
+                .baseUrl(BASE_URL)
+                .client(okHttpClient)
+                .addConverterFactory(GsonConverterFactory.create(gson))
+                .build()
+    }
+
+    /** API интерфейс для выполнения запросов. */
+    val api: MatuleApi by lazy { retrofit.create(MatuleApi::class.java) }
+
+    /**
+     * Создаёт экземпляр Retrofit с кастомным базовым URL. Используется для тестирования с
+     * MockWebServer.
+     */
+    fun createWithBaseUrl(baseUrl: String): MatuleApi {
+        return Retrofit.Builder()
+                .baseUrl(baseUrl)
+                .client(okHttpClient)
+                .addConverterFactory(GsonConverterFactory.create(gson))
+                .build()
+                .create(MatuleApi::class.java)
+    }
+}
+```
+
+
+## File: network/src/main/java/com/example/lol/data/network/TokenManager.kt
+```kotlin
+package com.example.lol.data.network
+
+import android.content.Context
+import android.content.SharedPreferences
+
+/**
+ * Менеджер для хранения и управления Bearer токеном авторизации. Использует SharedPreferences для
+ * сохранения токена между сессиями.
+ */
+class TokenManager(context: Context) : ITokenManager {
+
+    private val prefs: SharedPreferences =
+            context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+
+    init {
+        // Автоочистка поврежденных данных при инициализации
+        try {
+            val token = prefs.getString(KEY_TOKEN, null)
+            // Если токен содержит символы вне ASCII (например кириллицу из прошлой ошибки), очищаем
+            // всё
+            if (token != null && !token.all { it.code in 0x20..0x7E }) {
+                prefs.edit().clear().apply()
+            }
+        } catch (e: Exception) {
+            // Если файл SharedPreferences поврежден и выбрасывает исключение при чтении
+            // (XmlPullParserException)
+            prefs.edit().clear().apply()
+        }
+    }
+
+    companion object {
+        private const val PREFS_NAME = "matule_auth_prefs"
+        private const val KEY_TOKEN = "auth_token"
+        private const val KEY_USER_ID = "user_id"
+    }
+
+    /**
+     * Сохраняет токен авторизации.
+     * @param token JWT токен от сервера
+     */
+    override fun saveToken(token: String) {
+        prefs.edit().putString(KEY_TOKEN, token).apply()
+    }
+
+    /**
+     * Получает сохранённый токен.
+     * @return токен или null если не сохранён
+     */
+    override fun getToken(): String? {
+        return try {
+            prefs.getString(KEY_TOKEN, null)?.replace("\n", "")?.replace("\r", "")?.trim()
+        } catch (e: Exception) {
+            null
+        }
+    }
+
+    /**
+     * Сохраняет ID пользователя.
+     * @param userId ID пользователя от сервера
+     */
+    override fun saveUserId(userId: String) {
+        prefs.edit().putString(KEY_USER_ID, userId).apply()
+    }
+
+    /**
+     * Получает сохранённый ID пользователя.
+     * @return ID пользователя или null если не сохранён
+     */
+    override fun getUserId(): String? {
+        return prefs.getString(KEY_USER_ID, null)
+    }
+
+    /**
+     * Проверяет наличие токена.
+     * @return true если токен сохранён
+     */
+    override fun hasToken(): Boolean {
+        return !getToken().isNullOrBlank()
+    }
+
+    /** Очищает все данные авторизации. */
+    override fun clearAuth() {
+        prefs.edit().remove(KEY_TOKEN).remove(KEY_USER_ID).apply()
+    }
+}
+```
+
+
+## File: network/src/main/java/com/example/lol/data/repository/AuthRepository.kt
+```kotlin
+package com.example.lol.data.repository
+
+import com.example.lol.data.network.ITokenManager
+import com.example.lol.data.network.NetworkResult
+import com.example.lol.data.network.api.MatuleApi
+import com.example.lol.data.network.models.*
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.RequestBody.Companion.toRequestBody
+
+/** Реализация репозитория авторизации. Выполняет сетевые запросы через MatuleApi. */
+class AuthRepository(private val api: MatuleApi, private val tokenManager: ITokenManager) :
+        IAuthRepository {
+
+    override suspend fun register(
+            email: String,
+            password: String
+    ): NetworkResult<ResponseRegister> {
+        return try {
+            val request =
+                    RequestRegister(email = email, password = password, passwordConfirm = password)
+            val response = api.register(request)
+
+            if (response.isSuccessful && response.body() != null) {
+                val responseString = response.body()!!.string().trim()
+                val gson = com.google.gson.Gson()
+
+                val registerResponse =
+                        try {
+                            gson.fromJson(responseString, ResponseRegister::class.java)
+                        } catch (e: Exception) {
+                            return NetworkResult.Error("Ошибка регистрации")
+                        }
+
+                if (registerResponse == null || registerResponse.id.isBlank()) {
+                    return NetworkResult.Error("Ошибка регистрации")
+                }
+
+                NetworkResult.Success(registerResponse)
+            } else {
+                val errorMessage = parseErrorMessage(response.errorBody()?.string())
+                NetworkResult.Error(errorMessage, response.code())
+            }
+        } catch (e: Exception) {
+            NetworkResult.Error(e.message ?: "Ошибка сети")
+        }
+    }
+
+    override suspend fun login(email: String, password: String): NetworkResult<ResponseAuth> {
+        return try {
+            val request = RequestAuth(identity = email, password = password)
+            val response = api.auth(request)
+
+            if (response.isSuccessful && response.body() != null) {
+                val responseString = response.body()!!.string().trim()
+                val gson = com.google.gson.Gson()
+
+                val authResponse =
+                        try {
+                            gson.fromJson(responseString, ResponseAuth::class.java)
+                        } catch (e: Exception) {
+                            return NetworkResult.Error("Неверный email или пароль")
+                        }
+
+                // Проверяем что ответ содержит необходимые данные
+                if (authResponse == null ||
+                                authResponse.token.isBlank() ||
+                                authResponse.record.id.isBlank()
+                ) {
+                    return NetworkResult.Error("Неверный email или пароль")
+                }
+
+                // Сохраняем токен и ID пользователя, предварительно очистив его от недопустимых
+                // символов
+                val cleanToken = authResponse.token.replace("\n", "").replace("\r", "").trim()
+                tokenManager.saveToken(cleanToken)
+                tokenManager.saveUserId(authResponse.record.id)
+
+                NetworkResult.Success(authResponse)
+            } else {
+                val errorMessage = parseErrorMessage(response.errorBody()?.string())
+                NetworkResult.Error(errorMessage, response.code())
+            }
+        } catch (e: Exception) {
+            NetworkResult.Error(e.message ?: "Ошибка сети")
+        }
+    }
+
+    override suspend fun getUser(userId: String): NetworkResult<User> {
+        return try {
+            val response = api.getUser(userId)
+
+            if (response.isSuccessful && response.body() != null) {
+                NetworkResult.Success(response.body()!!)
+            } else {
+                val errorMessage = parseErrorMessage(response.errorBody()?.string())
+                NetworkResult.Error(errorMessage, response.code())
+            }
+        } catch (e: Exception) {
+            NetworkResult.Error(e.message ?: "Ошибка сети")
+        }
+    }
+
+    override suspend fun updateUser(
+            userId: String,
+            firstname: String?,
+            lastname: String?,
+            secondname: String?,
+            datebirthday: String?,
+            gender: String?
+    ): NetworkResult<User> {
+        return try {
+            val response =
+                    api.updateUser(
+                            userId = userId,
+                            firstname = firstname?.toRequestBody("text/plain".toMediaTypeOrNull()),
+                            lastname = lastname?.toRequestBody("text/plain".toMediaTypeOrNull()),
+                            secondname =
+                                    secondname?.toRequestBody("text/plain".toMediaTypeOrNull()),
+                            datebirthday =
+                                    datebirthday?.toRequestBody("text/plain".toMediaTypeOrNull()),
+                            gender = gender?.toRequestBody("text/plain".toMediaTypeOrNull())
+                    )
+
+            if (response.isSuccessful && response.body() != null) {
+                NetworkResult.Success(response.body()!!)
+            } else {
+                val errorMessage = parseErrorMessage(response.errorBody()?.string())
+                NetworkResult.Error(errorMessage, response.code())
+            }
+        } catch (e: Exception) {
+            NetworkResult.Error(e.message ?: "Ошибка сети")
+        }
+    }
+
+    override suspend fun logout(): NetworkResult<Unit> {
+        return try {
+            // Получаем список токенов авторизации
+            val authResponse = api.getUsersAuth()
+
+            if (authResponse.isSuccessful && authResponse.body() != null) {
+                val usersAuth = authResponse.body()!!
+                val currentUserId = tokenManager.getUserId()
+
+                // Находим токен текущего пользователя
+                val tokenToDelete = usersAuth.items.find { it.recordRef == currentUserId }
+
+                if (tokenToDelete != null) {
+                    val deleteResponse = api.logout(tokenToDelete.id)
+                    if (deleteResponse.isSuccessful) {
+                        tokenManager.clearAuth()
+                        NetworkResult.Success(Unit)
+                    } else {
+                        NetworkResult.Error("Не удалось выйти из системы", deleteResponse.code())
+                    }
+                } else {
+                    // Токен не найден, всё равно очищаем локальные данные
+                    tokenManager.clearAuth()
+                    NetworkResult.Success(Unit)
+                }
+            } else {
+                // Даже если ошибка, очищаем локальные данные
+                tokenManager.clearAuth()
+                NetworkResult.Success(Unit)
+            }
+        } catch (e: Exception) {
+            // При ошибке сети всё равно очищаем локальные данные
+            tokenManager.clearAuth()
+            NetworkResult.Error(e.message ?: "Ошибка сети")
+        }
+    }
+
+    /** Парсит сообщение об ошибке из JSON ответа. */
+    private fun parseErrorMessage(errorBody: String?): String {
+        if (errorBody == null) return "Неизвестная ошибка"
+
+        return try {
+            // Пытаемся распарсить как Error400
+            val gson = com.google.gson.Gson()
+            val error = gson.fromJson(errorBody, Error400::class.java)
+            error.message
+        } catch (e: Exception) {
+            errorBody.take(200)
+        }
+    }
+}
+```
+
+
+## File: network/src/main/java/com/example/lol/data/repository/CartRepository.kt
+```kotlin
+package com.example.lol.data.repository
+
+import com.example.lol.data.network.NetworkResult
+import com.example.lol.data.network.api.MatuleApi
+import com.example.lol.data.network.models.*
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.RequestBody.Companion.toRequestBody
+
+/** Реализация репозитория для работы с корзиной. */
+class CartRepository(private val api: MatuleApi) : ICartRepository {
+
+    override suspend fun addToCart(
+            userId: String,
+            productId: String,
+            count: Int
+    ): NetworkResult<ResponseCart> {
+        return try {
+            val request = RequestCart(userId = userId, productId = productId, count = count)
+            val response = api.createCartItem(request)
+
+            if (response.isSuccessful && response.body() != null) {
+                NetworkResult.Success(response.body()!!)
+            } else {
+                val errorMessage = parseErrorMessage(response.errorBody()?.string())
+                NetworkResult.Error(errorMessage, response.code())
+            }
+        } catch (e: Exception) {
+            NetworkResult.Error(e.message ?: "Ошибка сети")
+        }
+    }
+
+    override suspend fun updateCartItem(
+            cartItemId: String,
+            userId: String,
+            productId: String,
+            count: Int
+    ): NetworkResult<ResponseCart> {
+        return try {
+            val response =
+                    api.updateCartItem(
+                            cartItemId = cartItemId,
+                            userId = userId.toRequestBody("text/plain".toMediaTypeOrNull()),
+                            productId = productId.toRequestBody("text/plain".toMediaTypeOrNull()),
+                            count = count.toString().toRequestBody("text/plain".toMediaTypeOrNull())
+                    )
+
+            if (response.isSuccessful && response.body() != null) {
+                NetworkResult.Success(response.body()!!)
+            } else {
+                val errorMessage = parseErrorMessage(response.errorBody()?.string())
+                NetworkResult.Error(errorMessage, response.code())
+            }
+        } catch (e: Exception) {
+            NetworkResult.Error(e.message ?: "Ошибка сети")
+        }
+    }
+
+    private fun parseErrorMessage(errorBody: String?): String {
+        if (errorBody == null) return "Неизвестная ошибка"
+
+        return try {
+            val gson = com.google.gson.Gson()
+            val error = gson.fromJson(errorBody, Error400::class.java)
+            error.message
+        } catch (e: Exception) {
+            errorBody.take(200)
+        }
+    }
+}
+```
+
+
+## File: network/src/main/java/com/example/lol/data/repository/IAuthRepository.kt
+```kotlin
+package com.example.lol.data.repository
+
+import com.example.lol.data.network.NetworkResult
+import com.example.lol.data.network.models.ResponseAuth
+import com.example.lol.data.network.models.ResponseRegister
+import com.example.lol.data.network.models.User
+
+/**
+ * Интерфейс репозитория для операций авторизации. Абстрагирует сетевой слой для возможности замены
+ * реализации.
+ */
+interface IAuthRepository {
+
+    /**
+     * Регистрация нового пользователя.
+     * @param email Email пользователя
+     * @param password Пароль
+     * @return Результат регистрации
+     */
+    suspend fun register(email: String, password: String): NetworkResult<ResponseRegister>
+
+    /**
+     * Авторизация пользователя.
+     * @param email Email пользователя
+     * @param password Пароль
+     * @return Результат авторизации с токеном
+     */
+    suspend fun login(email: String, password: String): NetworkResult<ResponseAuth>
+
+    /**
+     * Получение информации о пользователе.
+     * @param userId ID пользователя
+     * @return Данные пользователя
+     */
+    suspend fun getUser(userId: String): NetworkResult<User>
+
+    /**
+     * Обновление профиля пользователя.
+     * @param userId ID пользователя
+     * @param firstname Имя
+     * @param lastname Фамилия
+     * @param secondname Отчество
+     * @param datebirthday Дата рождения
+     * @param gender Пол
+     * @return Обновлённые данные пользователя
+     */
+    suspend fun updateUser(
+            userId: String,
+            firstname: String? = null,
+            lastname: String? = null,
+            secondname: String? = null,
+            datebirthday: String? = null,
+            gender: String? = null
+    ): NetworkResult<User>
+
+    /**
+     * Выход из системы.
+     * @return Результат операции
+     */
+    suspend fun logout(): NetworkResult<Unit>
+}
+```
+
+
+## File: network/src/main/java/com/example/lol/data/repository/ICartRepository.kt
+```kotlin
+package com.example.lol.data.repository
+
+import com.example.lol.data.network.NetworkResult
+import com.example.lol.data.network.models.ResponseCart
+
+/** Интерфейс репозитория для операций с корзиной. */
+interface ICartRepository {
+
+        /**
+         * Добавление товара в корзину.
+         * @param userId ID пользователя
+         * @param productId ID продукта
+         * @param count Количество
+         * @return Результат операции
+         */
+        suspend fun addToCart(
+                userId: String,
+                productId: String,
+                count: Int
+        ): NetworkResult<ResponseCart>
+
+        /**
+         * Обновление количества товара в корзине.
+         * @param cartItemId ID элемента корзины
+         * @param userId ID пользователя
+         * @param productId ID продукта
+         * @param count Новое количество
+         * @return Результат операции
+         */
+        suspend fun updateCartItem(
+                cartItemId: String,
+                userId: String,
+                productId: String,
+                count: Int
+        ): NetworkResult<ResponseCart>
+}
+```
+
+
+## File: network/src/main/java/com/example/lol/data/repository/IOrderRepository.kt
+```kotlin
+package com.example.lol.data.repository
+
+import com.example.lol.data.network.NetworkResult
+import com.example.lol.data.network.models.ResponseOrder
+
+/** Интерфейс репозитория для операций с заказами. */
+interface IOrderRepository {
+
+    /**
+     * Создание заказа.
+     * @param userId ID пользователя
+     * @param productId ID продукта
+     * @param count Количество
+     * @return Результат создания заказа
+     */
+    suspend fun createOrder(
+            userId: String,
+            productId: String,
+            count: Int
+    ): NetworkResult<ResponseOrder>
+}
+```
+
+
+## File: network/src/main/java/com/example/lol/data/repository/IProductRepositoryApi.kt
+```kotlin
+package com.example.lol.data.repository
+
+import com.example.lol.data.network.NetworkResult
+import com.example.lol.data.network.models.News
+import com.example.lol.data.network.models.ProductApi
+import com.example.lol.data.network.models.ProductItem
+
+/**
+ * Интерфейс репозитория для работы с продуктами и новостями. Расширяет функциональность для работы
+ * с API.
+ */
+interface IProductRepositoryApi {
+
+    /**
+     * Получение списка продуктов.
+     * @return Список продуктов
+     */
+    suspend fun getProducts(): NetworkResult<List<ProductItem>>
+
+    /**
+     * Получение детальной информации о продукте.
+     * @param productId ID продукта
+     * @return Детальная информация о продукте
+     */
+    suspend fun getProductById(productId: String): NetworkResult<ProductApi>
+
+    /**
+     * Поиск продуктов по запросу.
+     * @param query Поисковый запрос
+     * @return Отфильтрованный список продуктов
+     */
+    suspend fun searchProducts(query: String): NetworkResult<List<ProductItem>>
+
+    /**
+     * Получение списка новостей/акций.
+     * @return Список новостей
+     */
+    suspend fun getNews(): NetworkResult<List<News>>
+}
+```
+
+
+## File: network/src/main/java/com/example/lol/data/repository/IProjectRepository.kt
+```kotlin
+package com.example.lol.data.repository
+
+import com.example.lol.data.network.NetworkResult
+import com.example.lol.data.network.models.ProjectApi
+import java.io.File
+
+/** Интерфейс репозитория для операций с проектами. */
+interface IProjectRepository {
+
+    /**
+     * Получение списка проектов.
+     * @return Список проектов
+     */
+    suspend fun getProjects(): NetworkResult<List<ProjectApi>>
+
+    /**
+     * Создание нового проекта.
+     * @param title Название проекта
+     * @param typeProject Тип проекта
+     * @param userId ID пользователя
+     * @param dateStart Дата начала
+     * @param dateEnd Дата окончания
+     * @param gender Пол
+     * @param descriptionSource Описание источника
+     * @param category Категория
+     * @param image Файл изображения (опционально)
+     * @return Созданный проект
+     */
+    suspend fun createProject(
+            title: String,
+            typeProject: String,
+            userId: String,
+            dateStart: String,
+            dateEnd: String,
+            gender: String,
+            descriptionSource: String,
+            category: String,
+            image: File? = null
+    ): NetworkResult<ProjectApi>
+}
+```
+
+
+## File: network/src/main/java/com/example/lol/data/repository/OrderRepository.kt
+```kotlin
+package com.example.lol.data.repository
+
+import com.example.lol.data.network.NetworkResult
+import com.example.lol.data.network.api.MatuleApi
+import com.example.lol.data.network.models.*
+
+/** Реализация репозитория для работы с заказами. */
+class OrderRepository(private val api: MatuleApi) : IOrderRepository {
+
+    override suspend fun createOrder(
+            userId: String,
+            productId: String,
+            count: Int
+    ): NetworkResult<ResponseOrder> {
+        return try {
+            val request = RequestOrder(userId = userId, productId = productId, count = count)
+            val response = api.createOrder(request)
+
+            if (response.isSuccessful && response.body() != null) {
+                NetworkResult.Success(response.body()!!)
+            } else {
+                val errorMessage = parseErrorMessage(response.errorBody()?.string())
+                NetworkResult.Error(errorMessage, response.code())
+            }
+        } catch (e: Exception) {
+            NetworkResult.Error(e.message ?: "Ошибка сети")
+        }
+    }
+
+    private fun parseErrorMessage(errorBody: String?): String {
+        if (errorBody == null) return "Неизвестная ошибка"
+
+        return try {
+            val gson = com.google.gson.Gson()
+            val error = gson.fromJson(errorBody, Error400::class.java)
+            error.message
+        } catch (e: Exception) {
+            errorBody.take(200)
+        }
+    }
+}
+```
+
+
+## File: network/src/main/java/com/example/lol/data/repository/ProductRepositoryApi.kt
+```kotlin
+package com.example.lol.data.repository
+
+import com.example.lol.data.network.NetworkResult
+import com.example.lol.data.network.api.MatuleApi
+import com.example.lol.data.network.models.*
+
+/** Реализация репозитория для работы с продуктами через API. */
+class ProductRepositoryApi(private val api: MatuleApi) : IProductRepositoryApi {
+
+    override suspend fun getProducts(): NetworkResult<List<ProductItem>> {
+        return try {
+            val response = api.getProducts()
+
+            if (response.isSuccessful && response.body() != null) {
+                NetworkResult.Success(response.body()!!.items)
+            } else {
+                val errorMessage = parseErrorMessage(response.errorBody()?.string())
+                NetworkResult.Error(errorMessage, response.code())
+            }
+        } catch (e: Exception) {
+            NetworkResult.Error(e.message ?: "Ошибка сети")
+        }
+    }
+
+    override suspend fun getProductById(productId: String): NetworkResult<ProductApi> {
+        return try {
+            val response = api.getProduct(productId)
+
+            if (response.isSuccessful && response.body() != null) {
+                NetworkResult.Success(response.body()!!)
+            } else {
+                val errorMessage = parseErrorMessage(response.errorBody()?.string())
+                NetworkResult.Error(errorMessage, response.code())
+            }
+        } catch (e: Exception) {
+            NetworkResult.Error(e.message ?: "Ошибка сети")
+        }
+    }
+
+    override suspend fun searchProducts(query: String): NetworkResult<List<ProductItem>> {
+        return try {
+            // Формируем фильтр согласно API: "(title ?~ 'query')"
+            val filter = "(title ?~ '$query')"
+            val response = api.getProducts(filter)
+
+            if (response.isSuccessful && response.body() != null) {
+                NetworkResult.Success(response.body()!!.items)
+            } else {
+                val errorMessage = parseErrorMessage(response.errorBody()?.string())
+                NetworkResult.Error(errorMessage, response.code())
+            }
+        } catch (e: Exception) {
+            NetworkResult.Error(e.message ?: "Ошибка сети")
+        }
+    }
+
+    override suspend fun getNews(): NetworkResult<List<News>> {
+        return try {
+            val response = api.getNews()
+
+            if (response.isSuccessful && response.body() != null) {
+                NetworkResult.Success(response.body()!!.items)
+            } else {
+                val errorMessage = parseErrorMessage(response.errorBody()?.string())
+                NetworkResult.Error(errorMessage, response.code())
+            }
+        } catch (e: Exception) {
+            NetworkResult.Error(e.message ?: "Ошибка сети")
+        }
+    }
+
+    private fun parseErrorMessage(errorBody: String?): String {
+        if (errorBody == null) return "Неизвестная ошибка"
+
+        return try {
+            val gson = com.google.gson.Gson()
+            val error = gson.fromJson(errorBody, Error400::class.java)
+            error.message
+        } catch (e: Exception) {
+            errorBody.take(200)
+        }
+    }
+}
+```
+
+
+## File: network/src/main/java/com/example/lol/data/repository/ProjectRepository.kt
+```kotlin
+package com.example.lol.data.repository
+
+import com.example.lol.data.network.NetworkResult
+import com.example.lol.data.network.api.MatuleApi
+import com.example.lol.data.network.models.*
+import java.io.File
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.MultipartBody
+import okhttp3.RequestBody.Companion.asRequestBody
+import okhttp3.RequestBody.Companion.toRequestBody
+
+/** Реализация репозитория для работы с проектами. */
+class ProjectRepository(private val api: MatuleApi) : IProjectRepository {
+
+    override suspend fun getProjects(): NetworkResult<List<ProjectApi>> {
+        return try {
+            val response = api.getProjects()
+
+            if (response.isSuccessful && response.body() != null) {
+                NetworkResult.Success(response.body()!!.items)
+            } else {
+                val errorMessage = parseErrorMessage(response.errorBody()?.string())
+                NetworkResult.Error(errorMessage, response.code())
+            }
+        } catch (e: Exception) {
+            NetworkResult.Error(e.message ?: "Ошибка сети")
+        }
+    }
+
+    override suspend fun createProject(
+            title: String,
+            typeProject: String,
+            userId: String,
+            dateStart: String,
+            dateEnd: String,
+            gender: String,
+            descriptionSource: String,
+            category: String,
+            image: File?
+    ): NetworkResult<ProjectApi> {
+        return try {
+            val imagePart =
+                    image?.let {
+                        val requestFile = it.asRequestBody("image/*".toMediaTypeOrNull())
+                        MultipartBody.Part.createFormData("image", it.name, requestFile)
+                    }
+
+            val response =
+                    api.createProject(
+                            title = title.toRequestBody("text/plain".toMediaTypeOrNull()),
+                            typeProject =
+                                    typeProject.toRequestBody("text/plain".toMediaTypeOrNull()),
+                            userId = userId.toRequestBody("text/plain".toMediaTypeOrNull()),
+                            dateStart = dateStart.toRequestBody("text/plain".toMediaTypeOrNull()),
+                            dateEnd = dateEnd.toRequestBody("text/plain".toMediaTypeOrNull()),
+                            gender = gender.toRequestBody("text/plain".toMediaTypeOrNull()),
+                            descriptionSource =
+                                    descriptionSource.toRequestBody(
+                                            "text/plain".toMediaTypeOrNull()
+                                    ),
+                            category = category.toRequestBody("text/plain".toMediaTypeOrNull()),
+                            image = imagePart
+                    )
+
+            if (response.isSuccessful && response.body() != null) {
+                NetworkResult.Success(response.body()!!)
+            } else {
+                val errorMessage = parseErrorMessage(response.errorBody()?.string())
+                NetworkResult.Error(errorMessage, response.code())
+            }
+        } catch (e: Exception) {
+            NetworkResult.Error(e.message ?: "Ошибка сети")
+        }
+    }
+
+    private fun parseErrorMessage(errorBody: String?): String {
+        if (errorBody == null) return "Неизвестная ошибка"
+
+        return try {
+            val gson = com.google.gson.Gson()
+            val error = gson.fromJson(errorBody, Error400::class.java)
+            error.message
+        } catch (e: Exception) {
+            errorBody.take(200)
+        }
+    }
+}
+```
+
+
+## File: network/src/test/java/com/example/lol/data/repository/AuthRepositoryTest.kt
+```kotlin
+package com.example.lol.data.repository
+
+import com.example.lol.data.network.api.MatuleApi
+import com.example.lol.data.network.models.*
+import com.example.lol.testdata.TestJsonResponses
+import kotlinx.coroutines.test.runTest
+import okhttp3.mockwebserver.MockResponse
+import okhttp3.mockwebserver.MockWebServer
+import org.junit.After
+import org.junit.Assert.*
+import org.junit.Before
+import org.junit.Test
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
+
+/**
+ * Unit-тесты для AuthRepository с использованием MockWebServer. Использует StubTokenManager для
+ * изоляции от Android Context.
+ */
+class AuthRepositoryTest {
+
+    private lateinit var mockWebServer: MockWebServer
+    private lateinit var api: MatuleApi
+    private lateinit var repository: AuthRepository
+    private lateinit var stubTokenManager: StubTokenManager
+
+    @Before
+    fun setup() {
+        mockWebServer = MockWebServer()
+        mockWebServer.start()
+
+        api =
+                Retrofit.Builder()
+                        .baseUrl(mockWebServer.url("/"))
+                        .addConverterFactory(GsonConverterFactory.create())
+                        .build()
+                        .create(MatuleApi::class.java)
+
+        stubTokenManager = StubTokenManager()
+        repository = AuthRepository(api, stubTokenManager)
+    }
+
+    @After
+    fun tearDown() {
+        mockWebServer.shutdown()
+    }
+
+    @Test
+    fun `login success returns token and user`() = runTest {
+        // Given
+        mockWebServer.enqueue(
+                MockResponse().setResponseCode(200).setBody(TestJsonResponses.successLoginJson)
+        )
+
+        // When
+        val result = repository.login("test@test.ru", "password123")
+
+        // Then
+        assertTrue(result.isSuccess)
+        val data = result.getOrNull()
+        assertNotNull(data)
+        assertEquals("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.test", data?.token)
+        assertEquals("user123", data?.record?.id)
+        assertEquals("Иван", data?.record?.firstname)
+
+        // Verify token was saved
+        assertEquals("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.test", stubTokenManager.savedToken)
+        assertEquals("user123", stubTokenManager.savedUserId)
+    }
+
+    @Test
+    fun `login failure returns error`() = runTest {
+        // Given
+        mockWebServer.enqueue(
+                MockResponse()
+                        .setResponseCode(400)
+                        .setBody(TestJsonResponses.invalidCredentialsJson)
+        )
+
+        // When
+        val result = repository.login("wrong@test.ru", "wrongpassword")
+
+        // Then
+        assertTrue(result.isError)
+        assertEquals("Invalid credentials.", result.errorMessageOrNull())
+    }
+
+    @Test
+    fun `register success returns user data`() = runTest {
+        // Given
+        mockWebServer.enqueue(
+                MockResponse().setResponseCode(200).setBody(TestJsonResponses.successRegisterJson)
+        )
+
+        // When
+        val result = repository.register("new@test.ru", "password123")
+
+        // Then
+        assertTrue(result.isSuccess)
+        val data = result.getOrNull()
+        assertNotNull(data)
+        assertEquals("user456", data?.id)
+        assertFalse(data?.verified ?: true)
+    }
+
+    @Test
+    fun `register failure returns error`() = runTest {
+        // Given
+        mockWebServer.enqueue(
+                MockResponse().setResponseCode(400).setBody(TestJsonResponses.errorJson)
+        )
+
+        // When
+        val result = repository.register("existing@test.ru", "password123")
+
+        // Then
+        assertTrue(result.isError)
+        assertEquals("Failed to create record.", result.errorMessageOrNull())
+    }
+
+    @Test
+    fun `updateUser success returns updated user`() = runTest {
+        // Given
+        mockWebServer.enqueue(
+                MockResponse().setResponseCode(200).setBody(TestJsonResponses.updatedUserJson)
+        )
+        stubTokenManager.savedUserId = "user123"
+
+        // When
+        val result = repository.updateUser(
+                userId = "user123",
+                firstname = "Петр",
+                lastname = "Петров",
+                secondname = "Петрович",
+                datebirthday = "1995-05-15",
+                gender = "Мужской"
+        )
+
+        // Then
+        assertTrue(result.isSuccess)
+        val user = result.getOrNull()
+        assertNotNull(user)
+        assertEquals("Петр", user?.firstname)
+        assertEquals("Петров", user?.lastname)
+    }
+
+    @Test
+    fun `getUser success returns profile`() = runTest {
+        mockWebServer.enqueue(
+                MockResponse().setResponseCode(200).setBody(TestJsonResponses.updatedUserJson)
+        )
+
+        val result = repository.getUser("user123")
+
+        assertTrue(result.isSuccess)
+        val user = result.getOrNull()
+        assertNotNull(user)
+        assertEquals("user123", user?.id)
+        assertEquals("Петр", user?.firstname)
+    }
+
+    @Test
+    fun `getUser failure returns server error`() = runTest {
+        mockWebServer.enqueue(
+                MockResponse().setResponseCode(400).setBody(TestJsonResponses.errorJson)
+        )
+
+        val result = repository.getUser("unknown")
+
+        assertTrue(result.isError)
+        assertEquals("Failed to create record.", result.errorMessageOrNull())
+    }
+
+    @Test
+    fun `logout success clears tokens`() = runTest {
+        // Given
+        stubTokenManager.savedToken = "test_token"
+        stubTokenManager.savedUserId = "user123"
+        
+        // First response for getUsersAuth
+        mockWebServer.enqueue(
+                MockResponse().setResponseCode(200).setBody(TestJsonResponses.usersAuthJson)
+        )
+        // Second response for logout (delete token)
+        mockWebServer.enqueue(
+                MockResponse().setResponseCode(204)
+        )
+
+        // When
+        val result = repository.logout()
+
+        // Then
+        assertTrue(result.isSuccess)
+        assertNull(stubTokenManager.savedToken)
+        assertNull(stubTokenManager.savedUserId)
+    }
+
+    @Test
+    fun `logout when token missing still clears local auth`() = runTest {
+        stubTokenManager.savedToken = "test_token"
+        stubTokenManager.savedUserId = "unknown_user"
+
+        mockWebServer.enqueue(
+                MockResponse().setResponseCode(200).setBody(TestJsonResponses.usersAuthJson)
+        )
+
+        val result = repository.logout()
+
+        assertTrue(result.isSuccess)
+        assertNull(stubTokenManager.savedToken)
+        assertNull(stubTokenManager.savedUserId)
+    }
+}
+
+/** Stub реализация для тестов без Android Context. Имитирует поведение TokenManager в памяти. */
+class StubTokenManager : com.example.lol.data.network.ITokenManager {
+    var savedToken: String? = null
+    var savedUserId: String? = null
+
+    override fun saveToken(token: String) {
+        savedToken = token
+    }
+
+    override fun getToken(): String? = savedToken
+
+    override fun saveUserId(userId: String) {
+        savedUserId = userId
+    }
+
+    override fun getUserId(): String? = savedUserId
+
+    override fun hasToken(): Boolean = !savedToken.isNullOrBlank()
+
+    override fun clearAuth() {
+        savedToken = null
+        savedUserId = null
+    }
+}
+```
+
+
+## File: network/src/test/java/com/example/lol/data/repository/CartRepositoryTest.kt
+```kotlin
+package com.example.lol.data.repository
+
+import com.example.lol.data.network.api.MatuleApi
+import com.example.lol.testdata.TestJsonResponses
+import kotlinx.coroutines.test.runTest
+import okhttp3.mockwebserver.MockResponse
+import okhttp3.mockwebserver.MockWebServer
+import org.junit.After
+import org.junit.Assert.*
+import org.junit.Before
+import org.junit.Test
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
+
+/** Unit-тесты для CartRepository с использованием MockWebServer. */
+class CartRepositoryTest {
+
+    private lateinit var mockWebServer: MockWebServer
+    private lateinit var api: MatuleApi
+    private lateinit var repository: CartRepository
+
+    @Before
+    fun setup() {
+        mockWebServer = MockWebServer()
+        mockWebServer.start()
+
+        api =
+                Retrofit.Builder()
+                        .baseUrl(mockWebServer.url("/"))
+                        .addConverterFactory(GsonConverterFactory.create())
+                        .build()
+                        .create(MatuleApi::class.java)
+
+        repository = CartRepository(api)
+    }
+
+    @After
+    fun tearDown() {
+        mockWebServer.shutdown()
+    }
+
+    @Test
+    fun `addToCart success returns cart item`() = runTest {
+        // Given
+        mockWebServer.enqueue(
+                MockResponse().setResponseCode(200).setBody(TestJsonResponses.cartItemJson)
+        )
+
+        // When
+        val result = repository.addToCart(userId = "user123", productId = "prod1", count = 2)
+
+        // Then
+        assertTrue(result.isSuccess)
+        val cartItem = result.getOrNull()
+        assertNotNull(cartItem)
+        assertEquals("cart1", cartItem?.id)
+        assertEquals("prod1", cartItem?.productId)
+        assertEquals(2, cartItem?.count)
+    }
+
+    @Test
+    fun `addToCart failure returns error`() = runTest {
+        // Given
+        mockWebServer.enqueue(
+                MockResponse().setResponseCode(400).setBody(TestJsonResponses.errorJson)
+        )
+
+        // When
+        val result = repository.addToCart(userId = "user123", productId = "invalid", count = 1)
+
+        // Then
+        assertTrue(result.isError)
+        assertEquals("Failed to create record.", result.errorMessageOrNull())
+    }
+
+    @Test
+    fun `updateCartItem network error returns error`() = runTest {
+        // Given - shutdown server to simulate network error
+        mockWebServer.shutdown()
+
+        // When
+        val result =
+                repository.updateCartItem(
+                        cartItemId = "cart1",
+                        userId = "user123",
+                        productId = "prod1",
+                        count = 5
+                )
+
+        // Then
+        assertTrue(result.isError)
+        assertNotNull(result.errorMessageOrNull())
+    }
+
+    @Test
+    fun `updateCartItem success returns updated item`() = runTest {
+        mockWebServer.enqueue(
+                MockResponse().setResponseCode(200).setBody(TestJsonResponses.cartItemJson)
+        )
+
+        val result =
+                repository.updateCartItem(
+                        cartItemId = "cart1",
+                        userId = "user123",
+                        productId = "prod1",
+                        count = 5
+                )
+
+        assertTrue(result.isSuccess)
+        val data = result.getOrNull()
+        assertNotNull(data)
+        assertEquals(2, data?.count)
+    }
+}
+```
+
+
+## File: network/src/test/java/com/example/lol/data/repository/OrderRepositoryTest.kt
+```kotlin
+package com.example.lol.data.repository
+
+import com.example.lol.data.network.api.MatuleApi
+import com.example.lol.testdata.TestJsonResponses
+import kotlinx.coroutines.test.runTest
+import okhttp3.mockwebserver.MockResponse
+import okhttp3.mockwebserver.MockWebServer
+import org.junit.After
+import org.junit.Assert.*
+import org.junit.Before
+import org.junit.Test
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
+
+/**
+ * Unit-тесты для OrderRepository с использованием MockWebServer.
+ */
+class OrderRepositoryTest {
+    
+    private lateinit var mockWebServer: MockWebServer
+    private lateinit var api: MatuleApi
+    private lateinit var repository: OrderRepository
+    
+    @Before
+    fun setup() {
+        mockWebServer = MockWebServer()
+        mockWebServer.start()
+        
+        api = Retrofit.Builder()
+            .baseUrl(mockWebServer.url("/"))
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+            .create(MatuleApi::class.java)
+        
+        repository = OrderRepository(api)
+    }
+    
+    @After
+    fun tearDown() {
+        mockWebServer.shutdown()
+    }
+    
+    @Test
+    fun `createOrder success returns order data`() = runTest {
+        // Given
+        mockWebServer.enqueue(
+            MockResponse()
+                .setResponseCode(200)
+                .setBody(TestJsonResponses.orderJson)
+        )
+        
+        // When
+        val result = repository.createOrder(
+            userId = "user123",
+            productId = "prod1",
+            count = 3
+        )
+        
+        // Then
+        assertTrue(result.isSuccess)
+        val data = result.getOrNull()
+        assertNotNull(data)
+        assertEquals("order1", data?.id)
+        assertEquals("user123", data?.userId)
+        assertEquals("prod1", data?.productId)
+        assertEquals(3, data?.count)
+        
+        // Verify request body verification is skipped here as we trust Retrofit,
+        // but we could verify recordedRequest if needed.
+    }
+    
+    @Test
+    fun `createOrder failure returns error`() = runTest {
+        // Given
+        mockWebServer.enqueue(
+            MockResponse()
+                .setResponseCode(400)
+                .setBody(TestJsonResponses.errorJson)
+        )
+        
+        // When
+        val result = repository.createOrder(
+            userId = "user123",
+            productId = "prod1",
+            count = 3
+        )
+        
+        // Then
+        assertTrue(result.isError)
+        assertEquals("Failed to create record.", result.errorMessageOrNull())
+    }
+}
+```
+
+
+## File: network/src/test/java/com/example/lol/data/repository/ProductRepositoryApiTest.kt
+```kotlin
+package com.example.lol.data.repository
+
+import com.example.lol.data.network.api.MatuleApi
+import com.example.lol.testdata.TestJsonResponses
+import kotlinx.coroutines.test.runTest
+import okhttp3.mockwebserver.MockResponse
+import okhttp3.mockwebserver.MockWebServer
+import org.junit.After
+import org.junit.Assert.*
+import org.junit.Before
+import org.junit.Test
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
+
+/** Unit-тесты для ProductRepositoryApi с использованием MockWebServer. */
+class ProductRepositoryApiTest {
+
+    private lateinit var mockWebServer: MockWebServer
+    private lateinit var api: MatuleApi
+    private lateinit var repository: ProductRepositoryApi
+
+    @Before
+    fun setup() {
+        mockWebServer = MockWebServer()
+        mockWebServer.start()
+
+        api =
+                Retrofit.Builder()
+                        .baseUrl(mockWebServer.url("/"))
+                        .addConverterFactory(GsonConverterFactory.create())
+                        .build()
+                        .create(MatuleApi::class.java)
+
+        repository = ProductRepositoryApi(api)
+    }
+
+    @After
+    fun tearDown() {
+        mockWebServer.shutdown()
+    }
+
+    @Test
+    fun `getProducts success returns product list`() = runTest {
+        // Given
+        mockWebServer.enqueue(
+                MockResponse().setResponseCode(200).setBody(TestJsonResponses.productsListJson)
+        )
+
+        // When
+        val result = repository.getProducts()
+
+        // Then
+        assertTrue(result.isSuccess)
+        val products = result.getOrNull()
+        assertNotNull(products)
+        assertEquals(2, products?.size)
+        assertEquals("Футболка", products?.first()?.title)
+        assertEquals(1500, products?.first()?.price)
+    }
+
+    @Test
+    fun `getProductById success returns product details`() = runTest {
+        // Given
+        mockWebServer.enqueue(
+                MockResponse().setResponseCode(200).setBody(TestJsonResponses.productDetailJson)
+        )
+
+        // When
+        val result = repository.getProductById("prod1")
+
+        // Then
+        assertTrue(result.isSuccess)
+        val product = result.getOrNull()
+        assertNotNull(product)
+        assertEquals("prod1", product?.id)
+        assertEquals("Футболка", product?.title)
+        assertEquals("Хлопковая футболка", product?.description)
+    }
+
+    @Test
+    fun `searchProducts sends correct filter parameter`() = runTest {
+        // Given
+        mockWebServer.enqueue(
+                MockResponse().setResponseCode(200).setBody(TestJsonResponses.productsListJson)
+        )
+
+        // When
+        val result = repository.searchProducts("Футболка")
+
+        // Then
+        assertTrue(result.isSuccess)
+
+        // Verify the request was made with correct filter
+        val request = mockWebServer.takeRequest()
+        assertTrue(request.path?.contains("filter") == true)
+    }
+
+    @Test
+    fun `getProducts failure returns error`() = runTest {
+        // Given
+        mockWebServer.enqueue(
+                MockResponse().setResponseCode(400).setBody(TestJsonResponses.errorJson)
+        )
+
+        // When
+        val result = repository.getProducts()
+
+        // Then
+        assertTrue(result.isError)
+        assertNotNull(result.errorMessageOrNull())
+    }
+
+    @Test
+    fun `getNews success returns news list`() = runTest {
+        mockWebServer.enqueue(
+                MockResponse().setResponseCode(200).setBody(TestJsonResponses.newsListJson)
+        )
+
+        val result = repository.getNews()
+
+        assertTrue(result.isSuccess)
+        val news = result.getOrNull()
+        assertNotNull(news)
+        assertEquals(1, news?.size)
+        assertEquals("news1", news?.first()?.id)
+    }
+
+    @Test
+    fun `getNews failure returns server message`() = runTest {
+        mockWebServer.enqueue(
+                MockResponse().setResponseCode(400).setBody(TestJsonResponses.errorJson)
+        )
+
+        val result = repository.getNews()
+
+        assertTrue(result.isError)
+        assertEquals("Failed to create record.", result.errorMessageOrNull())
+    }
+}
+```
+
+
+## File: network/src/test/java/com/example/lol/data/repository/ProjectRepositoryTest.kt
+```kotlin
+package com.example.lol.data.repository
+
+import com.example.lol.data.network.api.MatuleApi
+import com.example.lol.testdata.TestJsonResponses
+import kotlinx.coroutines.test.runTest
+import okhttp3.mockwebserver.MockResponse
+import okhttp3.mockwebserver.MockWebServer
+import org.junit.After
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertNotNull
+import org.junit.Assert.assertTrue
+import org.junit.Before
+import org.junit.Test
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
+
+/** Unit-тесты для ProjectRepository с использованием MockWebServer. */
+class ProjectRepositoryTest {
+
+    private lateinit var mockWebServer: MockWebServer
+    private lateinit var api: MatuleApi
+    private lateinit var repository: ProjectRepository
+
+    @Before
+    fun setup() {
+        mockWebServer = MockWebServer()
+        mockWebServer.start()
+
+        api =
+            Retrofit.Builder()
+                .baseUrl(mockWebServer.url("/"))
+                .addConverterFactory(GsonConverterFactory.create())
+                .build()
+                .create(MatuleApi::class.java)
+
+        repository = ProjectRepository(api)
+    }
+
+    @After
+    fun tearDown() {
+        mockWebServer.shutdown()
+    }
+
+    @Test
+    fun `getProjects success returns project list`() = runTest {
+        mockWebServer.enqueue(
+            MockResponse().setResponseCode(200).setBody(TestJsonResponses.projectsListJson)
+        )
+
+        val result = repository.getProjects()
+
+        assertTrue(result.isSuccess)
+        val projects = result.getOrNull()
+        assertNotNull(projects)
+        assertEquals(1, projects?.size)
+        assertEquals("Мой проект", projects?.first()?.title)
+    }
+
+    @Test
+    fun `createProject success returns created project`() = runTest {
+        mockWebServer.enqueue(
+            MockResponse().setResponseCode(200).setBody(TestJsonResponses.createdProjectJson)
+        )
+
+        val result =
+            repository.createProject(
+                title = "Новый проект",
+                typeProject = "Новинки",
+                userId = "user123",
+                dateStart = "2026-02-01",
+                dateEnd = "2026-06-30",
+                gender = "Женский",
+                descriptionSource = "Новое описание",
+                category = "Новинки",
+                image = null
+            )
+
+        assertTrue(result.isSuccess)
+        val project = result.getOrNull()
+        assertNotNull(project)
+        assertEquals("proj2", project?.id)
+        assertEquals("Новый проект", project?.title)
+    }
+
+    @Test
+    fun `getProjects failure returns error`() = runTest {
+        mockWebServer.enqueue(
+            MockResponse().setResponseCode(400).setBody(TestJsonResponses.errorJson)
+        )
+
+        val result = repository.getProjects()
+
+        assertTrue(result.isError)
+        assertNotNull(result.errorMessageOrNull())
+    }
+
+    @Test
+    fun `createProject failure returns error`() = runTest {
+        mockWebServer.enqueue(
+            MockResponse().setResponseCode(400).setBody(TestJsonResponses.errorJson)
+        )
+
+        val result =
+            repository.createProject(
+                title = "Новый проект",
+                typeProject = "Новинки",
+                userId = "user123",
+                dateStart = "2026-02-01",
+                dateEnd = "2026-06-30",
+                gender = "Женский",
+                descriptionSource = "Новое описание",
+                category = "Новинки",
+                image = null
+            )
+
+        assertTrue(result.isError)
+        assertEquals("Failed to create record.", result.errorMessageOrNull())
+    }
+}
+```
+
+
+## File: network/src/test/java/com/example/lol/testdata/TestJsonResponses.kt
+```kotlin
+package com.example.lol.testdata
+
+import com.example.lol.data.network.models.*
+
+/** Тестовые данные и JSON ответы для unit-тестов. */
+object TestJsonResponses {
+
+    // ==================== AUTH ====================
+
+    val successLoginJson =
+            """
+        {
+            "record": {
+                "id": "user123",
+                "collectionId": "users",
+                "collectionName": "_pb_users_auth_",
+                "created": "2026-01-01T00:00:00Z",
+                "updated": "2026-01-01T00:00:00Z",
+                "emailVisibility": true,
+                "firstname": "Иван",
+                "lastname": "Иванов",
+                "secondname": "Иванович",
+                "verified": true,
+                "datebirthday": "1990-01-01",
+                "gender": "Мужской"
+            },
+            "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.test"
+        }
+    """.trimIndent()
+
+    val successRegisterJson =
+            """
+        {
+            "id": "user456",
+            "collectionId": "users",
+            "collectionName": "_pb_users_auth_",
+            "created": "2026-01-02T00:00:00Z",
+            "updated": "2026-01-02T00:00:00Z",
+            "emailVisibility": true,
+            "firstname": "",
+            "lastname": "",
+            "secondname": "",
+            "verified": false,
+            "datebirthday": "",
+            "gender": ""
+        }
+    """.trimIndent()
+
+    val errorJson =
+            """
+        {
+            "status": 400,
+            "message": "Failed to create record.",
+            "data": {}
+        }
+    """.trimIndent()
+
+    val invalidCredentialsJson =
+            """
+        {
+            "status": 400,
+            "message": "Invalid credentials.",
+            "data": {}
+        }
+    """.trimIndent()
+
+    // ==================== PRODUCTS ====================
+
+    val productsListJson =
+            """
+        {
+            "page": 1,
+            "perPage": 30,
+            "totalPages": 1,
+            "totalItems": 2,
+            "items": [
+                {
+                    "id": "prod1",
+                    "title": "Футболка",
+                    "price": 1500,
+                    "typeCloses": "Верх",
+                    "type": "Новинки"
+                },
+                {
+                    "id": "prod2",
+                    "title": "Джинсы",
+                    "price": 3000,
+                    "typeCloses": "Низ",
+                    "type": "Популярные"
+                }
+            ]
+        }
+    """.trimIndent()
+
+    val productDetailJson =
+            """
+        {
+            "id": "prod1",
+            "collectionId": "products",
+            "collectionName": "products",
+            "created": "2026-01-01T00:00:00Z",
+            "updated": "2026-01-01T00:00:00Z",
+            "title": "Футболка",
+            "description": "Хлопковая футболка",
+            "price": 1500,
+            "typeCloses": "Верх",
+            "type": "Новинки",
+            "approximateCost": "1500 ₽"
+        }
+    """.trimIndent()
+
+    // ==================== CART ====================
+
+    val cartItemJson =
+            """
+        {
+            "id": "cart1",
+            "collectionId": "cart",
+            "collectionName": "cart",
+            "created": "2026-01-01T00:00:00Z",
+            "updated": "2026-01-01T00:00:00Z",
+            "user_id": "user123",
+            "product_id": "prod1",
+            "count": 2
+        }
+    """.trimIndent()
+
+    // ==================== PROJECTS ====================
+
+    val projectsListJson =
+            """
+        {
+            "page": 1,
+            "perPage": 30,
+            "totalPages": 1,
+            "totalItems": 1,
+            "items": [
+                {
+                    "id": "proj1",
+                    "collectionId": "project",
+                    "collectionName": "project",
+                    "created": "2026-01-01T00:00:00Z",
+                    "updated": "2026-01-01T00:00:00Z",
+                    "title": "Мой проект",
+                    "dateStart": "2026-01-01",
+                    "dateEnd": "2026-12-31",
+                    "gender": "Мужской",
+                    "description_source": "Описание",
+                    "category": "Популярные",
+                    "image": "image.jpg",
+                    "user_id": "user123"
+                }
+            ]
+        }
+    """.trimIndent()
+
+    val createdProjectJson =
+            """
+        {
+            "id": "proj2",
+            "collectionId": "project",
+            "collectionName": "project",
+            "created": "2026-01-02T00:00:00Z",
+            "updated": "2026-01-02T00:00:00Z",
+            "title": "Новый проект",
+            "dateStart": "2026-02-01",
+            "dateEnd": "2026-06-30",
+            "gender": "Женский",
+            "description_source": "Новое описание",
+            "category": "Новинки",
+            "image": "",
+            "user_id": "user123"
+        }
+    """.trimIndent()
+
+    // ==================== ORDER ====================
+
+    val orderJson =
+            """
+        {
+            "id": "order1",
+            "collectionId": "orders",
+            "collectionName": "orders",
+            "created": "2026-01-01T00:00:00Z",
+            "updated": "2026-01-01T00:00:00Z",
+            "user_id": "user123",
+            "product_id": "prod1",
+            "count": 3
+        }
+    """.trimIndent()
+
+    // ==================== NEWS ====================
+
+    val newsListJson =
+            """
+        {
+            "page": 1,
+            "perPage": 30,
+            "totalPages": 1,
+            "totalItems": 1,
+            "items": [
+                {
+                    "id": "news1",
+                    "collectionId": "news",
+                    "collectionName": "news",
+                    "newsImage": "promo.jpg",
+                    "created": "2026-01-01T00:00:00Z",
+                    "updated": "2026-01-01T00:00:00Z"
+                }
+            ]
+        }
+    """.trimIndent()
+
+    // ==================== TEST DATA OBJECTS ====================
+
+    fun createTestUser(
+            id: String = "user123",
+            firstname: String = "Иван",
+            lastname: String = "Иванов"
+    ) =
+            User(
+                    id = id,
+                    collectionId = "users",
+                    collectionName = "_pb_users_auth_",
+                    created = "2026-01-01T00:00:00Z",
+                    updated = "2026-01-01T00:00:00Z",
+                    emailVisibility = true,
+                    firstname = firstname,
+                    lastname = lastname,
+                    secondname = "Иванович",
+                    verified = true,
+                    datebirthday = "1990-01-01",
+                    gender = "Мужской"
+            )
+
+    fun createTestProductItem(id: String = "prod1", title: String = "Футболка", price: Int = 1500) =
+            ProductItem(
+                    id = id,
+                    title = title,
+                    price = price,
+                    typeCloses = "Верх",
+                    type = "Новинки"
+            )
+
+    fun createTestProductApi(id: String = "prod1", title: String = "Футболка", price: Int = 1500) =
+            ProductApi(
+                    id = id,
+                    collectionId = "products",
+                    collectionName = "products",
+                    created = "2026-01-01T00:00:00Z",
+                    updated = "2026-01-01T00:00:00Z",
+                    title = title,
+                    description = "Описание товара",
+                    price = price,
+                    typeCloses = "Верх",
+                    type = "Новинки",
+                    approximateCost = "$price ₽"
+            )
+
+    fun createTestProjectApi(id: String = "proj1", title: String = "Мой проект") =
+            ProjectApi(
+                    id = id,
+                    collectionId = "project",
+                    collectionName = "project",
+                    created = "2026-01-01T00:00:00Z",
+                    updated = "2026-01-01T00:00:00Z",
+                    title = title,
+                    dateStart = "2026-01-01",
+                    dateEnd = "2026-12-31",
+                    gender = "Мужской",
+                    descriptionSource = "Описание",
+                    category = "Популярные",
+                    image = "image.jpg",
+                    userId = "user123"
+            )
+
+    fun createTestResponseCart(id: String = "cart1", productId: String = "prod1", count: Int = 1) =
+            ResponseCart(
+                    id = id,
+                    collectionId = "cart",
+                    collectionName = "cart",
+                    created = "2026-01-01T00:00:00Z",
+                    updated = "2026-01-01T00:00:00Z",
+                    userId = "user123",
+                    productId = productId,
+                    count = count
+            )
+
+    fun createTestResponseOrder(
+            id: String = "order1",
+            productId: String = "prod1",
+            count: Int = 1
+    ) =
+            ResponseOrder(
+                    id = id,
+                    collectionId = "orders",
+                    collectionName = "orders",
+                    created = "2026-01-01T00:00:00Z",
+                    updated = "2026-01-01T00:00:00Z",
+                    userId = "user123",
+                    productId = productId,
+                    count = count
+            )
+
+    fun createTestResponseAuth() = ResponseAuth(record = createTestUser(), token = "test_token_123")
+
+    fun createTestResponseRegister() =
+            ResponseRegister(
+                    id = "user456",
+                    collectionId = "users",
+                    collectionName = "_pb_users_auth_",
+                    created = "2026-01-02T00:00:00Z",
+                    updated = "2026-01-02T00:00:00Z",
+                    emailVisibility = true,
+                    firstname = "",
+                    lastname = "",
+                    secondname = "",
+                    verified = false,
+                    datebirthday = "",
+                    gender = ""
+            )
+
+    val updatedUserJson =
+            """
+        {
+            "id": "user123",
+            "collectionId": "users",
+            "collectionName": "_pb_users_auth_",
+            "created": "2026-01-01T00:00:00Z",
+            "updated": "2026-01-01T00:00:00Z",
+            "emailVisibility": true,
+            "firstname": "Петр",
+            "lastname": "Петров",
+            "secondname": "Петрович",
+            "verified": true,
+            "datebirthday": "1995-05-15",
+            "gender": "Мужской"
+        }
+    """.trimIndent()
+
+    val usersAuthJson =
+            """
+        {
+            "page": 1,
+            "perPage": 30,
+            "totalPages": 1,
+            "totalItems": 1,
+            "items": [
+                {
+                    "id": "token1",
+                    "collectionId": "_authOrigins",
+                    "collectionName": "_authOrigins",
+                    "created": "2026-01-01T00:00:00Z",
+                    "updated": "2026-01-01T00:00:00Z",
+                    "collectionRef": "users",
+                    "fingerprint": "fp_test",
+                    "recordRef": "user123"
+                }
+            ]
+        }
+    """.trimIndent()
+}
+```
+
+
+## File: uikit/build.gradle.kts
+```kotlin
+import org.gradle.api.JavaVersion
+
+plugins {
+    alias(libs.plugins.android.library)
+    alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.kotlin.compose)
+}
+
+android {
+    namespace = "com.example.lol.uikit"
+    compileSdk = 36
+
+    defaultConfig {
+        minSdk = 24
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
+    }
+
+    kotlinOptions {
+        jvmTarget = "11"
+    }
+
+    buildFeatures {
+        compose = true
+    }
+}
+
+dependencies {
+    implementation(libs.androidx.core.ktx)
+    implementation(libs.androidx.lifecycle.runtime.ktx.v2100)
+    implementation(platform(libs.androidx.compose.bom.v20251200))
+    implementation(libs.androidx.compose.ui)
+    implementation(libs.androidx.compose.ui.graphics)
+    implementation(libs.androidx.ui.tooling.preview)
+    implementation(libs.androidx.material3)
+
+    testImplementation(libs.junit)
+
+    androidTestImplementation(libs.androidx.junit)
+    androidTestImplementation(libs.androidx.espresso.core)
+    androidTestImplementation(platform(libs.androidx.compose.bom.v20251200))
+    androidTestImplementation(libs.androidx.ui.test.junit4)
+    androidTestImplementation(libs.androidx.activity.compose.v1121)
+
+    debugImplementation(libs.androidx.ui.tooling)
+    debugImplementation(libs.androidx.ui.test.manifest)
+}
+```
+
+
+## File: uikit/src/androidTest/java/com/example/lol/components/UiKitStateTest.kt
+```kotlin
+package com.example.lol.components
+
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.toArgb
+import androidx.compose.ui.test.assertIsNotSelected
+import androidx.compose.ui.test.assertIsSelected
+import androidx.compose.ui.test.assertCountEquals
+import androidx.compose.ui.test.assertTextContains
+import androidx.compose.ui.test.junit4.createComposeRule
+import androidx.compose.ui.test.onAllNodesWithText
+import androidx.compose.ui.test.onNodeWithTag
+import androidx.compose.ui.test.onNodeWithText
+import androidx.compose.ui.test.performClick
+import com.example.lol.data.Product
+import com.example.lol.ui.theme.RedError
+import org.junit.Assert.assertEquals
+import org.junit.Rule
+import org.junit.Test
+
+class UiKitStateTest {
+
+    @get:Rule
+    val composeTestRule = createComposeRule()
+
+    @Test
+    fun inputErrorState_exposesErrorColorsAndMessage() {
+        composeTestRule.setContent {
+            AppTextField(
+                value = "",
+                onValueChange = {},
+                label = "Email",
+                placeholder = "name@mail.com",
+                isError = true,
+                errorMessage = "Поле обязательно",
+                testTagPrefix = "input_error"
+            )
+        }
+
+        composeTestRule.onNodeWithTag("input_error_error").assertTextContains("Поле обязательно")
+
+        val containerConfig =
+            composeTestRule.onNodeWithTag("input_error_container").fetchSemanticsNode().config
+        val errorConfig = composeTestRule.onNodeWithTag("input_error_error").fetchSemanticsNode().config
+
+        assertEquals(Color(0xFFFFF5F5).toArgb().toLong(), containerConfig[UiKitBackgroundColorKey])
+        assertEquals(RedError.toArgb().toLong(), containerConfig[UiKitBorderColorKey])
+        assertEquals(RedError.toArgb().toLong(), errorConfig[UiKitTextColorKey])
+    }
+
+    @Test
+    fun selectWithoutIcon_clickOpensBottomSheetWithEmojiOptions() {
+        composeTestRule.setContent {
+            var selectedValue by mutableStateOf("")
+
+            AppSelectField(
+                value = selectedValue,
+                label = "Выбор",
+                placeholder = "Выберите",
+                options = listOf("😀 Опция 1", "🚀 Опция 2"),
+                showChevron = false,
+                testTagPrefix = "select_no_icon",
+                onOptionSelected = { selectedValue = it }
+            )
+        }
+
+        composeTestRule.onNodeWithTag("select_no_icon_trigger").performClick()
+
+        composeTestRule.onNodeWithTag("select_no_icon_sheet").assertTextContains("Выбор")
+        composeTestRule.onNodeWithText("😀 Опция 1").assertTextContains("😀")
+    }
+
+    @Test
+    fun chip_togglesBetweenSelectedAndNotSelected() {
+        composeTestRule.setContent {
+            var selected by mutableStateOf(false)
+
+            AppChip(
+                text = "Новинки",
+                isSelected = selected,
+                onClick = { selected = !selected },
+                testTag = "chip_toggle"
+            )
+        }
+
+        composeTestRule.onNodeWithTag("chip_toggle").assertIsNotSelected()
+        composeTestRule.onNodeWithTag("chip_toggle").performClick()
+        composeTestRule.onNodeWithTag("chip_toggle").assertIsSelected()
+    }
+
+    @Test
+    fun selectField_selectingEmojiOptionUpdatesValue() {
+        composeTestRule.setContent {
+            var selectedValue by mutableStateOf("")
+
+            AppSelectField(
+                value = selectedValue,
+                placeholder = "Выберите",
+                options = listOf("🧪 Тест", "📦 Пакет"),
+                testTagPrefix = "select_emoji",
+                onOptionSelected = { selectedValue = it }
+            )
+        }
+
+        composeTestRule.onNodeWithTag("select_emoji_trigger").performClick()
+        composeTestRule.onNodeWithTag("select_emoji_option_0").performClick()
+
+        composeTestRule.onNodeWithText("🧪 Тест").assertTextContains("Тест")
+    }
+
+    @Test
+    fun tabBar_keepsSingleFocusedItem() {
+        composeTestRule.setContent {
+            var selectedRoute by mutableStateOf("main")
+            val items =
+                listOf(
+                    AppTabBarItem(route = "main", title = "Main"),
+                    AppTabBarItem(route = "catalog", title = "Catalog"),
+                    AppTabBarItem(route = "profile", title = "Profile")
+                )
+
+            AppTabBar(
+                items = items,
+                selectedRoute = selectedRoute,
+                testTagPrefix = "tab",
+                onItemSelected = { selectedRoute = it }
+            )
+        }
+
+        composeTestRule.onNodeWithTag("tab_main").assertIsSelected()
+        composeTestRule.onNodeWithTag("tab_catalog").assertIsNotSelected()
+        composeTestRule.onNodeWithTag("tab_profile").assertIsNotSelected()
+
+        composeTestRule.onNodeWithTag("tab_profile").performClick()
+
+        composeTestRule.onNodeWithTag("tab_profile").assertIsSelected()
+        composeTestRule.onNodeWithTag("tab_main").assertIsNotSelected()
+        composeTestRule.onNodeWithTag("tab_catalog").assertIsNotSelected()
+    }
+
+    @Test
+    fun productCard_addAndDeleteStates_triggerCorrectActions() {
+        var addClicks = 0
+        var removeClicks = 0
+
+        val product =
+            Product(
+                id = 1,
+                title = "Nike Air Max 270",
+                description = "Great sneakers",
+                price = 12990,
+                category = "Sneakers",
+                imageUrl = "https://example.com/image.png"
+            )
+
+        composeTestRule.setContent {
+            var isInCart by mutableStateOf(false)
+
+            ProductCard(
+                product = product,
+                onClick = {},
+                onAddToCart = {
+                    addClicks += 1
+                    isInCart = true
+                },
+                onRemoveFromCart = {
+                    removeClicks += 1
+                    isInCart = false
+                },
+                isInCart = isInCart
+            )
+        }
+
+        composeTestRule.onAllNodesWithText("Добавить").assertCountEquals(1)
+        composeTestRule.onAllNodesWithText("Убрать").assertCountEquals(0)
+        composeTestRule.onNodeWithText("Добавить").performClick()
+
+        assertEquals(1, addClicks)
+        assertEquals(0, removeClicks)
+
+        composeTestRule.onAllNodesWithText("Убрать").assertCountEquals(1)
+        composeTestRule.onAllNodesWithText("Добавить").assertCountEquals(0)
+        composeTestRule.onNodeWithText("Убрать").performClick()
+
+        assertEquals(1, addClicks)
+        assertEquals(1, removeClicks)
+        composeTestRule.onAllNodesWithText("Добавить").assertCountEquals(1)
+    }
+}
+```
+
+
+## File: uikit/src/main/AndroidManifest.xml
+```xml
+<manifest />
+```
+
+
+## File: uikit/src/main/java/com/example/lol/components/AppChip.kt
+```kotlin
+package com.example.lol.components
+
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.semantics.selected
+import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.unit.dp
+import com.example.lol.ui.theme.AccentBlue
+import com.example.lol.ui.theme.ChipInactiveBg
+import com.example.lol.ui.theme.TextGray
+import com.example.lol.ui.theme.TextMedium
+
+@Composable
+fun AppChip(
+    text: String,
+    isSelected: Boolean,
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier,
+    testTag: String = "app_chip"
+) {
+    Box(
+        modifier =
+            modifier
+                .background(
+                    color = if (isSelected) AccentBlue else ChipInactiveBg,
+                    shape = RoundedCornerShape(10.dp)
+                )
+                .clickable(onClick = onClick)
+                .padding(horizontal = 20.dp, vertical = 14.dp)
+                .testTag(testTag)
+                .semantics {
+                    selected = isSelected
+                },
+        contentAlignment = Alignment.Center
+    ) {
+        Text(
+            text = text,
+            color = if (isSelected) androidx.compose.ui.graphics.Color.White else TextGray,
+            style = TextMedium
+        )
+    }
+}
+```
+
+
+## File: uikit/src/main/java/com/example/lol/components/AppHeader.kt
+```kotlin
+package com.example.lol.components
+
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material3.Icon
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.unit.dp
+import com.example.lol.uikit.R
+import com.example.lol.ui.theme.Title3Semibold
+
+/**
+ * Универсальный заголовок экрана с опциональной кнопкой назад и правым слотом.
+ *
+ * @param title Текст в центре заголовка.
+ * @param showBackButton Показывать ли кнопку назад слева.
+ * @param onBackClick Обработчик нажатия на кнопку назад.
+ * @param trailingIcon Опциональный контент в правой части заголовка.
+ * @param modifier Модификатор контейнера.
+ */
+@Composable
+fun AppHeader(
+        title: String? = null,
+        showBackButton: Boolean = false,
+        onBackClick: () -> Unit = {},
+        trailingIcon: @Composable (() -> Unit)? = null,
+        modifier: Modifier = Modifier
+) {
+    Row(
+            modifier = modifier.fillMaxWidth().height(56.dp).padding(horizontal = 20.dp),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceBetween
+    ) {
+        Box(modifier = Modifier.size(44.dp), contentAlignment = Alignment.CenterStart) {
+            if (showBackButton) {
+                Box(
+                        modifier =
+                                Modifier.size(44.dp)
+                                        .background(Color(0xFFF5F5F9), CircleShape)
+                                        .clickable(onClick = onBackClick),
+                        contentAlignment = Alignment.Center
+                ) {
+                    Icon(
+                            painter = painterResource(id = R.drawable.icon_chevron_left),
+                            contentDescription = "Back",
+                            tint = Color.Black,
+                            modifier = Modifier.size(24.dp)
+                    )
+                }
+            }
+        }
+
+        if (title != null) {
+            Text(text = title, style = Title3Semibold, color = Color.Black)
+        }
+
+        Box(modifier = Modifier.size(44.dp), contentAlignment = Alignment.CenterEnd) {
+            if (trailingIcon != null) {
+                trailingIcon()
+            }
+        }
+    }
+}
+```
+
+
+## File: uikit/src/main/java/com/example/lol/components/AppSelectField.kt
+```kotlin
+package com.example.lol.components
+
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.ModalBottomSheet
+import androidx.compose.material3.Text
+import androidx.compose.material3.rememberModalBottomSheetState
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.unit.dp
+import com.example.lol.uikit.R
+import com.example.lol.ui.theme.CaptionRegular
+import com.example.lol.ui.theme.InputBg
+import com.example.lol.ui.theme.InputStroke
+import com.example.lol.ui.theme.RedError
+import com.example.lol.ui.theme.TextGray
+import com.example.lol.ui.theme.TextRegular
+import com.example.lol.ui.theme.Title3Semibold
+
+/**
+ * Поле выбора значения из списка через ModalBottomSheet.
+ *
+ * @param value Текущее выбранное значение.
+ * @param label Подпись над полем.
+ * @param placeholder Текст-заполнитель, когда значение не выбрано.
+ * @param options Список доступных вариантов.
+ * @param onOptionSelected Колбэк выбора варианта.
+ * @param showChevron Показывать ли иконку стрелки в поле.
+ * @param isError Признак ошибки поля.
+ * @param errorMessage Сообщение ошибки под полем.
+ * @param testTagPrefix Префикс тестовых тегов.
+ * @param modifier Модификатор контейнера.
+ */
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun AppSelectField(
+        value: String,
+        label: String? = null,
+        placeholder: String = "",
+        options: List<String>,
+        onOptionSelected: (String) -> Unit,
+        showChevron: Boolean = true,
+        isError: Boolean = false,
+        errorMessage: String? = null,
+        testTagPrefix: String = "app_select_field",
+        modifier: Modifier = Modifier
+) {
+    var isSheetVisible by remember { mutableStateOf(false) }
+    val sheetState = rememberModalBottomSheetState()
+    val borderColor = if (isError) RedError else InputStroke
+    val backgroundColor = if (isError) Color(0xFFFFF5F5) else InputBg
+
+    Column(modifier = modifier) {
+        if (label != null) {
+            Text(text = label, style = CaptionRegular, color = TextGray)
+            Spacer(modifier = Modifier.height(8.dp))
+        }
+
+        Box(
+                modifier =
+                        Modifier.fillMaxWidth()
+                                .height(48.dp)
+                                .background(backgroundColor, RoundedCornerShape(10.dp))
+                                .border(1.dp, borderColor, RoundedCornerShape(10.dp))
+                                .clickable { isSheetVisible = true }
+                                .padding(horizontal = 16.dp)
+                                .testTag("${testTagPrefix}_trigger"),
+                contentAlignment = Alignment.CenterStart
+        ) {
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                Text(
+                        text = if (value.isEmpty()) placeholder else value,
+                        color = if (value.isEmpty()) Color(0xFFBFC7D1) else Color.Black,
+                        style = TextRegular,
+                        modifier = Modifier.weight(1f)
+                )
+                if (showChevron) {
+                    Icon(
+                            painter = painterResource(id = R.drawable.icon_chevron_down),
+                            contentDescription = "Open options",
+                            tint = Color(0xFFBFC7D1),
+                            modifier = Modifier.size(20.dp)
+                    )
+                }
+            }
+        }
+
+        if (isError && !errorMessage.isNullOrBlank()) {
+            Spacer(modifier = Modifier.height(4.dp))
+            Text(text = errorMessage, style = CaptionRegular, color = RedError)
+        }
+    }
+
+    if (isSheetVisible) {
+        ModalBottomSheet(
+                onDismissRequest = { isSheetVisible = false },
+                sheetState = sheetState,
+                containerColor = Color.White,
+                modifier = Modifier.testTag("${testTagPrefix}_sheet")
+        ) {
+            Column(modifier = Modifier.fillMaxWidth().padding(horizontal = 20.dp, vertical = 12.dp)) {
+                if (!label.isNullOrBlank()) {
+                    Text(
+                            text = label,
+                            style = Title3Semibold,
+                            color = Color.Black,
+                            modifier = Modifier.padding(bottom = 16.dp)
+                    )
+                }
+
+                options.forEachIndexed { index, option ->
+                    Row(
+                            modifier =
+                                    Modifier.fillMaxWidth()
+                                            .clickable {
+                                                onOptionSelected(option)
+                                                isSheetVisible = false
+                                            }
+                                            .padding(vertical = 14.dp)
+                                            .testTag("${testTagPrefix}_option_$index"),
+                            verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Text(text = option, style = TextRegular, color = Color.Black)
+                    }
+                }
+            }
+        }
+    }
+}
+```
+
+
+## File: uikit/src/main/java/com/example/lol/components/AppTabBar.kt
+```kotlin
+package com.example.lol.components
+
+import androidx.annotation.DrawableRes
+import androidx.compose.foundation.layout.size
+import androidx.compose.material3.Icon
+import androidx.compose.material3.NavigationBar
+import androidx.compose.material3.NavigationBarItem
+import androidx.compose.material3.NavigationBarItemDefaults
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import com.example.lol.ui.theme.AccentBlue
+
+data class AppTabBarItem(
+    val route: String,
+    val title: String,
+    @DrawableRes val iconRes: Int? = null
+)
+
+@Composable
+fun AppTabBar(
+    items: List<AppTabBarItem>,
+    selectedRoute: String,
+    onItemSelected: (String) -> Unit,
+    modifier: Modifier = Modifier,
+    testTagPrefix: String = "app_tab_bar"
+) {
+    NavigationBar(
+        modifier = modifier,
+        containerColor = Color.White,
+        contentColor = AccentBlue,
+        tonalElevation = 0.dp
+    ) {
+        items.forEach { item ->
+            NavigationBarItem(
+                modifier = Modifier.testTag("${testTagPrefix}_${item.route}"),
+                icon = {
+                    if (item.iconRes != null) {
+                        Icon(
+                            painter = painterResource(id = item.iconRes),
+                            contentDescription = item.title,
+                            modifier = Modifier.size(24.dp)
+                        )
+                    }
+                },
+                label = {
+                    Text(
+                        item.title,
+                        fontSize = 12.sp,
+                        fontFamily = FontFamily.Default,
+                        fontWeight = FontWeight.Normal
+                    )
+                },
+                selected = selectedRoute == item.route,
+                colors =
+                    NavigationBarItemDefaults.colors(
+                        selectedIconColor = AccentBlue,
+                        selectedTextColor = AccentBlue,
+                        indicatorColor = Color.Transparent,
+                        unselectedIconColor = Color(0xFFB8C1CC),
+                        unselectedTextColor = Color(0xFFB8C1CC)
+                    ),
+                onClick = { onItemSelected(item.route) }
+            )
+        }
+    }
+}
+```
+
+
+## File: uikit/src/main/java/com/example/lol/components/AppTextField.kt
+```kotlin
+package com.example.lol.components
+
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.BasicTextField
+import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.SolidColor
+import androidx.compose.ui.graphics.toArgb
+import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.input.VisualTransformation
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import com.example.lol.ui.theme.InputBg
+import com.example.lol.ui.theme.InputStroke
+import com.example.lol.ui.theme.TextGray
+import com.example.lol.ui.theme.TextRegular
+import com.example.lol.ui.theme.CaptionRegular
+import com.example.lol.ui.theme.Roboto
+
+/**
+ * Custom text field component for the app with consistent styling.
+ * 
+ * @param value Current text value
+ * @param onValueChange Callback when text changes
+ * @param label Optional label above the field
+ * @param placeholder Placeholder text when empty
+ * @param modifier Modifier for styling
+ * @param visualTransformation Transformation for password etc.
+ * @param keyboardOptions Keyboard configuration
+ * @param trailingIcon Icon at the end
+ * @param leadingIcon Icon at the start
+ * @param singleLine Whether to restrict to single line
+ * @param isError Whether to show error state
+ * @param errorMessage Text to display when in error state
+ * @param testTagPrefix Prefix for UI-test tags
+ */
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun AppTextField(
+    value: String,
+    onValueChange: (String) -> Unit,
+    label: String? = null,
+    placeholder: String = "",
+    modifier: Modifier = Modifier,
+    visualTransformation: VisualTransformation = VisualTransformation.None,
+    keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
+    trailingIcon: @Composable (() -> Unit)? = null,
+    leadingIcon: @Composable (() -> Unit)? = null,
+    singleLine: Boolean = true,
+    isError: Boolean = false,
+    errorMessage: String? = null,
+    testTagPrefix: String = "app_text_field"
+) {
+    val backgroundColor = if (isError) Color(0xFFFFF5F5) else InputBg
+    val borderColor = if (isError) com.example.lol.ui.theme.RedError else InputStroke
+    val errorColor = com.example.lol.ui.theme.RedError
+
+    Column(modifier = modifier) {
+        if (label != null) {
+            Text(
+                text = label,
+                style = CaptionRegular,
+                color = TextGray
+            )
+            Spacer(modifier = Modifier.height(8.dp))
+        }
+        BasicTextField(
+            value = value,
+            onValueChange = onValueChange,
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(48.dp)
+                .background(backgroundColor, RoundedCornerShape(10.dp))
+                .border(1.dp, borderColor, RoundedCornerShape(10.dp))
+                .testTag("${testTagPrefix}_container")
+                .semantics {
+                    uiKitBackgroundColor = backgroundColor.toArgb().toLong()
+                    uiKitBorderColor = borderColor.toArgb().toLong()
+                },
+            textStyle = TextRegular.copy(
+                color = Color.Black
+            ),
+            visualTransformation = visualTransformation,
+            keyboardOptions = keyboardOptions,
+            singleLine = singleLine,
+            cursorBrush = SolidColor(Color.Black),
+            decorationBox = { innerTextField ->
+                Row(
+                    modifier = Modifier.padding(horizontal = 16.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    if (leadingIcon != null) {
+                        leadingIcon()
+                        Spacer(modifier = Modifier.width(12.dp))
+                    }
+                    Box(modifier = Modifier.weight(1f)) {
+                        if (value.isEmpty()) {
+                            Text(
+                                text = placeholder,
+                                color = Color(0xFFBFC7D1),
+                                style = TextRegular
+                            )
+                        }
+                        innerTextField()
+                    }
+                    if (trailingIcon != null) {
+                        Spacer(modifier = Modifier.width(12.dp))
+                        trailingIcon()
+                    }
+                }
+            }
+        )
+        if (isError && errorMessage != null) {
+            Spacer(modifier = Modifier.height(4.dp))
+            Text(
+                text = errorMessage,
+                style = CaptionRegular,
+                color = errorColor,
+                modifier = Modifier
+                    .testTag("${testTagPrefix}_error")
+                    .semantics { uiKitTextColor = errorColor.toArgb().toLong() },
+                fontSize = 12.sp
+            )
+        }
+    }
+}
+```
+
+
+## File: uikit/src/main/java/com/example/lol/components/GenderSelectionSheet.kt
+```kotlin
+package com.example.lol.components
+
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Text
+import androidx.compose.material3.ModalBottomSheet
+import androidx.compose.material3.rememberModalBottomSheetState
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.dp
+import com.example.lol.ui.theme.TextRegular
+import com.example.lol.ui.theme.Title3Semibold
+
+/**
+ * BottomSheet для выбора пола на экране регистрации.
+ *
+ * @param onDismiss Колбэк закрытия BottomSheet.
+ * @param onGenderSelected Колбэк выбора значения пола.
+ */
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun GenderSelectionSheet(
+    onDismiss: () -> Unit,
+    onGenderSelected: (String) -> Unit
+) {
+    val sheetState = rememberModalBottomSheetState()
+    
+    ModalBottomSheet(
+        onDismissRequest = onDismiss,
+        sheetState = sheetState,
+        containerColor = Color.White,
+        dragHandle = {
+            Box(
+                modifier = Modifier
+                    .padding(top = 10.dp)
+                    .width(32.dp)
+                    .height(4.dp)
+                    .background(Color(0xFFEBEBEB), RoundedCornerShape(2.dp))
+            )
+        }
+    ) {
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(20.dp)
+                .padding(bottom = 20.dp)
+        ) {
+            Text(
+                text = "Пол",
+                style = Title3Semibold,
+                color = Color.Black,
+                modifier = Modifier.padding(bottom = 16.dp)
+            )
+            
+            GenderOption(text = "Мужской", emoji = "👨", onClick = { onGenderSelected("Мужской") })
+            Spacer(modifier = Modifier.height(16.dp))
+            GenderOption(text = "Женский", emoji = "👩", onClick = { onGenderSelected("Женский") })
+        }
+    }
+}
+
+/**
+ * Элемент списка выбора пола в BottomSheet.
+ *
+ * @param text Отображаемое название варианта.
+ * @param emoji Эмодзи для визуального акцента.
+ * @param onClick Обработчик выбора варианта.
+ */
+@Composable
+fun GenderOption(text: String, emoji: String, onClick: () -> Unit) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .clickable(onClick = onClick)
+            .padding(vertical = 12.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Text(text = emoji, style = Title3Semibold, modifier = Modifier.padding(end = 12.dp))
+        Text(text = text, style = TextRegular, color = Color.Black)
+    }
+}
+```
+
+
+## File: uikit/src/main/java/com/example/lol/components/ProductCard.kt
+```kotlin
+package com.example.lol.components
+
+import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import com.example.lol.data.Product
+import com.example.lol.ui.theme.AccentBlue
+
+/**
+ * Карточка товара в списках каталога и главной.
+ *
+ * @param product Данные товара для отображения.
+ * @param onClick Обработчик открытия подробной информации.
+ * @param onAddToCart Обработчик добавления товара в корзину.
+ * @param onRemoveFromCart Обработчик удаления товара из корзины.
+ * @param isInCart Признак, что товар уже добавлен в корзину.
+ * @param modifier Модификатор карточки.
+ */
+@Composable
+fun ProductCard(
+        product: Product,
+        onClick: () -> Unit,
+        onAddToCart: () -> Unit,
+        onRemoveFromCart: () -> Unit,
+        isInCart: Boolean,
+        modifier: Modifier = Modifier
+) {
+        Card(
+                modifier =
+                        modifier.fillMaxWidth()
+                                .height(136.dp)
+                                .clickable(onClick = onClick)
+                                .shadow(
+                                        elevation = 20.dp,
+                                        shape = RoundedCornerShape(12.dp),
+                                        spotColor = Color(0x99E4E8F5)
+                                ),
+                shape = RoundedCornerShape(12.dp),
+                colors = CardDefaults.cardColors(containerColor = Color.White),
+                border = androidx.compose.foundation.BorderStroke(1.dp, Color(0xFFF4F4F4)),
+                elevation = CardDefaults.cardElevation(defaultElevation = 0.dp)
+        ) {
+                Box(modifier = Modifier.fillMaxSize().padding(16.dp)) {
+                        Column(modifier = Modifier.fillMaxWidth(0.65f)) {
+                                Text(
+                                        text = product.title,
+                                        fontSize = 16.sp,
+                                        fontWeight = FontWeight.Bold,
+                                        color = Color.Black,
+                                        fontFamily = FontFamily.Default,
+                                        maxLines = 2,
+                                        overflow = TextOverflow.Ellipsis,
+                                        lineHeight = 20.sp
+                                )
+
+                                Spacer(modifier = Modifier.height(4.dp))
+
+                                Text(
+                                        text = product.category,
+                                        fontSize = 14.sp,
+                                        fontWeight = FontWeight.Normal,
+                                        color = Color(0xFF939396),
+                                        fontFamily = FontFamily.Default
+                                )
+
+                                Spacer(modifier = Modifier.weight(1f))
+                        }
+
+                        Row(
+                                modifier = Modifier.fillMaxWidth().align(Alignment.BottomCenter),
+                                horizontalArrangement = Arrangement.SpaceBetween,
+                                verticalAlignment = Alignment.Bottom
+                        ) {
+                                Text(
+                                        text = "${product.price} ₽",
+                                        fontSize = 17.sp,
+                                        fontWeight = FontWeight.Bold,
+                                        color = Color.Black,
+                                        fontFamily = FontFamily.Default
+                                )
+
+                                if (isInCart) {
+                                        Button(
+                                                onClick = onRemoveFromCart,
+                                                colors =
+                                                        ButtonDefaults.buttonColors(
+                                                                containerColor = Color.White,
+                                                                contentColor = AccentBlue
+                                                        ),
+                                                shape = RoundedCornerShape(10.dp),
+                                                contentPadding = PaddingValues(horizontal = 20.dp),
+                                                modifier =
+                                                        Modifier.height(40.dp)
+                                                                .border(
+                                                                        1.dp,
+                                                                        AccentBlue,
+                                                                        RoundedCornerShape(10.dp)
+                                                                )
+                                        ) {
+                                                Text(
+                                                        text = "Убрать",
+                                                        color = AccentBlue,
+                                                        fontSize = 14.sp,
+                                                        fontWeight = FontWeight.SemiBold
+                                                )
+                                        }
+                                } else {
+                                        Button(
+                                                onClick = onAddToCart,
+                                                colors =
+                                                        ButtonDefaults.buttonColors(
+                                                                containerColor = AccentBlue
+                                                        ),
+                                                shape = RoundedCornerShape(10.dp),
+                                                contentPadding = PaddingValues(horizontal = 20.dp),
+                                                modifier = Modifier.height(40.dp)
+                                        ) {
+                                                Text(
+                                                        text = "Добавить",
+                                                        color = Color.White,
+                                                        fontSize = 14.sp,
+                                                        fontWeight = FontWeight.SemiBold
+                                                )
+                                        }
+                                }
+                        }
+                }
+        }
+}
+```
+
+
+## File: uikit/src/main/java/com/example/lol/components/SearchBar.kt
+```kotlin
+package com.example.lol.components
+
+import androidx.compose.material3.Icon
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
+import com.example.lol.uikit.R
+
+/** Reusable search bar component that wraps AppTextField with a search icon. */
+@Composable
+fun SearchBar(
+        value: String,
+        onValueChange: (String) -> Unit,
+        placeholder: String = "Поиск",
+        modifier: Modifier = Modifier
+) {
+    AppTextField(
+            value = value,
+            onValueChange = onValueChange,
+            placeholder = placeholder,
+            modifier = modifier,
+            leadingIcon = {
+                Icon(
+                        painter = painterResource(id = R.drawable.icon_search),
+                        contentDescription = "Search",
+                        tint = Color(0xFF939396)
+                )
+            }
+    )
+}
+```
+
+
+## File: uikit/src/main/java/com/example/lol/components/UiKitSemantics.kt
+```kotlin
+package com.example.lol.components
+
+import androidx.compose.ui.semantics.SemanticsPropertyKey
+import androidx.compose.ui.semantics.SemanticsPropertyReceiver
+
+val UiKitBackgroundColorKey = SemanticsPropertyKey<Long>("uikit_background_color")
+var SemanticsPropertyReceiver.uiKitBackgroundColor by UiKitBackgroundColorKey
+
+val UiKitBorderColorKey = SemanticsPropertyKey<Long>("uikit_border_color")
+var SemanticsPropertyReceiver.uiKitBorderColor by UiKitBorderColorKey
+
+val UiKitTextColorKey = SemanticsPropertyKey<Long>("uikit_text_color")
+var SemanticsPropertyReceiver.uiKitTextColor by UiKitTextColorKey
+```
+
+
+## File: uikit/src/main/java/com/example/lol/data/Product.kt
+```kotlin
+package com.example.lol.data
+
+data class Product(
+        val id: Int,
+        val title: String,
+        val description: String,
+        val price: Int,
+        val category: String,
+        val imageUrl: String
+)
+```
+
+
+## File: uikit/src/main/java/com/example/lol/ui/theme/Color.kt
+```kotlin
+package com.example.lol.ui.theme
+
+import androidx.compose.ui.graphics.Color
+
+val Purple80 = Color(0xFFD0BCFF)
+val PurpleGrey80 = Color(0xFFCCC2DC)
+val Pink80 = Color(0xFFEFB8C8)
+
+val Purple40 = Color(0xFF6650a4)
+val PurpleGrey40 = Color(0xFF625b71)
+val Pink40 = Color(0xFF7D5260)
+
+val AccentColor = Color(0xFF48B2E7)
+val AccentBlue = Color(0xFF1A6FEE)
+val AccentBlueInactive = Color(0xFFC9D4FB)
+val TextBlack = Color(0xFF000000)
+val TextGray = Color(0xFF7E7E9A)
+val TextHint = Color(0xFFBFC7D1)
+val InputBg = Color(0xFFF5F5F9)
+val InputStroke = Color(0xFFEBEBEB)
+val BackgroundWhite = Color(0xFFFFFFFF)
+val RedError = Color(0xFFF44336)
+
+val BlockColor = Color(0xFFFFFFFF)
+val CardShadowColor = Color(0x99E4E8F5)
+val ChipInactiveBg = Color(0xFFF5F5F9)
+```
+
+
+## File: uikit/src/main/java/com/example/lol/ui/theme/Theme.kt
+```kotlin
+package com.example.lol.ui.theme
+
+import android.app.Activity
+import android.os.Build
+import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.darkColorScheme
+import androidx.compose.material3.dynamicDarkColorScheme
+import androidx.compose.material3.dynamicLightColorScheme
+import androidx.compose.material3.lightColorScheme
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.SideEffect
+import androidx.compose.ui.graphics.toArgb
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalView
+import androidx.core.view.WindowCompat
+
+private val DarkColorScheme = darkColorScheme(
+    primary = AccentBlue,
+    secondary = PurpleGrey80,
+    tertiary = Pink80
+)
+
+private val LightColorScheme = lightColorScheme(
+    primary = AccentBlue,
+    secondary = PurpleGrey40,
+    tertiary = Pink40,
+    background = BackgroundWhite,
+    surface = BackgroundWhite,
+    onPrimary = BackgroundWhite,
+    onSecondary = BackgroundWhite,
+    onTertiary = BackgroundWhite,
+    onBackground = TextBlack,
+    onSurface = TextBlack,
+)
+
+@Composable
+fun LolTheme(
+    darkTheme: Boolean = isSystemInDarkTheme(),
+    // Dynamic color is available on Android 12+
+    dynamicColor: Boolean = false,
+    content: @Composable () -> Unit
+) {
+    val colorScheme = when {
+        dynamicColor && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S -> {
+            val context = LocalContext.current
+            if (darkTheme) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
+        }
+        darkTheme -> DarkColorScheme
+        else -> LightColorScheme
+    }
+    val view = LocalView.current
+    if (!view.isInEditMode) {
+        SideEffect {
+            val window = (view.context as Activity).window
+            WindowCompat.getInsetsController(window, view).isAppearanceLightStatusBars = !darkTheme
+        }
+    }
+
+    MaterialTheme(
+        colorScheme = colorScheme,
+        typography = Typography,
+        content = content
+    )
+}
+```
+
+
+## File: uikit/src/main/java/com/example/lol/ui/theme/Type.kt
+```kotlin
+package com.example.lol.ui.theme
+
+import androidx.compose.material3.Typography
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.em
+import androidx.compose.ui.unit.sp
+
+// Пока используются системные шрифты как безопасный fallback.
+val Roboto = FontFamily.Default
+val RobotoFlex = FontFamily.Default
+val SFProDisplay = FontFamily.Default
+
+val Title1Semibold =
+        TextStyle(
+                fontFamily = Roboto,
+                fontWeight = FontWeight.SemiBold,
+                fontSize = 24.sp,
+                lineHeight = 28.sp,
+                letterSpacing = 0.0033.em
+        )
+
+val Title1Bold =
+        TextStyle(
+                fontFamily = Roboto,
+                fontWeight = FontWeight.Bold,
+                fontSize = 24.sp,
+                lineHeight = 28.sp,
+                letterSpacing = 0.0033.em
+        )
+
+val Title1ExtraBold =
+        TextStyle(
+                fontFamily = Roboto,
+                fontWeight = FontWeight.ExtraBold,
+                fontSize = 24.sp,
+                lineHeight = 28.sp,
+                letterSpacing = 0.0033.em
+        )
+
+val Title2Regular =
+        TextStyle(
+                fontFamily = Roboto,
+                fontWeight = FontWeight.Normal,
+                fontSize = 20.sp,
+                lineHeight = 28.sp,
+                letterSpacing = 0.0038.em
+        )
+
+val Title2Semibold =
+        TextStyle(
+                fontFamily = Roboto,
+                fontWeight = FontWeight.SemiBold,
+                fontSize = 20.sp,
+                lineHeight = 28.sp,
+                letterSpacing = 0.0038.em
+        )
+
+val Title2ExtraBold =
+        TextStyle(
+                fontFamily = Roboto,
+                fontWeight = FontWeight.ExtraBold,
+                fontSize = 20.sp,
+                lineHeight = 28.sp,
+                letterSpacing = 0.0038.em
+        )
+
+val Title2Bold =
+        TextStyle(
+                fontFamily = Roboto,
+                fontWeight = FontWeight.Bold,
+                fontSize = 20.sp,
+                lineHeight = 28.sp,
+                letterSpacing = 0.0038.em
+        )
+
+val Title3Regular =
+        TextStyle(
+                fontFamily = Roboto,
+                fontWeight = FontWeight.Normal,
+                fontSize = 17.sp,
+                lineHeight = 24.sp
+        )
+
+val Title3Medium =
+        TextStyle(
+                fontFamily = Roboto,
+                fontWeight = FontWeight.Medium,
+                fontSize = 17.sp,
+                lineHeight = 24.sp
+        )
+
+val Title3Semibold =
+        TextStyle(
+                fontFamily = Roboto,
+                fontWeight = FontWeight.SemiBold,
+                fontSize = 17.sp,
+                lineHeight = 24.sp
+        )
+
+val HeadlineRegular =
+        TextStyle(
+                fontFamily = Roboto,
+                fontWeight = FontWeight.Normal,
+                fontSize = 16.sp,
+                lineHeight = 20.sp,
+                letterSpacing = (-0.0032).em
+        )
+
+val HeadlineMedium =
+        TextStyle(
+                fontFamily = Roboto,
+                fontWeight = FontWeight.Medium,
+                fontSize = 16.sp,
+                lineHeight = 20.sp,
+                letterSpacing = (-0.0032).em
+        )
+
+val TextRegular =
+        TextStyle(
+                fontFamily = Roboto,
+                fontWeight = FontWeight.Normal,
+                fontSize = 15.sp,
+                lineHeight = 20.sp
+        )
+
+val TextMedium =
+        TextStyle(
+                fontFamily = Roboto,
+                fontWeight = FontWeight.Medium,
+                fontSize = 15.sp,
+                lineHeight = 20.sp
+        )
+
+val CaptionRegular =
+        TextStyle(
+                fontFamily = Roboto,
+                fontWeight = FontWeight.Normal,
+                fontSize = 14.sp,
+                lineHeight = 20.sp
+        )
+
+val CaptionSemibold =
+        TextStyle(
+                fontFamily = Roboto,
+                fontWeight = FontWeight.SemiBold,
+                fontSize = 14.sp,
+                lineHeight = 20.sp
+        )
+
+val Caption2Regular =
+        TextStyle(
+                fontFamily = Roboto,
+                fontWeight = FontWeight.Normal,
+                fontSize = 12.sp,
+                lineHeight = 16.sp
+        )
+
+val Caption2Bold =
+        TextStyle(
+                fontFamily = Roboto,
+                fontWeight = FontWeight.Bold,
+                fontSize = 12.sp,
+                lineHeight = 16.sp
+        )
+
+val TypographyTitle =
+        TextStyle(
+                fontFamily = RobotoFlex,
+                fontWeight = FontWeight.ExtraBold,
+                fontSize = 32.sp,
+                lineHeight = 48.sp,
+                letterSpacing = 0.01.em
+        )
+
+val AccentStyle =
+        TextStyle(
+                fontFamily = RobotoFlex,
+                fontWeight = FontWeight.Normal,
+                fontSize = 14.sp,
+                lineHeight = 16.sp
+        )
+
+val Typography =
+        Typography(
+                displayLarge = TypographyTitle,
+                headlineLarge = Title1ExtraBold,
+                headlineMedium = Title1Semibold,
+                titleLarge = Title2Semibold,
+                titleMedium = Title3Semibold,
+                titleSmall = Title3Medium,
+                bodyLarge = HeadlineRegular,
+                bodyMedium = TextRegular,
+                bodySmall = CaptionRegular,
+                labelLarge = HeadlineMedium,
+                labelMedium = TextMedium,
+                labelSmall = Caption2Regular
+        )
+```
+
+
+## File: build.gradle.kts
+```kotlin
+// Top-level build file where you can add configuration options common to all sub-projects/modules.
+plugins {
+    alias(libs.plugins.android.application) apply false
+    alias(libs.plugins.android.library) apply false
+    alias(libs.plugins.kotlin.android) apply false
+    alias(libs.plugins.kotlin.compose) apply false
+    alias(libs.plugins.android.test) apply false
+}
+```
+
+
+## File: gradle/libs.versions.toml
+```toml
+[versions]
+activityComposeVersion = "1.12.1"
+agp = "8.10.1"
+composeBomVersion = "2025.12.00"
+kotlin = "2.0.21"
+coreKtx = "1.17.0"
+junit = "4.13.2"
+junitVersion = "1.3.0"
+espressoCore = "3.7.0"
+lifecycleRuntimeKtx = "2.6.1"
+activityCompose = "1.8.0"
+composeBom = "2024.09.00"
+adsMobileSdk = "0.22.0-beta04"
+coil = "2.7.0"
+lifecycleRuntimeKtxVersion = "2.10.0"
+benchmarkMacroJunit4 = "1.3.3"
+uiautomator = "2.3.0"
+
+[libraries]
+androidx-activity-compose-v1121 = { module = "androidx.activity:activity-compose", version.ref = "activityComposeVersion" }
+androidx-compose-bom-v20251200 = { module = "androidx.compose:compose-bom", version.ref = "composeBomVersion" }
+androidx-compose-ui = { module = "androidx.compose.ui:ui" }
+androidx-compose-ui-graphics = { module = "androidx.compose.ui:ui-graphics" }
+androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
+androidx-lifecycle-runtime-ktx-v2100 = { module = "androidx.lifecycle:lifecycle-runtime-ktx", version.ref = "lifecycleRuntimeKtxVersion" }
+junit = { group = "junit", name = "junit", version.ref = "junit" }
+androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
+androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
+androidx-lifecycle-runtime-ktx = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version.ref = "lifecycleRuntimeKtx" }
+androidx-activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "activityCompose" }
+androidx-compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "composeBom" }
+androidx-ui = { group = "androidx.compose.ui", name = "ui" }
+androidx-ui-graphics = { group = "androidx.compose.ui", name = "ui-graphics" }
+androidx-ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling" }
+androidx-ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-tooling-preview" }
+androidx-ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-manifest" }
+androidx-ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit4" }
+androidx-material3 = { group = "androidx.compose.material3", name = "material3" }
+ads-mobile-sdk = { group = "com.google.android.libraries.ads.mobile.sdk", name = "ads-mobile-sdk", version.ref = "adsMobileSdk" }
+coil-compose = { group = "io.coil-kt", name = "coil-compose", version.ref = "coil" }
+coil-svg = { group = "io.coil-kt", name = "coil-svg", version.ref = "coil" }
+androidx-benchmark-macro-junit4 = { group = "androidx.benchmark", name = "benchmark-macro-junit4", version.ref = "benchmarkMacroJunit4" }
+androidx-uiautomator = { group = "androidx.test.uiautomator", name = "uiautomator", version.ref = "uiautomator" }
+androidx-test-rules = { group = "androidx.test", name = "rules", version = "1.6.1" }
+androidx-profileinstaller = { group = "androidx.profileinstaller", name = "profileinstaller", version = "1.4.1" }
+
+[plugins]
+android-application = { id = "com.android.application", version.ref = "agp" }
+android-library = { id = "com.android.library", version.ref = "agp" }
+kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
+android-test = { id = "com.android.test", version.ref = "agp" }
+```
+
+
+## File: settings.gradle.kts
+```kotlin
+pluginManagement {
+    repositories {
+        google {
+            content {
+                includeGroupByRegex("com\\.android.*")
+                includeGroupByRegex("com\\.google.*")
+                includeGroupByRegex("androidx.*")
+            }
+        }
+        mavenCentral()
+        gradlePluginPortal()
+    }
+}
+dependencyResolutionManagement {
+    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+    repositories {
+        google()
+        mavenCentral()
+    }
+}
+
+rootProject.name = "Matule"
+include(":app", ":benchmark", ":uikit", ":network")
+```
+
+
