@@ -115,6 +115,61 @@ Network-auth остаётся доступным как вторичный пу�
 ./gradlew :network:testDebugUnitTest
 ```
 
+## Бенчмарки
+
+В проекте есть два benchmark-сценария:
+
+- `ExampleStartupBenchmark` — macrobenchmark cold startup.
+- `CreateProjectFlowBenchmark` — сценарий экрана создания проекта (загрузка, image-picker proxy, валидация, submit UI-путь).
+
+### Что добавлено для сценария Create Project
+
+- Benchmark-only Activity: `app/src/benchmark/java/com/example/lol/benchmark/CreateProjectBenchmarkActivity.kt`
+- Benchmark repository (контролируемый submit-path): `app/src/benchmark/java/com/example/lol/benchmark/BenchmarkProjectRepository.kt`
+- UI benchmark test: `benchmark/src/main/java/com/example/lol/benchmark/CreateProjectFlowBenchmark.kt`
+- Семантические маркеры в UI для стабильного поиска элементов:
+  - `benchmark_project_name_input`
+  - `benchmark_photo_picker_area`
+  - `benchmark_submit_button`
+
+### Запуск (Windows / PowerShell)
+
+```powershell
+# Важно: JDK 21 (Android Studio jbr)
+$env:JAVA_HOME="C:\Program Files\Android\Android Studio\jbr"
+$env:Path="$env:JAVA_HOME\bin;$env:LOCALAPPDATA\Android\Sdk\platform-tools;$env:Path"
+
+# Полный набор benchmark-тестов модуля
+.\gradlew.bat :benchmark:connectedBenchmarkAndroidTest
+
+# Только CreateProjectFlowBenchmark
+.\gradlew.bat :benchmark:connectedBenchmarkAndroidTest "-Pandroid.testInstrumentationRunnerArguments.class=com.example.lol.benchmark.CreateProjectFlowBenchmark"
+
+# Только startup benchmark
+.\gradlew.bat :benchmark:connectedBenchmarkAndroidTest "-Pandroid.testInstrumentationRunnerArguments.class=com.example.lol.benchmark.ExampleStartupBenchmark"
+```
+
+### Где смотреть результаты
+
+- Общие instrumented результаты:
+  - `benchmark/build/outputs/androidTest-results/connected/benchmark/`
+- Логи `CreateProjectFlowBenchmark` с метриками:
+  - `.../logcat-com.example.lol.benchmark.CreateProjectFlowBenchmark-benchmarkCreateProjectFlow.txt`
+  - Внутри логов ищите строки:
+    - `BENCH_UI_RAW,...`
+    - `BENCH_UI_SUMMARY,...`
+    - `BENCH_UI_PROFILE,...`
+- Macrobenchmark JSON (startup):
+  - `benchmark/build/outputs/connected_android_test_additional_output/benchmark/connected/<device>/com.example.lol.benchmark-benchmarkData.json`
+
+### Примечание про эмулятор
+
+Для локального запуска benchmark в эмуляторе включено подавление ошибки `EMULATOR`:
+
+- `benchmark/build.gradle.kts` -> `testInstrumentationRunnerArguments["androidx.benchmark.suppressErrors"] = "EMULATOR"`
+
+Это удобно для разработки и CI без физического девайса, но финальные performance-оценки лучше перепроверять на реальном устройстве.
+
 ## Troubleshooting
 
 Симптом: `Type T not present` при запуске unit-тестов.

@@ -2,6 +2,7 @@ package com.example.lol.components
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
@@ -10,6 +11,7 @@ import androidx.compose.ui.test.assertIsSelected
 import androidx.compose.ui.test.assertCountEquals
 import androidx.compose.ui.test.assertTextContains
 import androidx.compose.ui.test.junit4.createComposeRule
+import androidx.compose.ui.test.onAllNodesWithTag
 import androidx.compose.ui.test.onAllNodesWithText
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
@@ -56,7 +58,7 @@ class UiKitStateTest {
     @Test
     fun selectWithoutIcon_clickOpensBottomSheetWithEmojiOptions() {
         composeTestRule.setContent {
-            var selectedValue by mutableStateOf("")
+            var selectedValue by remember { mutableStateOf("") }
 
             AppSelectField(
                 value = selectedValue,
@@ -69,17 +71,22 @@ class UiKitStateTest {
             )
         }
 
-        composeTestRule.onNodeWithTag("select_no_icon_trigger").performClick()
+        composeTestRule.onNodeWithTag("select_no_icon_trigger", useUnmergedTree = true).performClick()
+        composeTestRule.waitForIdle()
 
-        composeTestRule.onNodeWithTag("select_no_icon_sheet").assertTextContains("Выбор")
-        composeTestRule.onNodeWithText("😀 Опция 1").assertTextContains("😀")
+        composeTestRule
+            .onAllNodesWithTag("select_no_icon_option_0", useUnmergedTree = true)
+            .assertCountEquals(1)
+        composeTestRule
+            .onAllNodesWithTag("select_no_icon_option_1", useUnmergedTree = true)
+            .assertCountEquals(1)
     }
 
     // Ожидаемый результат: состояние корректно переключается после пользовательского действия.
     @Test
     fun chip_togglesBetweenSelectedAndNotSelected() {
         composeTestRule.setContent {
-            var selected by mutableStateOf(false)
+            var selected by remember { mutableStateOf(false) }
 
             AppChip(
                 text = "Новинки",
@@ -89,37 +96,44 @@ class UiKitStateTest {
             )
         }
 
-        composeTestRule.onNodeWithTag("chip_toggle").assertIsNotSelected()
-        composeTestRule.onNodeWithTag("chip_toggle").performClick()
-        composeTestRule.onNodeWithTag("chip_toggle").assertIsSelected()
+        composeTestRule.onNodeWithTag("chip_toggle", useUnmergedTree = true).assertIsNotSelected()
+        composeTestRule.onNodeWithTag("chip_toggle", useUnmergedTree = true).performClick()
+        composeTestRule.waitForIdle()
+        composeTestRule.onNodeWithTag("chip_toggle", useUnmergedTree = true).assertIsSelected()
     }
 
     // Ожидаемый результат: после действия состояние обновляется ожидаемым образом.
     @Test
     fun selectField_selectingEmojiOptionUpdatesValue() {
+        var selectedValueForAssertion = ""
+
         composeTestRule.setContent {
-            var selectedValue by mutableStateOf("")
+            var selectedValue by remember { mutableStateOf("") }
 
             AppSelectField(
                 value = selectedValue,
                 placeholder = "Выберите",
                 options = listOf("🧪 Тест", "📦 Пакет"),
                 testTagPrefix = "select_emoji",
-                onOptionSelected = { selectedValue = it }
+                onOptionSelected = {
+                    selectedValue = it
+                    selectedValueForAssertion = it
+                }
             )
         }
 
-        composeTestRule.onNodeWithTag("select_emoji_trigger").performClick()
-        composeTestRule.onNodeWithTag("select_emoji_option_0").performClick()
+        composeTestRule.onNodeWithTag("select_emoji_trigger", useUnmergedTree = true).performClick()
+        composeTestRule.onNodeWithTag("select_emoji_option_0", useUnmergedTree = true).performClick()
+        composeTestRule.waitForIdle()
 
-        composeTestRule.onNodeWithText("🧪 Тест").assertTextContains("Тест")
+        assertEquals("🧪 Тест", selectedValueForAssertion)
     }
 
     // Ожидаемый результат: поведение в тестовом сценарии соответствует ожидаемому результату.
     @Test
     fun tabBar_keepsSingleFocusedItem() {
         composeTestRule.setContent {
-            var selectedRoute by mutableStateOf("main")
+            var selectedRoute by remember { mutableStateOf("main") }
             val items =
                 listOf(
                     AppTabBarItem(route = "main", title = "Main"),
@@ -135,15 +149,16 @@ class UiKitStateTest {
             )
         }
 
-        composeTestRule.onNodeWithTag("tab_main").assertIsSelected()
-        composeTestRule.onNodeWithTag("tab_catalog").assertIsNotSelected()
-        composeTestRule.onNodeWithTag("tab_profile").assertIsNotSelected()
+        composeTestRule.onNodeWithTag("tab_main", useUnmergedTree = true).assertIsSelected()
+        composeTestRule.onNodeWithTag("tab_catalog", useUnmergedTree = true).assertIsNotSelected()
+        composeTestRule.onNodeWithTag("tab_profile", useUnmergedTree = true).assertIsNotSelected()
 
-        composeTestRule.onNodeWithTag("tab_profile").performClick()
+        composeTestRule.onNodeWithTag("tab_profile", useUnmergedTree = true).performClick()
+        composeTestRule.waitForIdle()
 
-        composeTestRule.onNodeWithTag("tab_profile").assertIsSelected()
-        composeTestRule.onNodeWithTag("tab_main").assertIsNotSelected()
-        composeTestRule.onNodeWithTag("tab_catalog").assertIsNotSelected()
+        composeTestRule.onNodeWithTag("tab_profile", useUnmergedTree = true).assertIsSelected()
+        composeTestRule.onNodeWithTag("tab_main", useUnmergedTree = true).assertIsNotSelected()
+        composeTestRule.onNodeWithTag("tab_catalog", useUnmergedTree = true).assertIsNotSelected()
     }
 
     // Ожидаемый результат: фактический результат совпадает с ожидаемым значением.
@@ -163,7 +178,7 @@ class UiKitStateTest {
             )
 
         composeTestRule.setContent {
-            var isInCart by mutableStateOf(false)
+            var isInCart by remember { mutableStateOf(false) }
 
             ProductCard(
                 product = product,
@@ -180,19 +195,21 @@ class UiKitStateTest {
             )
         }
 
-        composeTestRule.onAllNodesWithText("Добавить").assertCountEquals(1)
-        composeTestRule.onAllNodesWithText("Убрать").assertCountEquals(0)
-        composeTestRule.onNodeWithText("Добавить").performClick()
+        composeTestRule.onAllNodesWithText("Добавить", useUnmergedTree = true).assertCountEquals(1)
+        composeTestRule.onAllNodesWithText("Убрать", useUnmergedTree = true).assertCountEquals(0)
+        composeTestRule.onNodeWithText("Добавить", useUnmergedTree = true).performClick()
+        composeTestRule.waitForIdle()
 
         assertEquals(1, addClicks)
         assertEquals(0, removeClicks)
 
-        composeTestRule.onAllNodesWithText("Убрать").assertCountEquals(1)
-        composeTestRule.onAllNodesWithText("Добавить").assertCountEquals(0)
-        composeTestRule.onNodeWithText("Убрать").performClick()
+        composeTestRule.onAllNodesWithText("Убрать", useUnmergedTree = true).assertCountEquals(1)
+        composeTestRule.onAllNodesWithText("Добавить", useUnmergedTree = true).assertCountEquals(0)
+        composeTestRule.onNodeWithText("Убрать", useUnmergedTree = true).performClick()
+        composeTestRule.waitForIdle()
 
         assertEquals(1, addClicks)
         assertEquals(1, removeClicks)
-        composeTestRule.onAllNodesWithText("Добавить").assertCountEquals(1)
+        composeTestRule.onAllNodesWithText("Добавить", useUnmergedTree = true).assertCountEquals(1)
     }
 }

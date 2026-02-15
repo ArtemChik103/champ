@@ -47,7 +47,6 @@ import com.example.lol.components.ProductDetailsContent
 import com.example.lol.data.Product
 import com.example.lol.ui.theme.AccentBlue
 import com.example.lol.ui.theme.Roboto
-import com.example.lol.ui.theme.TextMedium
 import com.example.lol.ui.theme.Title2ExtraBold
 import com.example.lol.ui.theme.Title3Semibold
 
@@ -73,8 +72,16 @@ fun MainScreen(
     val sheetState = rememberModalBottomSheetState()
     var searchQuery by remember { mutableStateOf("") }
 
-    // Баннеры берём из полного списка, чтобы они не зависели от фильтров.
-    val bannerProducts = remember(allProducts) { allProducts.take(2) }
+    val bannerProducts =
+            remember(allProducts) {
+                buildList<Product?> {
+                    addAll(allProducts.take(2))
+                    while (size < 2) {
+                        add(null)
+                    }
+                }
+            }
+    val categories = remember(allProducts) { viewModel.getCategories() }
 
     Column(modifier = Modifier.fillMaxSize().background(Color.White)) {
         // Поиск в шапке.
@@ -145,15 +152,6 @@ fun MainScreen(
                         contentPadding = PaddingValues(horizontal = 20.dp),
                         horizontalArrangement = Arrangement.spacedBy(10.dp)
                 ) {
-                    val categories =
-                            listOf(
-                                    "Все",
-                                    "Популярные",
-                                    "Новинки",
-                                    "Мужское",
-                                    "Женское",
-                                    "Аксессуары"
-                            )
                     items(categories) { category ->
                         AppChip(
                                 text = category,

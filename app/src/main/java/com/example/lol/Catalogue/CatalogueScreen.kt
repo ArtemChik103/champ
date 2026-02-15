@@ -50,7 +50,6 @@ import com.example.lol.components.ProductDetailsContent
 import com.example.lol.data.Product
 import com.example.lol.ui.theme.AccentBlue
 import com.example.lol.ui.theme.HeadlineMedium
-import com.example.lol.ui.theme.TextMedium
 
 /**
  * Отрисовывает экран и связывает пользовательские действия с состоянием UI.
@@ -67,10 +66,12 @@ fun CatalogueScreen(
         cartViewModel: CartViewModel
 ) {
     val products by viewModel.products.collectAsState()
+    val allProducts by viewModel.allProducts.collectAsState()
     var searchQuery by remember { mutableStateOf("") }
     var selectedProduct by remember { mutableStateOf<Product?>(null) }
     var showSheet by remember { mutableStateOf(false) }
     val sheetState = rememberModalBottomSheetState()
+    val categories = remember(allProducts) { viewModel.getCategories() }
 
     Column(modifier = Modifier.fillMaxSize().background(Color.White)) {
         // Search & Header
@@ -125,8 +126,6 @@ fun CatalogueScreen(
             // Categories Chips
             // Чипы категорий
             LazyRow(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
-                val categories =
-                        listOf("Все", "Популярные", "Новинки", "Мужское", "Женское", "Аксессуары")
                 items(categories) { category ->
                     AppChip(
                             text = category,

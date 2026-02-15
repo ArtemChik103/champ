@@ -5,6 +5,7 @@ import com.example.lol.data.network.models.News
 import com.example.lol.data.network.models.ProductApi
 import com.example.lol.data.network.models.ProductItem
 import com.example.lol.data.repository.IProductRepositoryApi
+import kotlinx.coroutines.delay
 
 /** Fake реализация IProductRepositoryApi для unit-тестов. */
 // Инкапсулирует работу с источниками данных и обработку результатов операций.
@@ -28,6 +29,9 @@ class FakeProductRepository : IProductRepositoryApi {
     var lastSearchQuery: String? = null
         private set
     var lastProductId: String? = null
+        private set
+
+    var searchDelayMillis: Long = 0L
         private set
 
     /**
@@ -87,6 +91,10 @@ class FakeProductRepository : IProductRepositoryApi {
         searchResult = NetworkResult.Error(message, code)
     }
 
+    fun setSearchDelay(delayMillis: Long) {
+        searchDelayMillis = delayMillis
+    }
+
     /**
      * Обновляет значение в локальном состоянии или постоянном хранилище.
      *
@@ -114,6 +122,7 @@ class FakeProductRepository : IProductRepositoryApi {
         getNewsCallCount = 0
         lastSearchQuery = null
         lastProductId = null
+        searchDelayMillis = 0L
     }
 
     // Возвращает актуальные данные из текущего источника состояния.
@@ -141,6 +150,9 @@ class FakeProductRepository : IProductRepositoryApi {
     override suspend fun searchProducts(query: String): NetworkResult<List<ProductItem>> {
         searchProductsCallCount++
         lastSearchQuery = query
+        if (searchDelayMillis > 0L) {
+            delay(searchDelayMillis)
+        }
         return searchResult
     }
 

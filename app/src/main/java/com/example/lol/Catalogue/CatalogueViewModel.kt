@@ -14,6 +14,7 @@ import com.example.lol.domain.usecase.product.SearchProductsUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 
 /** Состояние загрузки каталога. */
@@ -30,16 +31,13 @@ sealed class CatalogueState {
 class CatalogueViewModel(
         application: Application,
         private val getProductsUseCase: GetProductsUseCase? = null,
-        private val searchProductsUseCase: SearchProductsUseCase? = null
+        private val searchProductsUseCase: SearchProductsUseCase? = null,
+        private val localProductsProvider: (() -> List<Product>)? = null,
+        private val productsCacheSaver: ((List<Product>) -> Unit)? = null
 ) : AndroidViewModel(application) {
 
-    // Локальный репозиторий для fallback (JSON assets)
-    // Локальный репозиторий для резервного режима (JSON-ресурсы).
-    private val localRepository = ProductRepository(application)
-
-    // Кэш для offline-режима
-    // Кэш для офлайн-режима.
-    private val productCache = ProductCache(application)
+    private val localRepository by lazy { ProductRepository(application) }
+    private val productCache by lazy { ProductCache(application) }
 
     private val _products = MutableStateFlow<List<Product>>(emptyList())
     val products: StateFlow<List<Product>> = _products.asStateFlow()
@@ -55,7 +53,7 @@ class CatalogueViewModel(
     val catalogueState: StateFlow<CatalogueState> = _catalogueState.asStateFlow()
 
     private var currentSearchQuery = ""
-    private var apiProducts: List<ProductItem> = emptyList()
+    private var searchJob: Job? = null
 
     init {
         loadProducts()
@@ -71,38 +69,51 @@ class CatalogueViewModel(
             if (useCase != null) {
                 when (val result = useCase()) {
                     is NetworkResult.Success -> {
-                        apiProducts = result.data
                         val products = result.data.map { it.toLocalProduct() }
-                        _products.value = products
-                        _allProducts.value = products
-                        // Кэшируем для offline
-                        // Кэшируем для офлайн-режима.
-                        cacheProducts(products)
-                        _catalogueState.value = CatalogueState.Success
+                        if (products.isNotEmpty()) {
+                            _allProducts.value = products
+                            applyFilters(products)
+                            cacheProducts(products)
+                            _catalogueState.value = CatalogueState.Success
+                        } else {
+                            val localProducts = loadLocalProducts()
+                            _catalogueState.value =
+                                    if (localProducts.isNotEmpty()) {
+                                        CatalogueState.Success
+                                    } else {
+                                        CatalogueState.Error("Не удалось загрузить товары")
+                                    }
+                        }
                     }
                     is NetworkResult.Error -> {
-                        // Fallback на локальные данные
-                        // Резервный переход на локальные данные.
-                        loadLocalProducts()
-                        _catalogueState.value = CatalogueState.Error(result.message)
+                        val localProducts = loadLocalProducts()
+                        _catalogueState.value =
+                                if (localProducts.isNotEmpty()) {
+                                    CatalogueState.Success
+                                } else {
+                                    CatalogueState.Error(result.message)
+                                }
                     }
                     is NetworkResult.Loading -> {}
                 }
             } else {
-                // Нет API репозитория (UseCase) - используем локальные данные
-                // Нет API-репозитория (UseCase) — используем локальные данные.
-                loadLocalProducts()
-                _catalogueState.value = CatalogueState.Success
+                val localProducts = loadLocalProducts()
+                _catalogueState.value =
+                        if (localProducts.isNotEmpty()) {
+                            CatalogueState.Success
+                        } else {
+                            CatalogueState.Error("Не удалось загрузить товары")
+                        }
             }
         }
     }
 
     /** Загрузка продуктов из локального JSON. */
-    // Загружает данные, обрабатывает результат и обновляет состояние.
-    private fun loadLocalProducts() {
-        val productsList = localRepository.getProducts()
-        _products.value = productsList
+    private fun loadLocalProducts(): List<Product> {
+        val productsList = localProductsProvider?.invoke() ?: localRepository.getProducts()
         _allProducts.value = productsList
+        applyFilters(productsList)
+        return productsList
     }
 
     /** Кэширование продуктов для offline-режима. */
@@ -112,7 +123,7 @@ class CatalogueViewModel(
      * @param products Список товаров для сохранения или отображения.
      */
     private fun cacheProducts(products: List<Product>) {
-        productCache.saveProducts(products)
+        productsCacheSaver?.invoke(products) ?: productCache.saveProducts(products)
     }
 
     /** Установка категории для фильтрации. */
@@ -138,7 +149,10 @@ class CatalogueViewModel(
         if (searchProductsUseCase != null && query.isNotBlank()) {
             searchViaApi(query)
         } else {
+            searchJob?.cancel()
+            searchJob = null
             applyFilters()
+            _catalogueState.value = CatalogueState.Success
         }
     }
 
@@ -149,30 +163,35 @@ class CatalogueViewModel(
      * @param query Поисковый запрос для фильтрации списка.
      */
     private fun searchViaApi(query: String) {
-        viewModelScope.launch {
+        searchJob?.cancel()
+        searchJob =
+                viewModelScope.launch {
             _catalogueState.value = CatalogueState.Loading
 
             val useCase = searchProductsUseCase ?: return@launch
 
             when (val result = useCase(query)) {
                 is NetworkResult.Success -> {
+                    if (query != currentSearchQuery) return@launch
                     val products = result.data.map { it.toLocalProduct() }
-                    // Применяем фильтр категории к результатам поиска
+                    val sourceProducts = if (products.isNotEmpty()) products else _allProducts.value
                     _products.value =
-                            if (_selectedCategory.value == "Все") {
-                                products
-                            } else {
-                                products.filter {
-                                    it.category.contains(_selectedCategory.value, ignoreCase = true)
-                                }
-                            }
+                            filterInMemory(
+                                    sourceProducts = sourceProducts,
+                                    category = _selectedCategory.value,
+                                    query = query
+                            )
                     _catalogueState.value = CatalogueState.Success
                 }
                 is NetworkResult.Error -> {
-                    // Fallback на локальную фильтрацию
-                    // Резервный переход на локальную фильтрацию.
+                    if (query != currentSearchQuery) return@launch
                     applyFilters()
-                    _catalogueState.value = CatalogueState.Error(result.message)
+                    _catalogueState.value =
+                            if (_products.value.isNotEmpty()) {
+                                CatalogueState.Success
+                            } else {
+                                CatalogueState.Error(result.message)
+                            }
                 }
                 is NetworkResult.Loading -> {}
             }
@@ -180,41 +199,48 @@ class CatalogueViewModel(
     }
 
     /** Применение фильтров (категория + поиск) локально. */
-    // Применяет изменения к текущему состоянию и синхронизирует отображение.
-    private fun applyFilters() {
-        val allProducts =
-                if (apiProducts.isNotEmpty()) {
-                    apiProducts.map { it.toLocalProduct() }
-                } else {
-                    localRepository.getProducts()
-                }
+    private fun applyFilters(sourceProducts: List<Product> = _allProducts.value) {
+        _products.value =
+                filterInMemory(
+                        sourceProducts = sourceProducts,
+                        category = _selectedCategory.value,
+                        query = currentSearchQuery
+                )
+    }
 
+    private fun filterInMemory(
+            sourceProducts: List<Product>,
+            category: String,
+            query: String
+    ): List<Product> {
         val categoryFiltered =
-                if (_selectedCategory.value == "Все") {
-                    allProducts
+                if (category == "Все") {
+                    sourceProducts
                 } else {
-                    allProducts.filter {
-                        it.category.contains(_selectedCategory.value, ignoreCase = true)
-                    }
+                    sourceProducts.filter { it.category.contains(category, ignoreCase = true) }
                 }
 
-        if (currentSearchQuery.isBlank()) {
-            _products.value = categoryFiltered
-        } else {
-            _products.value =
-                    categoryFiltered.filter {
-                        it.title.contains(currentSearchQuery, ignoreCase = true) ||
-                                it.category.contains(currentSearchQuery, ignoreCase = true)
-                    }
+        if (query.isBlank()) {
+            return categoryFiltered
+        }
+
+        return categoryFiltered.filter {
+            it.title.contains(query, ignoreCase = true) ||
+                    it.description.contains(query, ignoreCase = true) ||
+                    it.category.contains(query, ignoreCase = true)
         }
     }
 
     /** Получение списка доступных категорий. */
     // Возвращает актуальные данные из текущего источника состояния.
     fun getCategories(): List<String> {
-        val categories = _allProducts.value.map { it.category }.distinct().toMutableList()
-        categories.add(0, "Все")
-        return categories
+        val categories =
+                _allProducts.value
+                        .map { it.category }
+                        .filter { it.isNotBlank() && !it.equals("Все", ignoreCase = true) }
+                        .distinct()
+
+        return listOf("Все") + categories
     }
 
     /** Сброс состояния ошибки. */

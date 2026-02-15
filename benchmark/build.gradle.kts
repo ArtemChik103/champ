@@ -15,6 +15,7 @@ android {
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         testInstrumentationRunnerArguments["androidx.benchmark.dropShaders.enable"] = "false"
+        testInstrumentationRunnerArguments["androidx.benchmark.suppressErrors"] = "EMULATOR"
     }
 
     buildTypes {

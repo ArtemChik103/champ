@@ -24,6 +24,8 @@ import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.lol.R
@@ -142,7 +144,10 @@ fun CreateProjectScreen(navController: NavController, viewModel: ProjectsViewMod
                     onValueChange = { projectName = it },
                     label = "Название проекта",
                     placeholder = "Введите имя",
-                    modifier = Modifier.fillMaxWidth()
+                    modifier =
+                            Modifier.fillMaxWidth().semantics {
+                                contentDescription = "benchmark_project_name_input"
+                            }
             )
 
             Spacer(modifier = Modifier.height(16.dp))
@@ -254,6 +259,9 @@ fun CreateProjectScreen(navController: NavController, viewModel: ProjectsViewMod
             Box(
                     modifier =
                             Modifier.size(162.dp)
+                                    .semantics {
+                                        contentDescription = "benchmark_photo_picker_area"
+                                    }
                                     .align(Alignment.CenterHorizontally)
                                     .background(InputBg, RoundedCornerShape(16.dp))
                                     .clickable { showPhotoSheet = true },
@@ -336,7 +344,10 @@ fun CreateProjectScreen(navController: NavController, viewModel: ProjectsViewMod
                             }
                         }
                     },
-                    modifier = Modifier.fillMaxWidth().height(56.dp),
+                    modifier =
+                            Modifier.fillMaxWidth().height(56.dp).semantics {
+                                contentDescription = "benchmark_submit_button"
+                            },
                     colors = ButtonDefaults.buttonColors(containerColor = AccentBlue),
                     shape = RoundedCornerShape(10.dp),
                     enabled = projectName.isNotBlank()
